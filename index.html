@@ -245,6 +245,19 @@
     color: rgba(255,255,255,0.7); text-align: center;
     max-width: 600px;
   }
+  .lightbox-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+    color: #fff; font-size: 1.4rem; cursor: pointer;
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.7; transition: opacity 0.2s, background 0.2s;
+    z-index: 1000;
+  }
+  .lightbox-arrow:hover { opacity: 1; background: rgba(255,255,255,0.18); }
+  .lightbox-arrow.prev { left: 1.5rem; }
+  .lightbox-arrow.next { right: 1.5rem; }
+  .lightbox-arrow[hidden] { display: none; }
 
   /* ── Annotated image ── */
   .annotated-wrap {
@@ -512,8 +525,8 @@
 <!-- ── Navigation ── -->
 <nav>
   <a href="#" class="nav-brand">Trebišov Field</a>
-  <a href="#location">Location</a>
   <a href="#photos">Photos</a>
+  <a href="#location">Location</a>
   <a href="#annotated">Annotated</a>
   <a href="#nameplate">Nameplate</a>
   <a href="#components">Components</a>
@@ -602,6 +615,40 @@
   </div>
 </section>
 
+<!-- ── Photo gallery ── -->
+<section id="photos">
+  <div class="container">
+    <div class="section-label">Photography</div>
+    <h2 class="section-title">Field <span>Photography</span></h2>
+    <p class="lead">29 original photographs documenting the Trebišov gas field — Christmas tree configurations, instrumentation, and field context. <a href="#gallery" style="color:var(--cyan);">View full gallery ↓</a></p>
+
+    <!-- Hero shot — best single image -->
+    <div style="margin-bottom:12px;cursor:pointer;border-radius:6px;overflow:hidden;" onclick="openLightbox(photosGallery[0].src, photosGallery[0].caption, photosGallery, 0)">
+      <img src="images/field_panorama_wide.jpg" alt="Field panorama" style="width:100%;height:auto;display:block;border-radius:6px;">
+      <div style="padding:0.5rem 0;color:#888;font-size:0.8rem;">Full field panorama — yellow and blue Christmas trees across abandoned well pads, Trebišov city beyond. Click to enlarge.</div>
+    </div>
+
+    <!-- 3 best supporting shots -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox(photosGallery[1].src, photosGallery[1].caption, photosGallery, 1)">
+        <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 silhouette" style="width:100%;height:220px;object-fit:cover;object-position:center 35%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">TR-8 — Backlit silhouette</div>
+      </div>
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox(photosGallery[2].src, photosGallery[2].caption, photosGallery, 2)">
+        <img src="images/blue_full_clear_sky.jpg" alt="Blue tree" style="width:100%;height:220px;object-fit:cover;object-position:center 20%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Blue Soviet-era gate valve tree</div>
+      </div>
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox(photosGallery[3].src, photosGallery[3].caption, photosGallery, 3)">
+        <img src="images/tr_worm_eye_view.jpg" alt="Worm eye" style="width:100%;height:220px;object-fit:cover;object-position:center 15%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Ground-level perspective, TR-9</div>
+      </div>
+    </div>
+    <div style="margin-top:1rem;text-align:center;">
+      <a href="#gallery" style="display:inline-block;padding:0.5rem 1.5rem;border:1px solid var(--cyan);color:var(--cyan);font-family:var(--font-display);font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;">View All 29 Photographs ↓</a>
+    </div>
+  </div>
+</section>
+
 <!-- ── Site Location & Satellite View ── -->
 <section id="location">
   <div class="container">
@@ -639,28 +686,28 @@
         Use the year slider on mapy.cz to browse imagery back to the 1950s.
       </p>
       <div class="hist-grid">
-        <div class="hist-card" onclick="openLightbox('images/maps/hist_2014-2016.jpg','2014–2016 — Final years of gas production. Wells decommissioned in 2015; concrete pads and Christmas trees still maintained.')">
-          <img src="images/maps/hist_2014-2016.jpg" alt="Aerial view 2014–2016">
+        <div class="hist-card" onclick="openLightbox(histGallery[0].src, histGallery[0].caption, histGallery, 0)">
+          <img src="images/maps/hist_2014-2016.jpg" alt="Aerial view 2011–2013">
           <div class="hist-overlay">
-            <span class="hist-year">2011-2013</span>
+            <span class="hist-year">2011–2013</span>
             <span class="hist-label">Final years of production</span>
           </div>
         </div>
-        <div class="hist-card" onclick="openLightbox('images/maps/hist_2017-2019.jpg','2017–2019 — Two years after decommissioning. Site abandoned, equipment standing but no longer operated.')">
-          <img src="images/maps/hist_2017-2019.jpg" alt="Aerial view 2017–2019">
+        <div class="hist-card" onclick="openLightbox(histGallery[1].src, histGallery[1].caption, histGallery, 1)">
+          <img src="images/maps/hist_2017-2019.jpg" alt="Aerial view 2014–2016">
           <div class="hist-overlay">
-            <span class="hist-year">2014-2016</span>
+            <span class="hist-year">2014–2016</span>
             <span class="hist-label">Abandoned after decommissioning</span>
           </div>
         </div>
-        <div class="hist-card" onclick="openLightbox('images/maps/hist_2020-2022.jpg','2020–2022 — Five to seven years after decommissioning. Vegetation beginning to reclaim the well pads.')">
-          <img src="images/maps/hist_2020-2022.jpg" alt="Aerial view 2020–2022">
+        <div class="hist-card" onclick="openLightbox(histGallery[2].src, histGallery[2].caption, histGallery, 2)">
+          <img src="images/maps/hist_2020-2022.jpg" alt="Aerial view 2017–2019">
           <div class="hist-overlay">
-            <span class="hist-year">2017-2019</span>
+            <span class="hist-year">2017–2019</span>
             <span class="hist-label">Vegetation reclaiming the site</span>
           </div>
         </div>
-        <div class="hist-card" onclick="openLightbox('images/maps/hist_newest.jpg','Present day — Nearly a decade after decommissioning. Geothermal conversion approved February 2024; the first project of its kind in Slovakia.')">
+        <div class="hist-card" onclick="openLightbox(histGallery[3].src, histGallery[3].caption, histGallery, 3)">
           <img src="images/maps/hist_newest.jpg" alt="Aerial view — present">
           <div class="hist-overlay">
             <span class="hist-year">2022</span>
@@ -679,40 +726,6 @@
   </div>
 </section>
 
-<!-- ── Photo gallery ── -->
-<section id="photos">
-  <div class="container">
-    <div class="section-label">Photography</div>
-    <h2 class="section-title">Field <span>Photography</span></h2>
-    <p class="lead">29 original photographs documenting the Trebišov gas field — Christmas tree configurations, instrumentation, and field context. <a href="#gallery" style="color:var(--cyan);">View full gallery ↓</a></p>
-
-    <!-- Hero shot — best single image -->
-    <div style="margin-bottom:12px;cursor:pointer;border-radius:6px;overflow:hidden;" onclick="openLightbox('images/field_panorama_wide.jpg','Wide field panorama — multiple Christmas trees with city of Trebišov in background')">
-      <img src="images/field_panorama_wide.jpg" alt="Field panorama" style="width:100%;height:auto;display:block;border-radius:6px;">
-      <div style="padding:0.5rem 0;color:#888;font-size:0.8rem;">Full field panorama — yellow and blue Christmas trees across abandoned well pads, Trebišov city beyond. Click to enlarge.</div>
-    </div>
-
-    <!-- 3 best supporting shots -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
-      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 backlit silhouette against sun')">
-        <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 silhouette" style="width:100%;height:220px;object-fit:cover;object-position:center 35%;display:block;border-radius:4px;">
-        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">TR-8 — Backlit silhouette</div>
-      </div>
-      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Christmas tree — full view, clear sky')">
-        <img src="images/blue_full_clear_sky.jpg" alt="Blue tree" style="width:100%;height:220px;object-fit:cover;object-position:center 20%;display:block;border-radius:4px;">
-        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Blue Soviet-era gate valve tree</div>
-      </div>
-      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/tr_worm_eye_view.jpg','Worm-eye ground level view looking straight up at Christmas tree')">
-        <img src="images/tr_worm_eye_view.jpg" alt="Worm eye" style="width:100%;height:220px;object-fit:cover;object-position:center 15%;display:block;border-radius:4px;">
-        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Ground-level perspective, TR-9</div>
-      </div>
-    </div>
-    <div style="margin-top:1rem;text-align:center;">
-      <a href="#gallery" style="display:inline-block;padding:0.5rem 1.5rem;border:1px solid var(--cyan);color:var(--cyan);font-family:var(--font-display);font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;">View All 29 Photographs ↓</a>
-    </div>
-  </div>
-</section>
-
 <!-- ── Annotated wellheads ── -->
 <section id="annotated">
   <div class="container">
@@ -727,7 +740,7 @@
         <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--yellow);margin-bottom:0.6rem;font-weight:700;">
           🟡 Yellow — Ball Valve Design (1996)
         </h3>
-        <div class="annotated-wrap" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree wellhead — ball valve design with pneumatic actuator, 1996')">
+        <div class="annotated-wrap" onclick="openLightbox(annotatedGallery[0].src, annotatedGallery[0].caption, annotatedGallery, 0)">
           <img src="images/yellow_annotated.jpg" alt="Annotated yellow Christmas tree wellhead">
         </div>
         <p class="annotated-note">Ball valves (spherical bodies) with a pneumatic actuator disc on the left wing arm for remote operation. Matches the 28 October 1996 nameplate date.
@@ -740,7 +753,7 @@
         <h3 style="font-family:var(--font-display);font-size:1.1rem;color:#5bc8ff;margin-bottom:0.6rem;font-weight:700;">
           🔵 Blue — Soviet-era Gate Valve Design
         </h3>
-        <div class="annotated-wrap" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree wellhead — Soviet-era gate valve design, NAFTA Gbely Trebišov')">
+        <div class="annotated-wrap" onclick="openLightbox(annotatedGallery[1].src, annotatedGallery[1].caption, annotatedGallery, 1)">
           <img src="images/blue_annotated.jpg" alt="Annotated blue Christmas tree wellhead">
         </div>
         <p class="annotated-note">Gate valves with boxy square actuators — characteristic of 1960s–80s Eastern European oilfield equipment. Click image for full resolution.</p>
@@ -1491,203 +1504,203 @@
     <p class="lead">All 29 photographs. Click any thumbnail to view at full resolution.</p>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:1.5rem;">
       
-      <div onclick="openLightbox('images/field_panorama_wide.jpg','Full Field Panorama')"
+      <div onclick="openLightbox(mainGallery[0].src, mainGallery[0].caption, mainGallery, 0)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/field_panorama_wide.jpg" alt="Full Field Panorama"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Full Field Panorama</div>
       </div>
-      <div onclick="openLightbox('images/two_yellow_city_skyline.jpg','Two Yellow Trees — City Skyline')"
+      <div onclick="openLightbox(mainGallery[1].src, mainGallery[1].caption, mainGallery, 1)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/two_yellow_city_skyline.jpg" alt="Two Yellow Trees — City Skyline"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Two Yellow Trees — City Skyline</div>
       </div>
-      <div onclick="openLightbox('images/panorama.jpg','Panorama — Yellow &amp; Blue Together')"
+      <div onclick="openLightbox(mainGallery[2].src, mainGallery[2].caption, mainGallery, 2)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/panorama.jpg" alt="Panorama — Yellow &amp; Blue Together"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Panorama — Yellow &amp; Blue Together</div>
       </div>
-      <div onclick="openLightbox('images/field_overview.jpg','Field Overview — Access Road')"
+      <div onclick="openLightbox(mainGallery[3].src, mainGallery[3].caption, mainGallery, 3)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/field_overview.jpg" alt="Field Overview — Access Road"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Field Overview — Access Road</div>
       </div>
-      <div onclick="openLightbox('images/yellow_ball_valve_closeup.jpg','Ball Valve Tree — Full View')"
+      <div onclick="openLightbox(mainGallery[4].src, mainGallery[4].caption, mainGallery, 4)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_ball_valve_closeup.jpg" alt="Ball Valve Tree — Full View"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Ball Valve Tree — Full View</div>
       </div>
-      <div onclick="openLightbox('images/yellow_tr_front_full.jpg','Yellow Tree — Front Stack')"
+      <div onclick="openLightbox(mainGallery[5].src, mainGallery[5].caption, mainGallery, 5)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_tr_front_full.jpg" alt="Yellow Tree — Front Stack"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Front Stack</div>
       </div>
-      <div onclick="openLightbox('images/yellow_full_with_cellar.jpg','Yellow Tree — With Cellar')"
+      <div onclick="openLightbox(mainGallery[6].src, mainGallery[6].caption, mainGallery, 6)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_full_with_cellar.jpg" alt="Yellow Tree — With Cellar"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — With Cellar</div>
       </div>
-      <div onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow Tree — Side, Flowline')"
+      <div onclick="openLightbox(mainGallery[7].src, mainGallery[7].caption, mainGallery, 7)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_tr_side_full.jpg" alt="Yellow Tree — Side, Flowline"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Side, Flowline</div>
       </div>
-      <div onclick="openLightbox('images/yellow_tr8_angled.jpg','TR-8 — Label Visible')"
+      <div onclick="openLightbox(mainGallery[8].src, mainGallery[8].caption, mainGallery, 8)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_tr8_angled.jpg" alt="TR-8 — Label Visible"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-8 — Label Visible</div>
       </div>
-      <div onclick="openLightbox('images/yellow_tr_angled_full.jpg','Yellow Tree — Angled View')"
+      <div onclick="openLightbox(mainGallery[9].src, mainGallery[9].caption, mainGallery, 9)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_tr_angled_full.jpg" alt="Yellow Tree — Angled View"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Angled View</div>
       </div>
-      <div onclick="openLightbox('images/yellow_mid_closeup.jpg','Yellow Tree — Production Cross Detail')"
+      <div onclick="openLightbox(mainGallery[10].src, mainGallery[10].caption, mainGallery, 10)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_mid_closeup.jpg" alt="Yellow Tree — Production Cross Detail"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Production Cross Detail</div>
       </div>
-      <div onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 — Backlit Silhouette')"
+      <div onclick="openLightbox(mainGallery[11].src, mainGallery[11].caption, mainGallery, 11)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 — Backlit Silhouette"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-8 — Backlit Silhouette</div>
       </div>
-      <div onclick="openLightbox('images/tr_worm_eye_view.jpg','TR — Worm-Eye, Ground Level')"
+      <div onclick="openLightbox(mainGallery[12].src, mainGallery[12].caption, mainGallery, 12)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/tr_worm_eye_view.jpg" alt="TR — Worm-Eye, Ground Level"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR — Worm-Eye, Ground Level</div>
       </div>
-      <div onclick="openLightbox('images/tr9_backlit_gravel.jpg','TR-9 — Backlit from Gravel')"
+      <div onclick="openLightbox(mainGallery[13].src, mainGallery[13].caption, mainGallery, 13)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/tr9_backlit_gravel.jpg" alt="TR-9 — Backlit from Gravel"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-9 — Backlit from Gravel</div>
       </div>
-      <div onclick="openLightbox('images/tr9_backlit_gravel_2.jpg','TR-9 — Alt Ground Angle')"
+      <div onclick="openLightbox(mainGallery[14].src, mainGallery[14].caption, mainGallery, 14)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/tr9_backlit_gravel_2.jpg" alt="TR-9 — Alt Ground Angle"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-9 — Alt Ground Angle</div>
       </div>
-      <div onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Tree — Full View, Clear Sky')"
+      <div onclick="openLightbox(mainGallery[15].src, mainGallery[15].caption, mainGallery, 15)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_full_clear_sky.jpg" alt="Blue Tree — Full View, Clear Sky"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Full View, Clear Sky</div>
       </div>
-      <div onclick="openLightbox('images/blue_full_front.jpg','Blue Tree — Front, Casing Outlets')"
+      <div onclick="openLightbox(mainGallery[16].src, mainGallery[16].caption, mainGallery, 16)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_full_front.jpg" alt="Blue Tree — Front, Casing Outlets"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Front, Casing Outlets</div>
       </div>
-      <div onclick="openLightbox('images/blue_backlit_silhouette.jpg','Blue Tree — Backlit')"
+      <div onclick="openLightbox(mainGallery[17].src, mainGallery[17].caption, mainGallery, 17)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_backlit_silhouette.jpg" alt="Blue Tree — Backlit"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Backlit</div>
       </div>
-      <div onclick="openLightbox('images/blue_cellar_flooded.jpg','Blue Cellar — Flooded, Reflection')"
+      <div onclick="openLightbox(mainGallery[18].src, mainGallery[18].caption, mainGallery, 18)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_cellar_flooded.jpg" alt="Blue Cellar — Flooded, Reflection"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Cellar — Flooded, Reflection</div>
       </div>
-      <div onclick="openLightbox('images/blue_well_full.jpg','Blue Well — Earlier Session')"
+      <div onclick="openLightbox(mainGallery[19].src, mainGallery[19].caption, mainGallery, 19)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_well_full.jpg" alt="Blue Well — Earlier Session"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Well — Earlier Session</div>
       </div>
-      <div onclick="openLightbox('images/blue_well_cellar.jpg','Blue Well Cellar — Earlier')"
+      <div onclick="openLightbox(mainGallery[20].src, mainGallery[20].caption, mainGallery, 20)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_well_cellar.jpg" alt="Blue Well Cellar — Earlier"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Well Cellar — Earlier</div>
       </div>
-      <div onclick="openLightbox('images/blue_annotated.jpg','Blue Tree — Annotated Diagram')"
+      <div onclick="openLightbox(mainGallery[21].src, mainGallery[21].caption, mainGallery, 21)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/blue_annotated.jpg" alt="Blue Tree — Annotated Diagram"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Annotated Diagram</div>
       </div>
-      <div onclick="openLightbox('images/yellow_well_1.jpg','Yellow Well — Earlier Session 1')"
+      <div onclick="openLightbox(mainGallery[22].src, mainGallery[22].caption, mainGallery, 22)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_well_1.jpg" alt="Yellow Well — Earlier Session 1"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Earlier Session 1</div>
       </div>
-      <div onclick="openLightbox('images/yellow_well_2.jpg','Yellow Well — Earlier Session 2')"
+      <div onclick="openLightbox(mainGallery[23].src, mainGallery[23].caption, mainGallery, 23)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_well_2.jpg" alt="Yellow Well — Earlier Session 2"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Earlier Session 2</div>
       </div>
-      <div onclick="openLightbox('images/yellow_well_closeup.jpg','Yellow Well — Close-Up Earlier')"
+      <div onclick="openLightbox(mainGallery[24].src, mainGallery[24].caption, mainGallery, 24)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_well_closeup.jpg" alt="Yellow Well — Close-Up Earlier"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Close-Up Earlier</div>
       </div>
-      <div onclick="openLightbox('images/yellow_annotated.jpg','Yellow Tree — Annotated Diagram')"
+      <div onclick="openLightbox(mainGallery[25].src, mainGallery[25].caption, mainGallery, 25)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/yellow_annotated.jpg" alt="Yellow Tree — Annotated Diagram"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Annotated Diagram</div>
       </div>
-      <div onclick="openLightbox('images/gauge_en837_closeup.jpg','Gauge EN 837 — Blue Wellhead')"
+      <div onclick="openLightbox(mainGallery[26].src, mainGallery[26].caption, mainGallery, 26)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/gauge_en837_closeup.jpg" alt="Gauge EN 837 — Blue Wellhead"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Gauge EN 837 — Blue Wellhead</div>
       </div>
-      <div onclick="openLightbox('images/gauge_mer_needle_closeup.jpg','Gauge MER — Yellow Wellhead')"
+      <div onclick="openLightbox(mainGallery[27].src, mainGallery[27].caption, mainGallery, 27)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/gauge_mer_needle_closeup.jpg" alt="Gauge MER — Yellow Wellhead"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
              onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
         <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Gauge MER — Yellow Wellhead</div>
       </div>
-      <div onclick="openLightbox('images/nameplate.jpg','Nameplate — NAFTA-UD Gbely 1996')"
+      <div onclick="openLightbox(mainGallery[28].src, mainGallery[28].caption, mainGallery, 28)"
            style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
         <img src="images/nameplate.jpg" alt="Nameplate — NAFTA-UD Gbely 1996"
              style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
@@ -1740,22 +1753,99 @@
 <!-- ── Lightbox ── -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-arrow prev" id="lightbox-prev" onclick="event.stopPropagation(); lightboxStep(-1)" hidden>&#8592;</button>
   <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-arrow next" id="lightbox-next" onclick="event.stopPropagation(); lightboxStep(1)" hidden>&#8594;</button>
   <div class="lightbox-caption" id="lightbox-caption"></div>
 </div>
 
 <script>
-  function openLightbox(src, caption) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox-caption').textContent = caption;
+
+  const photosGallery = [
+    { src: 'images/field_panorama_wide.jpg',      caption: 'Wide field panorama — multiple Christmas trees with city of Trebišov in background' },
+    { src: 'images/tr8_backlit_silhouette.jpg',   caption: 'TR-8 backlit silhouette against sun' },
+    { src: 'images/blue_full_clear_sky.jpg',      caption: 'Blue Christmas tree — full view, clear sky' },
+    { src: 'images/tr_worm_eye_view.jpg',         caption: 'Worm-eye ground level view looking straight up at Christmas tree' }
+  ];
+
+  const annotatedGallery = [
+    { src: 'images/yellow_annotated.jpg', caption: 'Annotated yellow Christmas tree wellhead — ball valve design with pneumatic actuator, 1996' },
+    { src: 'images/blue_annotated.jpg',   caption: 'Annotated blue Christmas tree wellhead — Soviet-era gate valve design, NAFTA Gbely Trebišov' }
+  ];
+
+  const mainGallery = [
+    { src: 'images/field_panorama_wide.jpg',         caption: 'Full Field Panorama' },
+    { src: 'images/two_yellow_city_skyline.jpg',     caption: 'Two Yellow Trees — City Skyline' },
+    { src: 'images/panorama.jpg',                    caption: 'Panorama — Yellow & Blue Together' },
+    { src: 'images/field_overview.jpg',              caption: 'Field Overview — Access Road' },
+    { src: 'images/yellow_ball_valve_closeup.jpg',   caption: 'Ball Valve Tree — Full View' },
+    { src: 'images/yellow_tr_front_full.jpg',        caption: 'Yellow Tree — Front Stack' },
+    { src: 'images/yellow_full_with_cellar.jpg',     caption: 'Yellow Tree — With Cellar' },
+    { src: 'images/yellow_tr_side_full.jpg',         caption: 'Yellow Tree — Side, Flowline' },
+    { src: 'images/yellow_tr8_angled.jpg',           caption: 'TR-8 — Label Visible' },
+    { src: 'images/yellow_tr_angled_full.jpg',       caption: 'Yellow Tree — Angled View' },
+    { src: 'images/yellow_mid_closeup.jpg',          caption: 'Yellow Tree — Production Cross Detail' },
+    { src: 'images/tr8_backlit_silhouette.jpg',      caption: 'TR-8 — Backlit Silhouette' },
+    { src: 'images/tr_worm_eye_view.jpg',            caption: 'TR — Worm-Eye, Ground Level' },
+    { src: 'images/tr9_backlit_gravel.jpg',          caption: 'TR-9 — Backlit from Gravel' },
+    { src: 'images/tr9_backlit_gravel_2.jpg',        caption: 'TR-9 — Alt Ground Angle' },
+    { src: 'images/blue_full_clear_sky.jpg',         caption: 'Blue Tree — Full View, Clear Sky' },
+    { src: 'images/blue_full_front.jpg',             caption: 'Blue Tree — Front, Casing Outlets' },
+    { src: 'images/blue_backlit_silhouette.jpg',     caption: 'Blue Tree — Backlit' },
+    { src: 'images/blue_cellar_flooded.jpg',         caption: 'Blue Cellar — Flooded, Reflection' },
+    { src: 'images/blue_well_full.jpg',              caption: 'Blue Well — Earlier Session' },
+    { src: 'images/blue_well_cellar.jpg',            caption: 'Blue Well Cellar — Earlier' },
+    { src: 'images/blue_annotated.jpg',              caption: 'Blue Tree — Annotated Diagram' },
+    { src: 'images/yellow_well_1.jpg',               caption: 'Yellow Well — Earlier Session 1' },
+    { src: 'images/yellow_well_2.jpg',               caption: 'Yellow Well — Earlier Session 2' },
+    { src: 'images/yellow_well_closeup.jpg',         caption: 'Yellow Well — Close-Up Earlier' },
+    { src: 'images/yellow_annotated.jpg',            caption: 'Yellow Tree — Annotated Diagram' },
+    { src: 'images/gauge_en837_closeup.jpg',         caption: 'Gauge EN 837 — Blue Wellhead' },
+    { src: 'images/gauge_mer_needle_closeup.jpg',    caption: 'Gauge MER — Yellow Wellhead' },
+    { src: 'images/nameplate.jpg',                   caption: 'Nameplate — NAFTA-UD Gbely 1996' }
+  ];
+
+  let _gallery = [], _galleryIdx = 0;
+
+  const histGallery = [
+    { src: 'images/maps/hist_2014-2016.jpg', caption: '2011–2013 — Final years of gas production. Wells were still active; Christmas trees maintained and operational.' },
+    { src: 'images/maps/hist_2017-2019.jpg', caption: '2014–2016 — Wells decommissioned in 2015. Site abandoned shortly after; concrete pads still clearly visible.' },
+    { src: 'images/maps/hist_2020-2022.jpg', caption: '2017–2019 — Two to four years after decommissioning. Vegetation beginning to reclaim the well pads.' },
+    { src: 'images/maps/hist_newest.jpg',    caption: '2022 — Seven years after decommissioning. Site heavily overgrown; geothermal conversion approved February 2024.' }
+  ];
+
+  function openLightbox(src, caption, gallery, idx) {
+    _gallery = gallery || [];
+    _galleryIdx = idx !== undefined ? idx : 0;
+    _setLightboxFrame(src, caption);
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
+    const hasNav = _gallery.length > 1;
+    document.getElementById('lightbox-prev').hidden = !hasNav;
+    document.getElementById('lightbox-next').hidden = !hasNav;
   }
+
+  function _setLightboxFrame(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+  }
+
+  function lightboxStep(dir) {
+    if (!_gallery.length) return;
+    _galleryIdx = (_galleryIdx + dir + _gallery.length) % _gallery.length;
+    _setLightboxFrame(_gallery[_galleryIdx].src, _gallery[_galleryIdx].caption);
+  }
+
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft')  lightboxStep(-1);
+    if (e.key === 'ArrowRight') lightboxStep(1);
+  });
 </script>
 
 </body>
