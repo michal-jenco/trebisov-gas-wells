@@ -1,0 +1,78 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyCompatibilityInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ourVersions">
+        <value>
+          <list size="3">
+            <item index="0" class="java.lang.String" itemvalue="2.7" />
+            <item index="1" class="java.lang.String" itemvalue="3.14" />
+            <item index="2" class="java.lang.String" itemvalue="3.7" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredPackages">
+        <list>
+          <option value="attrs" />
+          <option value="autopep8" />
+          <option value="beautifulsoup4" />
+          <option value="blend_modes" />
+          <option value="bs4" />
+          <option value="certifi" />
+          <option value="cffi" />
+          <option value="charset-normalizer" />
+          <option value="contourpy" />
+          <option value="cycler" />
+          <option value="fonttools" />
+          <option value="google_images_download" />
+          <option value="h11" />
+          <option value="idna" />
+          <option value="imageio" />
+          <option value="imageio-ffmpeg" />
+          <option value="JPype1" />
+          <option value="kiwisolver" />
+          <option value="line_profiler" />
+          <option value="matplotlib" />
+          <option value="numpy" />
+          <option value="opencv-python" />
+          <option value="outcome" />
+          <option value="packaging" />
+          <option value="pixelsort" />
+          <option value="psutil" />
+          <option value="py-machineid" />
+          <option value="py5" />
+          <option value="pycodestyle" />
+          <option value="pycparser" />
+          <option value="pydng" />
+          <option value="pygame" />
+          <option value="pyparsing" />
+          <option value="PyQt5" />
+          <option value="PyQt5-Qt5" />
+          <option value="PyQt5_sip" />
+          <option value="PySocks" />
+          <option value="python-dateutil" />
+          <option value="pywin32" />
+          <option value="rawpy" />
+          <option value="requests" />
+          <option value="selenium" />
+          <option value="shapely" />
+          <option value="six" />
+          <option value="sniffio" />
+          <option value="sortedcontainers" />
+          <option value="soupsieve" />
+          <option value="stackprinter" />
+          <option value="trio" />
+          <option value="trio-websocket" />
+          <option value="typing_extensions" />
+          <option value="urllib3" />
+          <option value="vulture" />
+          <option value="websocket-client" />
+          <option value="winregistry" />
+          <option value="wsproto" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
