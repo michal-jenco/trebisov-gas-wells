@@ -29,6 +29,7 @@
   <a href="#technical">Engineering</a>
   <a href="#gallery">Gallery</a>
   <a href="#sources">Sources</a>
+  <a href="#game" style="color:var(--orange);border-color:transparent;" onmouseover="this.style.color='#ff7733'" onmouseout="this.style.color='var(--orange)'">🎮 Game</a>
 </nav>
 
 <!-- ── Hero ── -->
@@ -1683,6 +1684,899 @@
 
 </script>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     CHRISTMAS TREE OPERATOR — Game Section
+════════════════════════════════════════════════════════════════ -->
+<section id="game" style="background:var(--darker);border-top:2px solid var(--orange);padding-top:0;">
+  <div style="max-width:1100px;margin:0 auto;padding:3rem 2rem 4rem;">
+
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem;">
+        <span style="display:block;width:28px;height:2px;background:var(--orange);"></span>
+        Interactive Simulation
+      </div>
+      <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:#fff;margin-bottom:0.6rem;">
+        Christmas Tree <span style="color:var(--orange);">Operator</span>
+      </h2>
+      <p style="color:var(--silver);max-width:640px;font-size:0.95rem;line-height:1.7;">
+        Operate a live wellhead Christmas tree. Manage valves, throttle the choke, and respond
+        to random faults — overpressures, leaks, demand spikes, annulus buildup, and emergency
+        shut-in signals. Keep flow within demand and the facility safe to score points.
+      </p>
+    </div>
+
+    <!-- ── Game layout ── -->
+    <div id="gGame" style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+
+      <!-- LEFT: SVG tree + controls -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:16px;">
+        <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:2px;color:var(--silver);margin-bottom:8px;text-transform:uppercase;">Well TR-9 · Live Schematic</div>
+
+        <!-- SVG Christmas Tree (game interactive) -->
+        <svg id="gameSvg" viewBox="0 60 240 460" xmlns="http://www.w3.org/2000/svg"
+             style="width:100%;cursor:default;user-select:none;">
+          <defs>
+            <filter id="gGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="gGlowRed" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <marker id="arrowR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#00d2ff"/>
+            </marker>
+            <!-- particle path: up from bottom, right along arm -->
+            <path id="gFlowPath" d="M90,500 L90,132 L242,132" fill="none"/>
+            <!-- annulus path: up from bottom, left along left arm -->
+            <path id="gAnnPath"  d="M90,500 L90,132 L0,132"   fill="none"/>
+          </defs>
+
+          <!-- Ground -->
+          <rect x="0" y="440" width="240" height="80" fill="#04040e"/>
+          <line x1="0" y1="440" x2="240" y2="440" stroke="#1c1c3a" stroke-width="1.5"/>
+          <text x="6" y="437" fill="#1c1c3a" font-family="'Barlow Condensed',sans-serif" font-size="7.5" letter-spacing="1.5" font-weight="600">GROUND LEVEL</text>
+
+          <!-- Wellbore -->
+          <rect x="84" y="440" width="12" height="64" rx="1" fill="none" stroke="#1c1c48" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+          <!-- Centerline guide -->
+          <line x1="90" y1="440" x2="90" y2="132" stroke="#00d2ff" stroke-width="0.4" opacity="0.06"/>
+          <line x1="90" y1="132" x2="240" y2="132" stroke="#00d2ff" stroke-width="0.4" opacity="0.06"/>
+
+          <!-- 1 Casing head -->
+          <rect x="50" y="390" width="80" height="50" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="50" y1="394" x2="130" y2="394" stroke="#252560" stroke-width="0.8"/>
+          <line x1="50" y1="436" x2="130" y2="436" stroke="#252560" stroke-width="0.8"/>
+          <text x="90" y="420" text-anchor="middle" fill="#252560" font-family="'Barlow Condensed',sans-serif" font-size="7">CASING HEAD</text>
+
+          <!-- 2 Tubing head spool -->
+          <rect x="62" y="328" width="56" height="62" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="62" y1="332" x2="118" y2="332" stroke="#252560" stroke-width="0.8"/>
+          <line x1="62" y1="386" x2="118" y2="386" stroke="#252560" stroke-width="0.8"/>
+          <text x="90" y="363" text-anchor="middle" fill="#252560" font-family="'Barlow Condensed',sans-serif" font-size="7">TUBING HEAD</text>
+
+          <!-- 3 Lower master valve — game clickable -->
+          <g id="gv-lmv" class="gv-valve" style="cursor:pointer;" onclick="gameToggleValve('lmv')">
+            <rect x="74" y="272" width="32" height="56" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="2"/>
+            <line x1="79" y1="282" x2="101" y2="312" stroke="#444488" stroke-width="1.5"/>
+            <line x1="101" y1="282" x2="79" y2="312" stroke="#444488" stroke-width="1.5"/>
+            <line x1="90" y1="272" x2="90" y2="262" stroke="#444488" stroke-width="2"/>
+            <ellipse cx="90" cy="260" rx="10" ry="4" fill="none" stroke="#444488" stroke-width="1.8"/>
+            <text x="90" y="335" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6.5">LMV</text>
+          </g>
+
+          <!-- 4 Swab valve -->
+          <g id="gv-swab" class="gv-valve" style="cursor:pointer;" onclick="gameToggleValve('swab')">
+            <rect x="77" y="236" width="26" height="36" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="2"/>
+            <line x1="81" y1="245" x2="99" y2="263" stroke="#444488" stroke-width="1.2"/>
+            <line x1="99" y1="245" x2="81" y2="263" stroke="#444488" stroke-width="1.2"/>
+            <text x="90" y="281" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6.5">SWAB</text>
+          </g>
+
+          <!-- 5 Upper master valve — game clickable -->
+          <g id="gv-umv" class="gv-valve" style="cursor:pointer;" onclick="gameToggleValve('umv')">
+            <rect x="74" y="176" width="32" height="60" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="2"/>
+            <line x1="79" y1="187" x2="101" y2="215" stroke="#444488" stroke-width="1.5"/>
+            <line x1="101" y1="187" x2="79" y2="215" stroke="#444488" stroke-width="1.5"/>
+            <line x1="90" y1="176" x2="90" y2="166" stroke="#444488" stroke-width="2"/>
+            <ellipse cx="90" cy="164" rx="10" ry="4" fill="none" stroke="#444488" stroke-width="1.8"/>
+            <text x="90" y="246" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6.5">UMV</text>
+          </g>
+
+          <!-- 6 Production cross + arms -->
+          <rect x="0"   y="124" width="74"  height="16" rx="1" fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <rect x="106" y="124" width="134" height="16" rx="1" fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <rect x="74"  y="122" width="32"  height="54" rx="2" fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <text x="90" y="160" text-anchor="middle" fill="#252560" font-family="'Barlow Condensed',sans-serif" font-size="6">PROD CROSS</text>
+
+          <!-- 7 Left wing valve (annulus) — game clickable -->
+          <g id="gv-lwv" class="gv-valve" style="cursor:pointer;" onclick="gameToggleValve('lwv')">
+            <rect x="2"  y="121" width="22" height="18" rx="1" fill="#080820" stroke="#1c1c48" stroke-width="2"/>
+            <circle cx="13" cy="130" r="5" fill="none" stroke="#444488" stroke-width="1"/>
+            <line x1="13" y1="125" x2="13" y2="135" stroke="#444488" stroke-width="1.2"/>
+            <text x="13" y="150" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6">LWV</text>
+            <text x="13" y="158" text-anchor="middle" fill="#333366" font-family="'Barlow Condensed',sans-serif" font-size="5.5">ANNULUS</text>
+          </g>
+
+          <!-- 8 Right wing valve (production) — game clickable -->
+          <g id="gv-rwv" class="gv-valve" style="cursor:pointer;" onclick="gameToggleValve('rwv')">
+            <rect x="208" y="121" width="22" height="18" rx="1" fill="#0c0c28" stroke="#1c1c48" stroke-width="2"/>
+            <circle cx="219" cy="130" r="5" fill="none" stroke="#444488" stroke-width="1"/>
+            <line x1="219" y1="125" x2="219" y2="135" stroke="#444488" stroke-width="1.2"/>
+            <text x="219" y="150" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6">RWV</text>
+            <text x="219" y="158" text-anchor="middle" fill="#333366" font-family="'Barlow Condensed',sans-serif" font-size="5.5">PROD</text>
+          </g>
+
+          <!-- Flowline exit arrow -->
+          <line id="gFlowlineEl" x1="230" y1="132" x2="242" y2="132" stroke="#1c1c48" stroke-width="2.5"/>
+          <polygon id="gFlowlineArrow" points="235,128 243,132 235,136" fill="#1c1c48"/>
+          <text x="243" y="128" fill="#1c1c48" font-family="'Barlow Condensed',sans-serif" font-size="6.5">→ GCS</text>
+
+          <!-- Pressure gauge at top -->
+          <g id="gPressureGauge">
+            <circle cx="90" cy="90" r="18" fill="#080820" stroke="#1c1c48" stroke-width="1.5"/>
+            <text x="90" y="87" text-anchor="middle" fill="#444488" font-family="'Barlow Condensed',sans-serif" font-size="6">PRESS</text>
+            <text id="gGaugeTxt" x="90" y="97" text-anchor="middle" fill="#00d2ff" font-family="'Barlow Condensed',sans-serif" font-size="8" font-weight="700">-- bar</text>
+            <!-- needle -->
+            <line id="gGaugeNeedle" x1="90" y1="90" x2="90" y2="76" stroke="#ff5200" stroke-width="1.5" stroke-linecap="round"
+                  transform="rotate(0,90,90)"/>
+          </g>
+
+          <!-- Choke symbol (between upper master and prod cross) -->
+          <g id="gChokeSymbol" style="cursor:pointer;">
+            <polygon id="gChokeBody" points="106,163 134,163 120,175" fill="#0c0c28" stroke="#444488" stroke-width="1.5"/>
+            <text x="120" y="162" text-anchor="middle" fill="#555588" font-family="'Barlow Condensed',sans-serif" font-size="6">CHOKE</text>
+          </g>
+
+          <!-- Flow particles (production side — right) -->
+          <g id="gParticles">
+            <circle class="gpart" r="3" fill="#00d2ff" opacity="0">
+              <animateMotion dur="4s" begin="0s"   repeatCount="indefinite"><mpath href="#gFlowPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.9;0.9;0.9;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="4s" begin="0s" repeatCount="indefinite"/>
+            </circle>
+            <circle class="gpart" r="3" fill="#00d2ff" opacity="0">
+              <animateMotion dur="4s" begin="0.8s" repeatCount="indefinite"><mpath href="#gFlowPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.9;0.9;0.9;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="4s" begin="0.8s" repeatCount="indefinite"/>
+            </circle>
+            <circle class="gpart" r="3" fill="#00d2ff" opacity="0">
+              <animateMotion dur="4s" begin="1.6s" repeatCount="indefinite"><mpath href="#gFlowPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.9;0.9;0.9;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="4s" begin="1.6s" repeatCount="indefinite"/>
+            </circle>
+            <circle class="gpart" r="3" fill="#00d2ff" opacity="0">
+              <animateMotion dur="4s" begin="2.4s" repeatCount="indefinite"><mpath href="#gFlowPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.9;0.9;0.9;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="4s" begin="2.4s" repeatCount="indefinite"/>
+            </circle>
+            <circle class="gpart" r="3" fill="#00d2ff" opacity="0">
+              <animateMotion dur="4s" begin="3.2s" repeatCount="indefinite"><mpath href="#gFlowPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.9;0.9;0.9;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="4s" begin="3.2s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- Annulus vent particles (left wing, normally hidden) -->
+          <g id="gAnnParticles" style="display:none;">
+            <circle r="2.5" fill="#ffd200" opacity="0">
+              <animateMotion dur="3s" begin="0s"   repeatCount="indefinite"><mpath href="#gAnnPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.8;0.8;0.8;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="3s" begin="0s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="2.5" fill="#ffd200" opacity="0">
+              <animateMotion dur="3s" begin="1s"   repeatCount="indefinite"><mpath href="#gAnnPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.8;0.8;0.8;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="3s" begin="1s" repeatCount="indefinite"/>
+            </circle>
+            <circle r="2.5" fill="#ffd200" opacity="0">
+              <animateMotion dur="3s" begin="2s"   repeatCount="indefinite"><mpath href="#gAnnPath"/></animateMotion>
+              <animate attributeName="opacity" values="0;0;0.8;0.8;0.8;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="3s" begin="2s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- Leak indicator flash -->
+          <circle id="gLeakFlash" cx="219" cy="130" r="10" fill="none" stroke="#ff5200" stroke-width="2" opacity="0"/>
+
+          <!-- Overpressure flash ring -->
+          <circle id="gOverpressFlash" cx="90" cy="90" r="22" fill="none" stroke="#ff0000" stroke-width="3" opacity="0"/>
+
+        </svg>
+
+        <!-- Choke slider -->
+        <div style="margin-top:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font-family:var(--font-display);font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Choke Opening</span>
+            <span id="gChokeVal" style="font-family:var(--font-display);font-size:0.9rem;color:var(--cyan);font-weight:700;">50%</span>
+          </div>
+          <input type="range" id="gChokeSlider" min="5" max="100" value="50"
+            style="width:100%;accent-color:var(--cyan);cursor:pointer;height:6px;"
+            oninput="gameSetChoke(this.value)">
+          <div style="display:flex;justify-content:space-between;margin-top:2px;">
+            <span style="font-size:0.65rem;color:#444488;">Restrict</span>
+            <span style="font-size:0.65rem;color:#444488;">Wide Open</span>
+          </div>
+        </div>
+
+        <!-- Valve legend -->
+        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:0.68rem;font-family:var(--font-display);">
+          <div id="gleg-lmv" style="display:flex;align-items:center;gap:4px;color:#555588;">
+            <span id="gind-lmv" style="width:8px;height:8px;border-radius:50%;background:#00e676;display:inline-block;"></span>LMV OPEN
+          </div>
+          <div id="gleg-umv" style="display:flex;align-items:center;gap:4px;color:#555588;">
+            <span id="gind-umv" style="width:8px;height:8px;border-radius:50%;background:#00e676;display:inline-block;"></span>UMV OPEN
+          </div>
+          <div id="gleg-rwv" style="display:flex;align-items:center;gap:4px;color:#555588;">
+            <span id="gind-rwv" style="width:8px;height:8px;border-radius:50%;background:#00e676;display:inline-block;"></span>RWV OPEN
+          </div>
+          <div id="gleg-lwv" style="display:flex;align-items:center;gap:4px;color:#555588;">
+            <span id="gind-lwv" style="width:8px;height:8px;border-radius:50%;background:#555588;display:inline-block;"></span>LWV CLOSED
+          </div>
+          <div id="gleg-swab" style="display:flex;align-items:center;gap:4px;color:#555588;">
+            <span id="gind-swab" style="width:8px;height:8px;border-radius:50%;background:#ffd200;display:inline-block;"></span>SWAB CLOSED
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Instruments + event log + score -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+
+        <!-- Top: gauges row -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Wellhead Pressure</div>
+            <div id="gWHP" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--cyan);">-- bar</div>
+            <div style="font-size:0.7rem;color:#444488;margin-top:2px;">Target: 15–25 bar</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Flow Rate</div>
+            <div id="gFlowRate" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--green);">-- m³/h</div>
+            <div id="gFlowDemandLbl" style="font-size:0.7rem;color:#444488;margin-top:2px;">Demand: --</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Annulus Pressure</div>
+            <div id="gAnnPress" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--yellow);">0 bar</div>
+            <div style="font-size:0.7rem;color:#444488;margin-top:2px;">Normal: &lt;2 bar</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Score</div>
+            <div id="gScore" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--orange);">0</div>
+            <div id="gMult" style="font-size:0.7rem;color:#444488;margin-top:2px;">×1.0 multiplier</div>
+          </div>
+        </div>
+
+        <!-- Flow bar -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Production vs. Demand</span>
+            <span id="gFlowPct" style="font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--cyan);">--</span>
+          </div>
+          <div style="position:relative;height:20px;background:#0a0a20;border-radius:3px;overflow:hidden;border:1px solid var(--border);">
+            <!-- demand zone highlight (±10%) -->
+            <div id="gDemandZone" style="position:absolute;top:0;bottom:0;background:rgba(0,230,118,0.08);border-left:1px solid rgba(0,230,118,0.3);border-right:1px solid rgba(0,230,118,0.3);"></div>
+            <!-- flow bar -->
+            <div id="gFlowBar" style="position:absolute;top:2px;bottom:2px;left:0;width:0%;background:var(--cyan);border-radius:2px;transition:width 0.3s;"></div>
+            <!-- demand marker -->
+            <div id="gDemandMark" style="position:absolute;top:0;bottom:0;width:2px;background:var(--green);"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-size:0.65rem;color:#333366;">0 m³/h</span>
+            <span style="font-size:0.65rem;color:var(--green);">↑ demand</span>
+            <span style="font-size:0.65rem;color:#333366;" id="gMaxFlowLbl">-- m³/h (max)</span>
+          </div>
+        </div>
+
+        <!-- Active event banner -->
+        <div id="gEventBanner" style="background:#0a0820;border:1.5px solid var(--orange);border-radius:6px;padding:14px 16px;display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+            <div>
+              <div id="gEventTitle" style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--orange);margin-bottom:4px;">EVENT</div>
+              <div id="gEventDesc"  style="font-size:0.82rem;color:var(--text);line-height:1.5;"></div>
+              <div id="gEventAction" style="margin-top:6px;font-size:0.78rem;color:var(--cyan);font-style:italic;"></div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1px;color:var(--silver);text-transform:uppercase;">Time Left</div>
+              <div id="gEventTimer" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--orange);">--s</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Log -->
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px;flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Operations Log</span>
+            <span id="gTimer" style="font-family:var(--font-display);font-size:0.85rem;color:var(--cyan);">00:00</span>
+          </div>
+          <div id="gLog" style="height:180px;overflow-y:auto;font-size:0.77rem;font-family:'Courier New',monospace;color:#6666aa;line-height:1.6;">
+            <div style="color:#333366;">── Waiting for startup ──</div>
+          </div>
+        </div>
+
+        <!-- Start / Stop buttons -->
+        <div style="display:flex;gap:12px;align-items:center;">
+          <button id="gStartBtn" onclick="gameStart()"
+            style="padding:0.7rem 2rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+            ▶ START WELL
+          </button>
+          <button id="gStopBtn" onclick="gameStop()" disabled
+            style="padding:0.7rem 1.5rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:not-allowed;opacity:0.5;">
+            ■ EMERGENCY SHUT-IN
+          </button>
+          <div id="gStatusBadge" style="font-family:var(--font-display);font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:3px;background:#050514;border:1px solid #1c1c48;color:#333366;">
+            OFFLINE
+          </div>
+        </div>
+
+      </div><!-- /right col -->
+    </div><!-- /grid -->
+
+    <!-- Game over modal -->
+    <div id="gGameOver" style="display:none;margin-top:20px;background:#0a0010;border:2px solid var(--orange);border-radius:8px;padding:2rem;text-align:center;">
+      <div style="font-family:var(--font-display);font-size:0.8rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:0.6rem;">Simulation Ended</div>
+      <div id="gGameOverTitle" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:0.5rem;"></div>
+      <div id="gGameOverBody"  style="color:var(--silver);margin-bottom:1.5rem;font-size:0.9rem;line-height:1.7;"></div>
+      <button onclick="gameReset()"
+        style="padding:0.7rem 2.5rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+        ↺ TRY AGAIN
+      </button>
+    </div>
+
+  </div><!-- /container -->
+</section>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   CHRISTMAS TREE OPERATOR — Game Engine
+════════════════════════════════════════════════════════ */
+(function() {
+
+  /* ── State ── */
+  const GS = {
+    running: false,
+    score: 0,
+    multiplier: 1.0,
+    elapsed: 0,        // seconds
+    // Physics
+    reservoirP: 28,    // bar — slowly declines
+    wellheadP:  0,
+    flowRate:   0,
+    demand:     800,   // m³/h — varies
+    maxFlow:    1200,  // m³/h at full choke, all open
+    annulusP:   0,
+    choke:      50,    // %
+    // Valves: true = open
+    valves: { lmv: true, umv: true, rwv: true, lwv: false, swab: false },
+    // Particles speed multiplier
+    particleSpeed: 1.0,
+    // Event
+    activeEvent: null,
+    eventResolved: false,
+    eventTimer: 0,
+    nextEventIn: 25,
+    penaltyCount: 0,
+    // Noise
+    noiseOffset: 0,
+  };
+
+  /* ── DOM refs ── */
+  const $ = id => document.getElementById(id);
+
+  /* ── Valve appearance ── */
+  const VALVE_COLORS = {
+    open:     { rect: '#0a1a0a', stroke: '#00e676', text: '#00e676' },
+    closed:   { rect: '#1a0a0a', stroke: '#ff3333', text: '#ff5555' },
+    locked:   { rect: '#1a1a0a', stroke: '#ffd200', text: '#ffd200' },
+  };
+
+  function setValveVisual(id, state) {
+    const g = $('gv-' + id);
+    if (!g) return;
+    const rect = g.querySelector('rect');
+    const lines = g.querySelectorAll('line, circle');
+    const txt = g.querySelector('text:last-child');
+    const c = VALVE_COLORS[state] || VALVE_COLORS.closed;
+    if (rect) { rect.style.fill = c.rect; rect.style.stroke = c.stroke; }
+    lines.forEach(l => { l.style.stroke = c.stroke; });
+    if (txt) txt.style.fill = c.text;
+
+    // Indicator dot
+    const dot = $('gind-' + id);
+    const leg = $('gleg-' + id);
+    if (!dot || !leg) return;
+    if (state === 'open') {
+      dot.style.background = '#00e676';
+      leg.innerHTML = `<span id="gind-${id}" style="width:8px;height:8px;border-radius:50%;background:#00e676;display:inline-block;"></span>${id.toUpperCase()} OPEN`;
+    } else if (state === 'closed') {
+      dot.style.background = '#ff3333';
+      leg.innerHTML = `<span id="gind-${id}" style="width:8px;height:8px;border-radius:50%;background:#ff3333;display:inline-block;"></span>${id.toUpperCase()} CLOSED`;
+    } else {
+      dot.style.background = '#ffd200';
+      leg.innerHTML = `<span id="gind-${id}" style="width:8px;height:8px;border-radius:50%;background:#ffd200;display:inline-block;"></span>${id.toUpperCase()} LOCKED`;
+    }
+  }
+
+  function refreshValveVisuals() {
+    for (const [id, open] of Object.entries(GS.valves)) {
+      setValveVisual(id, open ? 'open' : 'closed');
+    }
+    // Swab is normally kept closed — yellow when closed (correct)
+    if (!GS.valves.swab) setValveVisual('swab', 'locked');
+  }
+
+  /* ── Particle speed control ── */
+  function setParticleSpeed(spd) {
+    // spd: 0 = stop, 0.5 = slow, 1 = normal, 2 = fast
+    const particles = document.querySelectorAll('#gParticles circle');
+    particles.forEach(p => {
+      const am = p.querySelector('animateMotion');
+      if (am) am.setAttribute('dur', (4 / Math.max(0.01, spd)) + 's');
+      p.style.opacity = spd > 0.05 ? '' : '0';
+    });
+    // Annulus particles visibility
+    $('gAnnParticles').style.display = (GS.valves.lwv && GS.running) ? 'block' : 'none';
+  }
+
+  /* ── Log ── */
+  function log(msg, color) {
+    const el = $('gLog');
+    const ts = formatTime(GS.elapsed);
+    const div = document.createElement('div');
+    div.style.color = color || '#6666aa';
+    div.textContent = `[${ts}] ${msg}`;
+    el.insertBefore(div, el.firstChild);
+    // Keep max 60 entries
+    while (el.children.length > 60) el.removeChild(el.lastChild);
+  }
+
+  function formatTime(s) {
+    return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(Math.floor(s%60)).padStart(2,'0');
+  }
+
+  /* ── Physics step (called every 250ms) ── */
+  let _tick = 0;
+  function physicsTick() {
+    if (!GS.running) return;
+    _tick++;
+    GS.elapsed += 0.25;
+    GS.noiseOffset += 0.05;
+
+    // Slowly decline reservoir pressure over 10 min
+    GS.reservoirP = Math.max(10, 28 - (GS.elapsed / 600) * 10 + simplex(GS.noiseOffset * 0.3) * 0.4);
+
+    // Bore path open?
+    const boreOpen = GS.valves.lmv && GS.valves.umv;
+    const prodOpen = boreOpen && GS.valves.rwv;
+
+    // Calculate wellhead pressure
+    if (boreOpen) {
+      const backpressure = prodOpen ? (100 - GS.choke) / 100 * 8 : 0;
+      GS.wellheadP = Math.max(0, GS.reservoirP - backpressure + simplex(GS.noiseOffset) * 0.5);
+    } else {
+      GS.wellheadP = Math.max(0, GS.wellheadP - 0.5);
+    }
+
+    // Flow rate
+    if (prodOpen) {
+      const chokeEffect = GS.choke / 100;
+      const pressDrive = Math.max(0, GS.wellheadP - 2) / 26;
+      GS.flowRate = GS.maxFlow * chokeEffect * pressDrive + simplex(GS.noiseOffset * 2) * 20;
+      GS.flowRate = Math.max(0, GS.flowRate);
+    } else {
+      GS.flowRate = Math.max(0, GS.flowRate - 50);
+    }
+
+    // Annulus pressure
+    if (GS.activeEvent && GS.activeEvent.id === 'annulus') {
+      if (!GS.eventResolved) GS.annulusP = Math.min(18, GS.annulusP + 0.15);
+    } else if (GS.valves.lwv) {
+      GS.annulusP = Math.max(0, GS.annulusP - 0.5);
+    } else {
+      GS.annulusP = Math.max(0, GS.annulusP - 0.02);
+    }
+
+    // Demand variation (slow drift + event demand spikes)
+    if (!GS.activeEvent || GS.activeEvent.id !== 'demand') {
+      GS.demand = 800 + simplex(GS.noiseOffset * 0.1) * 120;
+    }
+
+    // Particle speed proportional to flow
+    const flowFrac = GS.flowRate / GS.maxFlow;
+    setParticleSpeed(prodOpen ? Math.max(0.1, flowFrac * 2.5) : 0);
+
+    // Update event timer
+    if (GS.activeEvent && !GS.eventResolved) {
+      GS.eventTimer -= 0.25;
+      if (GS.eventTimer <= 0) {
+        expireEvent();
+      }
+    }
+
+    // Next event countdown
+    if (!GS.activeEvent) {
+      GS.nextEventIn -= 0.25;
+      if (GS.nextEventIn <= 0) triggerRandomEvent();
+    }
+
+    // Score: +1/s when within ±10% of demand, doubled bonus for within ±5%
+    if (GS.running && prodOpen) {
+      const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
+      if (diff <= 0.05) {
+        GS.score += Math.round(0.25 * 3 * GS.multiplier * 10) / 10;
+        GS.multiplier = Math.min(4.0, GS.multiplier + 0.001);
+      } else if (diff <= 0.10) {
+        GS.score += Math.round(0.25 * 1 * GS.multiplier * 10) / 10;
+      } else if (diff <= 0.25) {
+        // no score penalty, just no gain
+        GS.multiplier = Math.max(1.0, GS.multiplier - 0.002);
+      } else {
+        GS.score = Math.max(0, GS.score - 0.25 * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier - 0.005);
+      }
+    }
+
+    // Overpressure check
+    if (GS.wellheadP > 32) {
+      flashEl('gOverpressFlash', '#ff0000');
+      if (_tick % 4 === 0) {
+        GS.score = Math.max(0, GS.score - 5);
+        log('⚠ Overpressure! Wellhead at ' + GS.wellheadP.toFixed(1) + ' bar', '#ff3333');
+        GS.multiplier = Math.max(1.0, GS.multiplier - 0.05);
+      }
+    }
+
+    // Annulus high pressure
+    if (GS.annulusP > 12 && !GS.valves.lwv) {
+      if (_tick % 8 === 0) log('⚠ Annulus pressure HIGH: ' + GS.annulusP.toFixed(1) + ' bar — consider opening LWV', '#ffd200');
+    }
+
+    // Update HUD
+    updateHUD();
+
+    // Check game over conditions
+    if (GS.wellheadP > 35) { gameOver('💥 BLOWOUT', 'Wellhead pressure exceeded 35 MPa rated limit. The tree failed catastrophically.'); return; }
+    if (GS.annulusP > 16) { gameOver('💥 CASING FAILURE', 'Annulus pressure exceeded safe limits. Casing integrity compromised.'); return; }
+    if (GS.penaltyCount >= 5) { gameOver('🛑 OPERATIONS SUSPENDED', 'Too many safety violations. The GCS has shut in your well remotely.'); return; }
+  }
+
+  /* ── HUD update ── */
+  function updateHUD() {
+    $('gWHP').textContent = GS.wellheadP.toFixed(1) + ' bar';
+    $('gWHP').style.color = GS.wellheadP > 28 ? '#ff5555' : GS.wellheadP > 20 ? '#00d2ff' : '#ffd200';
+
+    $('gFlowRate').textContent = Math.round(GS.flowRate) + ' m³/h';
+    const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
+    $('gFlowRate').style.color = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+
+    $('gFlowDemandLbl').textContent = 'Demand: ' + Math.round(GS.demand) + ' m³/h';
+    $('gAnnPress').textContent = GS.annulusP.toFixed(1) + ' bar';
+    $('gAnnPress').style.color = GS.annulusP > 10 ? '#ff5555' : GS.annulusP > 4 ? '#ffd200' : '#ffd200';
+
+    $('gScore').textContent = Math.round(GS.score).toLocaleString();
+    $('gMult').textContent = '×' + GS.multiplier.toFixed(1) + ' multiplier';
+    $('gTimer').textContent = formatTime(GS.elapsed);
+
+    // Gauge needle — maps 0–35 bar to -135 to +135 deg
+    const angle = -135 + (GS.wellheadP / 35) * 270;
+    $('gGaugeNeedle').setAttribute('transform', `rotate(${angle},90,90)`);
+    $('gGaugeTxt').textContent = GS.wellheadP.toFixed(0) + ' bar';
+    $('gGaugeTxt').style.fill = GS.wellheadP > 28 ? '#ff5555' : '#00d2ff';
+
+    // Flow bar: 0–maxFlow mapped to 0–100%
+    const flowPct = Math.min(100, GS.flowRate / GS.maxFlow * 100);
+    $('gFlowBar').style.width = flowPct + '%';
+    $('gFlowBar').style.background = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+
+    const demandPct = Math.min(100, GS.demand / GS.maxFlow * 100);
+    $('gDemandMark').style.left = demandPct + '%';
+    const zonePct = 10 / GS.maxFlow * 100 * 1;
+    $('gDemandZone').style.left  = Math.max(0, demandPct - zonePct) + '%';
+    $('gDemandZone').style.width = (zonePct * 2) + '%';
+    $('gMaxFlowLbl').textContent = GS.maxFlow + ' m³/h (max)';
+    const pctStr = (GS.flowRate / GS.demand * 100).toFixed(0) + '% of demand';
+    $('gFlowPct').textContent = pctStr;
+    $('gFlowPct').style.color = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+
+    // Event timer display
+    if (GS.activeEvent && !GS.eventResolved) {
+      $('gEventTimer').textContent = Math.ceil(GS.eventTimer) + 's';
+      $('gEventTimer').style.color = GS.eventTimer < 10 ? '#ff3333' : 'var(--orange)';
+    }
+  }
+
+  /* ── Events ── */
+  const EVENTS = [
+    {
+      id: 'overpressure',
+      title: '⬆ OVERPRESSURE SURGE',
+      desc: 'Reservoir pressure spike — wellhead pressure rising rapidly above safe operating range.',
+      action: 'ACTION: Reduce choke opening below 30%, or close RWV temporarily to control pressure.',
+      duration: 30,
+      trigger() { GS.maxFlow = 1600; log('⚠ Overpressure surge detected!', '#ff5555'); },
+      check() {
+        return (GS.choke <= 30 || !GS.valves.rwv) && GS.wellheadP < 26;
+      },
+      resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled. Choke restricted flow successfully.', '#00e676'); },
+      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 100); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! (-100pts)', '#ff3333'); }
+    },
+    {
+      id: 'demand',
+      title: '📈 DEMAND SPIKE',
+      desc: 'Gas Collection Station reports surge in pipeline demand. Increase production to match.',
+      action: 'ACTION: Open choke to 80%+ and ensure RWV and both masters are open.',
+      duration: 35,
+      trigger() { GS.demand = 1100; log('📈 Demand spike from GCS — increase flow!', '#ffd200'); },
+      check() {
+        return GS.flowRate >= GS.demand * 0.85;
+      },
+      resolve() { GS.demand = 800; log('✓ Demand met — GCS confirms delivery target reached.', '#00e676'); GS.score += 80; GS.multiplier = Math.min(4, GS.multiplier + 0.3); },
+      expire() { GS.demand = 800; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 80); log('✗ Demand not met — delivery shortfall penalised. (-80pts)', '#ff3333'); }
+    },
+    {
+      id: 'leak',
+      title: '💧 WING VALVE LEAK',
+      desc: 'Gas detected venting from RWV packing seal. Isolate the right wing immediately.',
+      action: 'ACTION: Close RWV. Then open LWV to route annulus vent. Close UMV if leak persists.',
+      duration: 25,
+      trigger() {
+        flashEl('gLeakFlash', '#ff5200');
+        log('💧 Leak detected at RWV! Isolate immediately!', '#ff5555');
+        setInterval(function() { if (GS.activeEvent && GS.activeEvent.id==='leak' && !GS.eventResolved) flashEl('gLeakFlash','#ff5200'); }, 2000);
+      },
+      check() { return !GS.valves.rwv; },
+      resolve() { log('✓ RWV isolated. Leak controlled. Well secured.', '#00e676'); GS.score += 120; GS.multiplier = Math.min(4, GS.multiplier + 0.4); $('gLeakFlash').style.opacity = '0'; },
+      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 120); log('✗ Leak not isolated in time — gas release penalty. (-120pts)', '#ff3333'); $('gLeakFlash').style.opacity = '0'; }
+    },
+    {
+      id: 'annulus',
+      title: '🏗 ANNULUS PRESSURE BUILDUP',
+      desc: 'Casing annulus pressure rising — gas migrating through cement. Bleed-off required.',
+      action: 'ACTION: Open LWV to vent annulus to collection system until pressure drops below 3 bar.',
+      duration: 40,
+      trigger() { log('🏗 Annulus pressure building — open LWV to bleed off', '#ffd200'); },
+      check() { return GS.annulusP < 3 && GS.valves.lwv; },
+      resolve() { log('✓ Annulus bled off successfully. Pressure normalised.', '#00e676'); GS.score += 90; GS.multiplier = Math.min(4, GS.multiplier + 0.3); },
+      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 90); log('✗ Annulus pressure uncontrolled — casing risk. (-90pts)', '#ff3333'); }
+    },
+    {
+      id: 'esi',
+      title: '🚨 EMERGENCY SHUT-IN SIGNAL',
+      desc: 'GCS reports downstream pipeline rupture. Immediate full well shut-in required.',
+      action: 'ACTION: Close UMV AND RWV within time limit. Both must be shut.',
+      duration: 20,
+      trigger() { log('🚨 EMERGENCY SHUT-IN — close UMV and RWV NOW!', '#ff3333'); },
+      check() { return !GS.valves.umv && !GS.valves.rwv; },
+      resolve() { log('✓ Emergency shut-in complete. Well isolated.', '#00e676'); GS.score += 200; GS.multiplier = Math.min(4, GS.multiplier + 0.5); },
+      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 200); log('✗ ESI not executed — critical failure! (-200pts)', '#ff3333'); }
+    },
+    {
+      id: 'sand',
+      title: '🪨 SAND PLUGGING',
+      desc: 'Sand influx detected — choke is partially blocked. Flow rate dropping.',
+      action: 'ACTION: Fully open choke to 100% briefly (>90%) to clear plug, then reduce to normal.',
+      duration: 30,
+      trigger() { GS.maxFlow = 600; log('🪨 Sand plug forming — open choke wide to clear!', '#ffd200'); },
+      check() { return GS.choke >= 90; },
+      resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier = Math.min(4, GS.multiplier + 0.2); },
+      expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 70); log('✗ Choke plugged — production severely impaired. (-70pts)', '#ff3333'); }
+    },
+  ];
+
+  function triggerRandomEvent() {
+    // Don't double-trigger
+    if (GS.activeEvent) return;
+    const ev = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+    GS.activeEvent = ev;
+    GS.eventTimer = ev.duration;
+    GS.eventResolved = false;
+    ev.trigger();
+    showEventBanner(ev);
+    GS.nextEventIn = 20 + Math.random() * 30;
+  }
+
+  function showEventBanner(ev) {
+    $('gEventBanner').style.display = 'block';
+    $('gEventTitle').textContent = ev.title;
+    $('gEventDesc').textContent  = ev.desc;
+    $('gEventAction').textContent = ev.action;
+    $('gEventBanner').style.borderColor = 'var(--orange)';
+  }
+
+  function hideEventBanner() {
+    $('gEventBanner').style.display = 'none';
+    GS.activeEvent = null;
+    GS.eventResolved = false;
+  }
+
+  function expireEvent() {
+    if (!GS.activeEvent) return;
+    GS.activeEvent.expire();
+    hideEventBanner();
+    GS.activeEvent = null;
+  }
+
+  function checkEventResolution() {
+    if (!GS.activeEvent || GS.eventResolved) return;
+    if (GS.activeEvent.check()) {
+      GS.eventResolved = true;
+      GS.activeEvent.resolve();
+      $('gEventBanner').style.borderColor = '#00e676';
+      $('gEventTitle').textContent = '✓ ' + GS.activeEvent.title.replace(/^.{2}/, '');
+      $('gEventTimer').textContent = 'DONE';
+      $('gEventTimer').style.color = '#00e676';
+      setTimeout(hideEventBanner, 3000);
+    }
+  }
+
+  /* ── Simplex-like noise (simple smooth pseudorandom) ── */
+  function simplex(t) {
+    return Math.sin(t * 2.1) * 0.5 + Math.sin(t * 3.7 + 1.2) * 0.3 + Math.sin(t * 0.9 + 2.4) * 0.2;
+  }
+
+  /* ── Flash helper ── */
+  function flashEl(id, color) {
+    const el = $(id);
+    if (!el) return;
+    el.style.opacity = '1';
+    el.style.stroke = color;
+    clearTimeout(el._flashTimer);
+    el._flashTimer = setTimeout(() => { el.style.opacity = '0'; }, 600);
+  }
+
+  /* ── Public: toggle valve ── */
+  window.gameToggleValve = function(id) {
+    if (!GS.running) return;
+    // Swab: warn but allow
+    GS.valves[id] = !GS.valves[id];
+    const state = GS.valves[id] ? 'open' : 'closed';
+    if (id === 'swab') setValveVisual(id, GS.valves[id] ? 'open' : 'locked');
+    else setValveVisual(id, state);
+    log((GS.valves[id] ? '↑ Opened' : '↓ Closed') + ' ' + id.toUpperCase(), GS.valves[id] ? '#00e676' : '#ff9966');
+    // After any valve change, check event resolution
+    checkEventResolution();
+    // Annulus particles
+    $('gAnnParticles').style.display = (GS.valves.lwv && GS.running) ? 'block' : 'none';
+  };
+
+  /* ── Public: set choke ── */
+  window.gameSetChoke = function(val) {
+    GS.choke = parseInt(val);
+    $('gChokeVal').textContent = GS.choke + '%';
+    // Update choke body color
+    const body = $('gChokeBody');
+    if (body) body.style.stroke = GS.choke > 70 ? '#00e676' : GS.choke > 30 ? '#ffd200' : '#ff5555';
+    checkEventResolution();
+  };
+
+  /* ── Public: start game ── */
+  window.gameStart = function() {
+    if (GS.running) return;
+    GS.running = true;
+    $('gStartBtn').disabled = true;
+    $('gStartBtn').style.opacity = '0.5';
+    $('gStopBtn').disabled = false;
+    $('gStopBtn').style.opacity = '1';
+    $('gStopBtn').style.cursor = 'pointer';
+    $('gStopBtn').style.color = '#ff5555';
+    $('gStopBtn').style.borderColor = '#ff5555';
+    $('gStatusBadge').textContent = 'PRODUCING';
+    $('gStatusBadge').style.color = '#00e676';
+    $('gStatusBadge').style.borderColor = '#00e676';
+    $('gStatusBadge').style.background = '#001a00';
+    $('gGameOver').style.display = 'none';
+
+    // Reset physics
+    Object.assign(GS, {
+      score: 0, multiplier: 1.0, elapsed: 0,
+      reservoirP: 28, wellheadP: 0, flowRate: 0, demand: 800,
+      annulusP: 0, choke: 50, maxFlow: 1200,
+      valves: { lmv: true, umv: true, rwv: true, lwv: false, swab: false },
+      activeEvent: null, eventResolved: false, eventTimer: 0, nextEventIn: 25,
+      penaltyCount: 0, noiseOffset: 0, particleSpeed: 1.0,
+    });
+    $('gChokeSlider').value = 50;
+    $('gChokeVal').textContent = '50%';
+    refreshValveVisuals();
+    clearLog();
+    log('▶ Well started. All valves open. Monitor pressure and respond to events.', '#00e676');
+
+    GS._interval = setInterval(() => {
+      physicsTick();
+      checkEventResolution();
+    }, 250);
+  };
+
+  /* ── Public: stop (emergency shut-in) ── */
+  window.gameStop = function() {
+    if (!GS.running) return;
+    // Close all valves
+    ['lmv','umv','rwv','lwv','swab'].forEach(id => {
+      GS.valves[id] = false;
+      setValveVisual(id, id === 'swab' ? 'locked' : 'closed');
+    });
+    GS.running = false;
+    clearInterval(GS._interval);
+    setParticleSpeed(0);
+    $('gAnnParticles').style.display = 'none';
+    $('gStartBtn').disabled = false;
+    $('gStartBtn').style.opacity = '1';
+    $('gStopBtn').disabled = true;
+    $('gStopBtn').style.opacity = '0.5';
+    $('gStopBtn').style.cursor = 'not-allowed';
+    $('gStatusBadge').textContent = 'SHUT-IN';
+    $('gStatusBadge').style.color = '#ffd200';
+    $('gStatusBadge').style.borderColor = '#ffd200';
+    $('gStatusBadge').style.background = '#1a1500';
+    log('■ Emergency shut-in executed. All valves closed.', '#ffd200');
+    hideEventBanner();
+  };
+
+  /* ── Game Over ── */
+  function gameOver(title, body) {
+    clearInterval(GS._interval);
+    GS.running = false;
+    setParticleSpeed(0);
+    $('gAnnParticles').style.display = 'none';
+    $('gStartBtn').disabled = false;
+    $('gStartBtn').style.opacity = '1';
+    $('gStopBtn').disabled = true;
+    $('gStopBtn').style.opacity = '0.5';
+    $('gStopBtn').style.cursor = 'not-allowed';
+    $('gStatusBadge').textContent = 'FAILED';
+    $('gStatusBadge').style.color = '#ff3333';
+    $('gStatusBadge').style.borderColor = '#ff3333';
+    $('gStatusBadge').style.background = '#1a0000';
+    $('gGameOver').style.display = 'block';
+    $('gGameOverTitle').textContent = title;
+    $('gGameOverBody').innerHTML =
+      body + '<br><br>' +
+      'Final score: <strong style="color:var(--orange);">' + Math.round(GS.score).toLocaleString() + ' pts</strong> &nbsp;|&nbsp; ' +
+      'Time on well: <strong style="color:var(--cyan);">' + formatTime(GS.elapsed) + '</strong>';
+    hideEventBanner();
+    log('💥 ' + title, '#ff3333');
+  }
+
+  /* ── Reset ── */
+  window.gameReset = function() {
+    $('gGameOver').style.display = 'none';
+    clearLog();
+    $('gStatusBadge').textContent = 'OFFLINE';
+    $('gStatusBadge').style.color = '#333366';
+    $('gStatusBadge').style.borderColor = '#1c1c48';
+    $('gStatusBadge').style.background = '#050514';
+    refreshValveVisuals();
+    $('gWHP').textContent = '-- bar';
+    $('gFlowRate').textContent = '-- m³/h';
+    $('gAnnPress').textContent = '0 bar';
+    $('gScore').textContent = '0';
+    $('gTimer').textContent = '00:00';
+    $('gGaugeTxt').textContent = '-- bar';
+    $('gFlowBar').style.width = '0%';
+    $('gStartBtn').disabled = false;
+    $('gStartBtn').style.opacity = '1';
+    log('── System reset. Ready to start. ──', '#333366');
+  };
+
+  function clearLog() {
+    const el = $('gLog');
+    el.innerHTML = '';
+  }
+
+  /* ── Init visuals ── */
+  refreshValveVisuals();
+  log('── System offline. Press START WELL to begin. ──', '#333366');
+
+  /* ── Responsive: stack on narrow screens ── */
+  function checkLayout() {
+    const grid = $('gGame');
+    if (!grid) return;
+    if (window.innerWidth < 760) {
+      grid.style.gridTemplateColumns = '1fr';
+    } else {
+      grid.style.gridTemplateColumns = '280px 1fr';
+    }
+  }
+  checkLayout();
+  window.addEventListener('resize', checkLayout);
+
+})();
+</script>
+
 </body>
 </html>
+<!-- NOTE: technical section will be injected via Python below -->
 <!-- NOTE: technical section will be injected via Python below -->
