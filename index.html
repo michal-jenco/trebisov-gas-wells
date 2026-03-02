@@ -455,6 +455,7 @@
   <a href="#geology">Geology</a>
   <a href="#geothermal">Geothermal</a>
   <a href="#technical">Engineering</a>
+  <a href="#gallery">Gallery</a>
   <a href="#sources">Sources</a>
 </nav>
 
@@ -540,275 +541,32 @@
   <div class="container">
     <div class="section-label">Photography</div>
     <h2 class="section-title">Field <span>Photography</span></h2>
-    <p class="lead">Complete photographic documentation of the Trebišov gas field. 29 images across 5 sections. Click any image to enlarge.</p>
+    <p class="lead">29 original photographs documenting the Trebišov gas field — Christmas tree configurations, instrumentation, and field context. <a href="#gallery" style="color:var(--cyan);">View full gallery ↓</a></p>
 
-    <style>
-      .gallery-section-label {
-        font-family: var(--font-display);
-        font-size: 0.85rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin: 2.5rem 0 1rem;
-        padding-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-      }
-      .gallery-section-label::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: var(--border);
-      }
-      .gallery-masonry {
-        column-count: 3;
-        column-gap: 12px;
-        margin-bottom: 0.5rem;
-      }
-      @media (max-width: 700px) { .gallery-masonry { column-count: 2; } }
-      .gallery-masonry .gitem {
-        break-inside: avoid;
-        margin-bottom: 12px;
-        cursor: pointer;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #0a0a1a;
-      }
-      .gallery-masonry .gitem:hover { opacity: 0.88; }
-      .gallery-masonry .gitem img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 4px;
-      }
-      .gallery-masonry .gcap {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.82));
-        color: #ccc;
-        font-size: 0.72rem;
-        padding: 1.4rem 0.6rem 0.5rem;
-        opacity: 0;
-        transition: opacity 0.2s;
-        border-radius: 0 0 4px 4px;
-      }
-      .gallery-masonry .gitem:hover .gcap { opacity: 1; }
-      /* Wide items span 2 cols in masonry via a wrapper trick: use a flex row instead */
-      .gallery-row {
-        display: grid;
-        gap: 12px;
-        margin-bottom: 12px;
-      }
-      .gallery-row.cols-2 { grid-template-columns: 1fr 1fr; }
-      .gallery-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
-      .gallery-row.cols-12 { grid-template-columns: 3fr 2fr; }
-      .gallery-row.cols-21 { grid-template-columns: 2fr 3fr; }
-      .gallery-row .gitem {
-        cursor: pointer; border-radius: 4px; overflow: hidden;
-        background: #0a0a1a; position: relative;
-      }
-      .gallery-row .gitem:hover { opacity: 0.88; }
-      .gallery-row .gitem img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px; }
-      .gallery-row .gcap {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.82));
-        color: #ccc; font-size: 0.72rem; padding: 1.4rem 0.6rem 0.5rem;
-        opacity: 0; transition: opacity 0.2s; border-radius: 0 0 4px 4px;
-      }
-      .gallery-row .gitem:hover .gcap { opacity: 1; }
-      .fullwidth-item {
-        cursor: pointer; border-radius: 4px; overflow: hidden;
-        background: #0a0a1a; position: relative; margin-bottom: 12px;
-      }
-      .fullwidth-item:hover { opacity: 0.88; }
-      .fullwidth-item img { width: 100%; height: auto; display: block; border-radius: 4px; }
-      .fullwidth-item .gcap {
-        position: absolute; bottom: 0; left: 0; right: 0;
-        background: linear-gradient(transparent, rgba(0,0,0,0.82));
-        color: #ccc; font-size: 0.72rem; padding: 1.4rem 0.6rem 0.5rem;
-        opacity: 0; transition: opacity 0.2s; border-radius: 0 0 4px 4px;
-      }
-      .fullwidth-item:hover .gcap { opacity: 1; }
-    </style>
-
-    <!-- ── Overview & Context ── -->
-    <div class="gallery-section-label" style="color:var(--silver);">📐 Field Overview &amp; Context</div>
-
-    <!-- Full-width wide panorama -->
-    <div class="fullwidth-item" onclick="openLightbox('images/field_panorama_wide.jpg','Wide field panorama — multiple Christmas trees visible with city of Trebišov in background')">
-      <img src="images/field_panorama_wide.jpg" alt="Wide field panorama">
-      <div class="gcap">Full Field Panorama — City of Trebišov in Background</div>
+    <!-- Hero shot — best single image -->
+    <div style="margin-bottom:12px;cursor:pointer;border-radius:6px;overflow:hidden;" onclick="openLightbox('images/field_panorama_wide.jpg','Wide field panorama — multiple Christmas trees with city of Trebišov in background')">
+      <img src="images/field_panorama_wide.jpg" alt="Field panorama" style="width:100%;height:auto;display:block;border-radius:6px;">
+      <div style="padding:0.5rem 0;color:#888;font-size:0.8rem;">Full field panorama — yellow and blue Christmas trees across abandoned well pads, Trebišov city beyond. Click to enlarge.</div>
     </div>
 
-    <!-- 2 landscape side by side -->
-    <div class="gallery-row cols-12" style="height:280px;">
-      <div class="gitem" onclick="openLightbox('images/two_yellow_city_skyline.jpg','Two yellow Christmas trees with Trebišov city skyline and church tower beyond the highway')">
-        <img src="images/two_yellow_city_skyline.jpg" alt="Two yellow trees city skyline" style="object-position:center 60%;">
-        <div class="gcap">Two Yellow Trees — Trebišov Skyline &amp; Church Tower</div>
+    <!-- 3 best supporting shots -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 backlit silhouette against sun')">
+        <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 silhouette" style="width:100%;height:220px;object-fit:cover;object-position:center 35%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">TR-8 — Backlit silhouette</div>
       </div>
-      <div class="gitem" onclick="openLightbox('images/panorama.jpg','Field panorama shot — yellow and blue wellheads on concrete pads')">
-        <img src="images/panorama.jpg" alt="Field panorama" style="object-position:center center;">
-        <div class="gcap">Panorama — Yellow &amp; Blue Trees Together</div>
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Christmas tree — full view, clear sky')">
+        <img src="images/blue_full_clear_sky.jpg" alt="Blue tree" style="width:100%;height:220px;object-fit:cover;object-position:center 20%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Blue Soviet-era gate valve tree</div>
       </div>
-    </div>
-
-    <!-- Full wide panorama -->
-    <div class="fullwidth-item" onclick="openLightbox('images/field_overview.jpg','Field overview showing original concrete access road and well pads')">
-      <img src="images/field_overview.jpg" alt="Field overview">
-      <div class="gcap">Field Overview — Access Road &amp; Well Pads</div>
-    </div>
-
-    <!-- ── Yellow Trees ── -->
-    <div class="gallery-section-label" style="color:var(--yellow);">🟡 Yellow Christmas Trees — Ball Valve Design (1996)</div>
-
-    <!-- TR-8 silhouette full width -->
-    <div class="fullwidth-item" onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 backlit silhouette against sun — TR-8 label clearly visible, second well pipe behind')">
-      <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 backlit">
-      <div class="gcap">TR-8 — Backlit Silhouette Against Sun, Label Visible</div>
-    </div>
-
-    <!-- 3 portrait columns — equal height, natural fill -->
-    <div class="gallery-masonry" style="column-count:3;">
-      <div class="gitem" onclick="openLightbox('images/yellow_ball_valve_closeup.jpg','Yellow Christmas tree — full view with ball valve actuator disc, hazard tape, wellhead grating')">
-        <img src="images/yellow_ball_valve_closeup.jpg" alt="Yellow ball valve full">
-        <div class="gcap">Ball Valve Tree — Pneumatic Actuator Disc &amp; Hazard Tape</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_tr_front_full.jpg','Yellow Christmas tree front view — full stack from conductor flange to pressure gauge at top')">
-        <img src="images/yellow_tr_front_full.jpg" alt="Yellow tree front">
-        <div class="gcap">Yellow Tree — Full Front Stack</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_full_with_cellar.jpg','Yellow Christmas tree with wellhead cellar drain grating visible at base')">
-        <img src="images/yellow_full_with_cellar.jpg" alt="Yellow tree cellar">
-        <div class="gcap">Yellow Tree — With Wellhead Cellar Grating</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow Christmas tree side view — flowline connection going horizontal to gathering line')">
-        <img src="images/yellow_tr_side_full.jpg" alt="Yellow tree side">
-        <div class="gcap">Yellow Tree — Side View, Flowline Connection</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_tr8_angled.jpg','TR-8 angled view — TR-8 label on production cross, sun flare from upper right')">
-        <img src="images/yellow_tr8_angled.jpg" alt="TR-8 angled">
-        <div class="gcap">TR-8 — Label on Production Cross</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_tr_angled_full.jpg','Yellow tree angled — ball valve spherical bodies clearly visible throughout stack')">
-        <img src="images/yellow_tr_angled_full.jpg" alt="Yellow angled">
-        <div class="gcap">Yellow Tree — Angled, Ball Valve Bodies</div>
+      <div style="cursor:pointer;border-radius:4px;overflow:hidden;" onclick="openLightbox('images/tr_worm_eye_view.jpg','Worm-eye ground level view looking straight up at Christmas tree')">
+        <img src="images/tr_worm_eye_view.jpg" alt="Worm eye" style="width:100%;height:220px;object-fit:cover;object-position:center 15%;display:block;border-radius:4px;">
+        <div style="padding:0.3rem 0;color:#888;font-size:0.75rem;">Ground-level perspective, TR-9</div>
       </div>
     </div>
-
-    <!-- 2-col: mid closeup + yellow mid detail -->
-    <div class="gallery-row cols-2" style="height:340px;">
-      <div class="gitem" onclick="openLightbox('images/yellow_mid_closeup.jpg','Yellow tree mid-section close-up — production cross and lower wing valves')">
-        <img src="images/yellow_mid_closeup.jpg" alt="Yellow mid closeup" style="object-position:center 35%;">
-        <div class="gcap">Yellow Tree — Production Cross Close-Up</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow tree full side view with flowline')">
-        <img src="images/gauge_mer_needle_closeup.jpg" alt="MER gauge">
-        <div class="gcap">Casing Gauge (Yellow) — MER, 25 MPa, ~12 MPa Reading</div>
-      </div>
+    <div style="margin-top:1rem;text-align:center;">
+      <a href="#gallery" style="display:inline-block;padding:0.5rem 1.5rem;border:1px solid var(--cyan);color:var(--cyan);font-family:var(--font-display);font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:3px;">View All 29 Photographs ↓</a>
     </div>
-
-    <!-- Previous session annotated diagrams -->
-    <div class="gallery-row cols-2" style="height:300px;">
-      <div class="gitem" onclick="openLightbox('images/yellow_well_1.jpg','Yellow wellhead earlier session — overview angle')">
-        <img src="images/yellow_well_1.jpg" alt="Yellow well 1" style="object-position:center 20%;">
-        <div class="gcap">Yellow Well — Earlier Session View 1</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_well_2.jpg','Yellow wellhead earlier session — second angle')">
-        <img src="images/yellow_well_2.jpg" alt="Yellow well 2" style="object-position:center 20%;">
-        <div class="gcap">Yellow Well — Earlier Session View 2</div>
-      </div>
-    </div>
-    <div class="gallery-row cols-2" style="height:300px;">
-      <div class="gitem" onclick="openLightbox('images/yellow_well_closeup.jpg','Yellow wellhead closeup — earlier session')">
-        <img src="images/yellow_well_closeup.jpg" alt="Yellow well closeup" style="object-position:center 30%;">
-        <div class="gcap">Yellow Well — Close-Up, Earlier Session</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree — component labels overlaid')">
-        <img src="images/yellow_annotated.jpg" alt="Yellow annotated" style="object-position:center 30%;">
-        <div class="gcap">Yellow Tree — Annotated Diagram</div>
-      </div>
-    </div>
-
-    <!-- ── TR-9 Low Angle ── -->
-    <div class="gallery-section-label" style="color:var(--warm);">📷 TR-9 — Ground-Level Perspectives</div>
-
-    <div class="gallery-masonry" style="column-count:3;">
-      <div class="gitem" onclick="openLightbox('images/tr_worm_eye_view.jpg','Extreme worm-eye ground-level view looking straight up at Christmas tree against blue sky')">
-        <img src="images/tr_worm_eye_view.jpg" alt="Worm eye view">
-        <div class="gcap">TR — Worm-Eye View, Looking Straight Up</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/tr9_backlit_gravel.jpg','TR-9 from gravel level — cross silhouette with sun flare behind, mixed yellow/blue casing base')">
-        <img src="images/tr9_backlit_gravel.jpg" alt="TR9 gravel">
-        <div class="gcap">TR-9 — Backlit from Gravel Level</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/tr9_backlit_gravel_2.jpg','TR-9 alternative ground angle — slightly different framing, mixed casing colors on lower spool')">
-        <img src="images/tr9_backlit_gravel_2.jpg" alt="TR9 alt angle">
-        <div class="gcap">TR-9 — Alternative Ground Angle</div>
-      </div>
-    </div>
-
-    <!-- ── Blue Trees ── -->
-    <div class="gallery-section-label" style="color:#5bc8ff;">🔵 Blue Christmas Trees — Soviet-era Gate Valve Design</div>
-
-    <!-- Blue full clear sky full width -->
-    <div class="gallery-masonry" style="column-count:3;">
-      <div class="gitem" onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Christmas tree full view against clear blue sky — gate valve boxy square housings')">
-        <img src="images/blue_full_clear_sky.jpg" alt="Blue tree clear sky">
-        <div class="gcap">Blue Tree — Full View, Clear Sky</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/blue_full_front.jpg','Blue Christmas tree front — casing annulus outlet assemblies and pressure gauges on grating platform')">
-        <img src="images/blue_full_front.jpg" alt="Blue tree front">
-        <div class="gcap">Blue Tree — Front View, Casing Outlets</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/blue_backlit_silhouette.jpg','Blue tree backlit by sun — second blue tree in background, flooded cellar below')">
-        <img src="images/blue_backlit_silhouette.jpg" alt="Blue backlit">
-        <div class="gcap">Blue Tree — Backlit, Second Tree Behind</div>
-      </div>
-    </div>
-
-    <!-- Flooded cellar full width -->
-    <div class="fullwidth-item" onclick="openLightbox('images/blue_cellar_flooded.jpg','Blue wellhead cellar flooded — casing head and lower flange reflected in standing water, chain-link fence')">
-      <img src="images/blue_cellar_flooded.jpg" alt="Blue cellar flooded">
-      <div class="gcap">Blue Tree — Flooded Wellhead Cellar, Reflection in Standing Water</div>
-    </div>
-
-    <!-- Earlier blue session photos -->
-    <div class="gallery-row cols-2" style="height:300px;">
-      <div class="gitem" onclick="openLightbox('images/blue_well_full.jpg','Blue wellhead full view — earlier session')">
-        <img src="images/blue_well_full.jpg" alt="Blue well full" style="object-position:center 20%;">
-        <div class="gcap">Blue Well — Full View, Earlier Session</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/blue_well_cellar.jpg','Blue wellhead cellar detail — earlier session')">
-        <img src="images/blue_well_cellar.jpg" alt="Blue well cellar" style="object-position:center 30%;">
-        <div class="gcap">Blue Well — Cellar Detail, Earlier Session</div>
-      </div>
-    </div>
-    <div class="fullwidth-item" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree — component labels overlaid')">
-      <img src="images/blue_annotated.jpg" alt="Blue annotated">
-      <div class="gcap">Blue Tree — Annotated Diagram</div>
-    </div>
-
-    <!-- ── Gauges & Detail ── -->
-    <div class="gallery-section-label" style="color:var(--cyan);">🔬 Detail &amp; Instrument Close-Ups</div>
-
-    <div class="fullwidth-item" onclick="openLightbox('images/gauge_en837_closeup.jpg','Casing annulus pressure gauge — EN 837 standard, 25 MPa range, needle at ~12 MPa, on blue wellhead')">
-      <img src="images/gauge_en837_closeup.jpg" alt="EN837 gauge">
-      <div class="gcap">Casing Gauge — EN 837, 25 MPa Range (Blue Wellhead)</div>
-    </div>
-
-    <div class="gallery-row cols-2" style="height:280px;">
-      <div class="gitem" onclick="openLightbox('images/gauge_mer_needle_closeup.jpg','MER brand casing gauge — 25 MPa range, needle reading ~12–13 MPa, yellow wellhead with needle valve')">
-        <img src="images/gauge_mer_needle_closeup.jpg" alt="MER gauge" style="object-position:center center;">
-        <div class="gcap">Casing Gauge — MER Brand, 25 MPa (Yellow Wellhead)</div>
-      </div>
-      <div class="gitem" onclick="openLightbox('images/nameplate.jpg','NAFTA-UD Gbely nameplate — stamped metal, 28 October 1996, 35 MPa rated')">
-        <img src="images/nameplate.jpg" alt="Nameplate" style="object-position:center center;">
-        <div class="gcap">Nameplate — NAFTA-UD Gbely, 28.10.1996</div>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -817,27 +575,35 @@
   <div class="container">
     <div class="section-label">Component Identification</div>
     <h2 class="section-title">Annotated <span>Wellhead Diagrams</span></h2>
-    <p class="lead">Both wellhead generations labelled with component names in English and Slovak. Click to view full size.</p>
+    <p class="lead">Both wellhead generations labelled with component names in English and Slovak. Click either image to view full size.</p>
 
-    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#5bc8ff;margin-bottom:0.6rem;font-weight:700;">
-      🔵 Blue Christmas Tree — Soviet-era Gate Valve Design
-    </h3>
-    <div class="annotated-wrap" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree wellhead — Soviet-era gate valve design, NAFTA Gbely Trebišov')">
-      <img src="images/blue_annotated.jpg" alt="Annotated blue Christmas tree wellhead">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+      <!-- Yellow — left -->
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;color:var(--yellow);margin-bottom:0.6rem;font-weight:700;">
+          🟡 Yellow — Ball Valve Design (1996)
+        </h3>
+        <div class="annotated-wrap" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree wellhead — ball valve design with pneumatic actuator, 1996')">
+          <img src="images/yellow_annotated.jpg" alt="Annotated yellow Christmas tree wellhead">
+        </div>
+        <p class="annotated-note">Ball valves (spherical bodies) with a pneumatic actuator disc on the left wing arm for remote operation. Matches the 28 October 1996 nameplate date.
+          <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+        </p>
+      </div>
+
+      <!-- Blue — right -->
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;color:#5bc8ff;margin-bottom:0.6rem;font-weight:700;">
+          🔵 Blue — Soviet-era Gate Valve Design
+        </h3>
+        <div class="annotated-wrap" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree wellhead — Soviet-era gate valve design, NAFTA Gbely Trebišov')">
+          <img src="images/blue_annotated.jpg" alt="Annotated blue Christmas tree wellhead">
+        </div>
+        <p class="annotated-note">Gate valves with boxy square actuators — characteristic of 1960s–80s Eastern European oilfield equipment. Click image for full resolution.</p>
+      </div>
+
     </div>
-    <p class="annotated-note">Blue Christmas tree. Gate valves with boxy square actuators — characteristic of 1960s–80s Eastern European oilfield equipment. Click image for full resolution.</p>
-
-    <br><br>
-
-    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--yellow);margin-bottom:0.6rem;font-weight:700;">
-      🟡 Yellow Christmas Tree — Ball Valve Design (1996)
-    </h3>
-    <div class="annotated-wrap" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree wellhead — ball valve design with pneumatic actuator, 1996')">
-      <img src="images/yellow_annotated.jpg" alt="Annotated yellow Christmas tree wellhead — ball valve design">
-    </div>
-    <p class="annotated-note">Yellow Christmas tree. Ball valves (spherical bodies) with a pneumatic actuator disc on the left wing arm for remote operation. Matches the 28 October 1996 nameplate date.
-      <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
-    </p>
   </div>
 </section>
 
@@ -1134,9 +900,31 @@
         </div>
 
         <div class="tl-item">
+          <div class="tl-year">1958–1965</div>
+          <div class="tl-text">Slovak gas production peaks at <strong>1.1–1.3 billion m³ per year</strong> in the early 1960s, almost entirely from the Vienna Basin in western Slovakia. By mid-decade, those fields are declining. State geologists begin seismic surveys further east into the <strong>East Slovak Basin (Východoslovenská panva)</strong> — a Miocene-age tectonic depression stretching from Michalovce to the Ukrainian border, geologically distinct from the Vienna Basin and largely unexplored for hydrocarbons.
+            <a href="https://index.sme.sk/c/3991723/na-slovensku-sa-ropa-zacala-tazit-v-roku-1914.html" target="_blank" class="src">SME — 90 Years of Slovak Oil</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
           <div class="tl-year">1966</div>
-          <div class="tl-text">NAFTA begins <strong>natural gas production in eastern Slovakia</strong>. The East Slovak Basin becomes the source of approximately 70% of Czechoslovakia's domestic gas.
+          <div class="tl-text">NAFTA begins <strong>natural gas production in eastern Slovakia</strong>. The East Slovak Lowland and its Badenian–Sarmatian sandstone reservoirs are confirmed as commercially productive. The Trebišov area — sitting in the <em>Trebišov tectonic depression</em>, the easternmost part of the East Slovak Basin — is identified as a priority exploration target. The state enterprise operating the wells is known as <strong>Slovenské naftové závody (SNZ)</strong>, later renamed NAFTA in 1974.
             <a href="https://www.nafta.sk/en/about-us/history-gas-production-and-storage" target="_blank" class="src">nafta.sk</a>
+            <a href="https://www.mdpi.com/2076-3263/15/11/429" target="_blank" class="src">MDPI Geosciences — Trebišov Depression Geology</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1970–1980</div>
+          <div class="tl-text">The <strong>Brotherhood pipeline (Bratstvo)</strong> — the massive Soviet gas export corridor across Slovakia — enters operation in 1972, transforming Slovakia into a major gas transit country. Domestic production in the East Slovak Lowland expands to supply the national grid. NAFTA drills wells in the Trebišov <em>dobývací priestor</em> (mining zone) during this decade; the blue Christmas tree wellheads in your photographs, with their characteristic Soviet-era boxy gate valve actuators, date architecturally from this period of heavy Soviet-influenced equipment supply.
+            <a href="https://zurnal.pravda.sk/neznama-historia/clanok/737689-vzostupy-a-pady-tranzitnej-velmoci-plynovod-cez-slovensko-je-uz-dva-tyzdne-odstaveny-uplynulo-50-rokov-od-jeho-vystavby/" target="_blank" class="src">Pravda — 50 Years of the Brotherhood Pipeline</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1974–1990</div>
+          <div class="tl-text">The state enterprise is renamed <strong>NAFTA, národný podnik Gbely</strong> in 1974, then enters the centralised <em>Naftový a plynárenský priemysel</em> conglomerate in 1977. By the late 1980s, NAFTA employs over <strong>2,000 workers</strong> and manages wells across both the Vienna Basin and East Slovak Lowland. Gas production in eastern Slovakia falls gradually from its 1960s peak — by 1987, total national gas output had declined to under 500 million m³/year — but the Trebišov field remains in active production, supplying the regional grid via gathering lines and the nearby compressor station. After the 1989 Velvet Revolution the state conglomerate is broken up: <strong>SPP</strong> (Slovenský plynárenský priemysel) takes over gas sales and import; NAFTA retains exploration and production.
+            <a href="https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)" target="_blank" class="src">Slovak Wikipedia — NAFTA History</a>
           </div>
         </div>
 
@@ -1182,6 +970,13 @@
           <div class="tl-year">2019–2020</div>
           <div class="tl-text">NAFTA and partner <strong>Aspect Holdings</strong> acquire the Beša Exploration Area (771 km²) and Pavlovce nad Uhom Exploration Area (1,070 km²) — targeting new potential gas reserves in the East Slovak Lowland.
             <a href="https://www.nafta.sk/en/news/naftas-exploring-slovakia" target="_blank" class="src">nafta.sk</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2021</div>
+          <div class="tl-text">An academic study published in <em>MDPI Processes</em> maps the state of all 270 NAFTA-registered wells across Slovakia, including the East Slovak Lowland. It finds that as of 2020, <strong>198 of 270 wells are plugged and abandoned</strong>, 61 are drilled and equipped (including the Trebišov field), and only <strong>six active extraction deposits</strong> remain in the eastern lowland. The study notes a critical lack of uniform electronic monitoring records — exactly the documentation gap that this photographic project aims to address.
+            <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes: Slovak Gas Well Mapping</a>
           </div>
         </div>
 
@@ -1546,6 +1341,220 @@
 
 
 <!-- ── Sources ── -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-label">Full Archive</div>
+    <h2 class="section-title">Photo <span>Gallery</span></h2>
+    <p class="lead">All 29 photographs. Click any thumbnail to view at full resolution.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:1.5rem;">
+      
+      <div onclick="openLightbox('images/field_panorama_wide.jpg','Full Field Panorama')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/field_panorama_wide.jpg" alt="Full Field Panorama"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Full Field Panorama</div>
+      </div>
+      <div onclick="openLightbox('images/two_yellow_city_skyline.jpg','Two Yellow Trees — City Skyline')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/two_yellow_city_skyline.jpg" alt="Two Yellow Trees — City Skyline"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Two Yellow Trees — City Skyline</div>
+      </div>
+      <div onclick="openLightbox('images/panorama.jpg','Panorama — Yellow &amp; Blue Together')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/panorama.jpg" alt="Panorama — Yellow &amp; Blue Together"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Panorama — Yellow &amp; Blue Together</div>
+      </div>
+      <div onclick="openLightbox('images/field_overview.jpg','Field Overview — Access Road')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/field_overview.jpg" alt="Field Overview — Access Road"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Field Overview — Access Road</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_ball_valve_closeup.jpg','Ball Valve Tree — Full View')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_ball_valve_closeup.jpg" alt="Ball Valve Tree — Full View"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Ball Valve Tree — Full View</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_tr_front_full.jpg','Yellow Tree — Front Stack')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_tr_front_full.jpg" alt="Yellow Tree — Front Stack"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Front Stack</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_full_with_cellar.jpg','Yellow Tree — With Cellar')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_full_with_cellar.jpg" alt="Yellow Tree — With Cellar"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — With Cellar</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow Tree — Side, Flowline')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_tr_side_full.jpg" alt="Yellow Tree — Side, Flowline"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Side, Flowline</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_tr8_angled.jpg','TR-8 — Label Visible')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_tr8_angled.jpg" alt="TR-8 — Label Visible"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-8 — Label Visible</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_tr_angled_full.jpg','Yellow Tree — Angled View')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_tr_angled_full.jpg" alt="Yellow Tree — Angled View"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Angled View</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_mid_closeup.jpg','Yellow Tree — Production Cross Detail')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_mid_closeup.jpg" alt="Yellow Tree — Production Cross Detail"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Production Cross Detail</div>
+      </div>
+      <div onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 — Backlit Silhouette')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 — Backlit Silhouette"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-8 — Backlit Silhouette</div>
+      </div>
+      <div onclick="openLightbox('images/tr_worm_eye_view.jpg','TR — Worm-Eye, Ground Level')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/tr_worm_eye_view.jpg" alt="TR — Worm-Eye, Ground Level"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR — Worm-Eye, Ground Level</div>
+      </div>
+      <div onclick="openLightbox('images/tr9_backlit_gravel.jpg','TR-9 — Backlit from Gravel')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/tr9_backlit_gravel.jpg" alt="TR-9 — Backlit from Gravel"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-9 — Backlit from Gravel</div>
+      </div>
+      <div onclick="openLightbox('images/tr9_backlit_gravel_2.jpg','TR-9 — Alt Ground Angle')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/tr9_backlit_gravel_2.jpg" alt="TR-9 — Alt Ground Angle"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">TR-9 — Alt Ground Angle</div>
+      </div>
+      <div onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Tree — Full View, Clear Sky')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_full_clear_sky.jpg" alt="Blue Tree — Full View, Clear Sky"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Full View, Clear Sky</div>
+      </div>
+      <div onclick="openLightbox('images/blue_full_front.jpg','Blue Tree — Front, Casing Outlets')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_full_front.jpg" alt="Blue Tree — Front, Casing Outlets"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Front, Casing Outlets</div>
+      </div>
+      <div onclick="openLightbox('images/blue_backlit_silhouette.jpg','Blue Tree — Backlit')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_backlit_silhouette.jpg" alt="Blue Tree — Backlit"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Backlit</div>
+      </div>
+      <div onclick="openLightbox('images/blue_cellar_flooded.jpg','Blue Cellar — Flooded, Reflection')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_cellar_flooded.jpg" alt="Blue Cellar — Flooded, Reflection"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Cellar — Flooded, Reflection</div>
+      </div>
+      <div onclick="openLightbox('images/blue_well_full.jpg','Blue Well — Earlier Session')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_well_full.jpg" alt="Blue Well — Earlier Session"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Well — Earlier Session</div>
+      </div>
+      <div onclick="openLightbox('images/blue_well_cellar.jpg','Blue Well Cellar — Earlier')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_well_cellar.jpg" alt="Blue Well Cellar — Earlier"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Well Cellar — Earlier</div>
+      </div>
+      <div onclick="openLightbox('images/blue_annotated.jpg','Blue Tree — Annotated Diagram')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/blue_annotated.jpg" alt="Blue Tree — Annotated Diagram"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Blue Tree — Annotated Diagram</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_well_1.jpg','Yellow Well — Earlier Session 1')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_well_1.jpg" alt="Yellow Well — Earlier Session 1"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Earlier Session 1</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_well_2.jpg','Yellow Well — Earlier Session 2')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_well_2.jpg" alt="Yellow Well — Earlier Session 2"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Earlier Session 2</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_well_closeup.jpg','Yellow Well — Close-Up Earlier')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_well_closeup.jpg" alt="Yellow Well — Close-Up Earlier"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Well — Close-Up Earlier</div>
+      </div>
+      <div onclick="openLightbox('images/yellow_annotated.jpg','Yellow Tree — Annotated Diagram')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/yellow_annotated.jpg" alt="Yellow Tree — Annotated Diagram"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Yellow Tree — Annotated Diagram</div>
+      </div>
+      <div onclick="openLightbox('images/gauge_en837_closeup.jpg','Gauge EN 837 — Blue Wellhead')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/gauge_en837_closeup.jpg" alt="Gauge EN 837 — Blue Wellhead"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Gauge EN 837 — Blue Wellhead</div>
+      </div>
+      <div onclick="openLightbox('images/gauge_mer_needle_closeup.jpg','Gauge MER — Yellow Wellhead')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/gauge_mer_needle_closeup.jpg" alt="Gauge MER — Yellow Wellhead"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Gauge MER — Yellow Wellhead</div>
+      </div>
+      <div onclick="openLightbox('images/nameplate.jpg','Nameplate — NAFTA-UD Gbely 1996')"
+           style="cursor:pointer;border-radius:4px;overflow:hidden;background:#0a0a1a;position:relative;">
+        <img src="images/nameplate.jpg" alt="Nameplate — NAFTA-UD Gbely 1996"
+             style="width:100%;height:160px;object-fit:cover;display:block;border-radius:4px;transition:opacity 0.2s;"
+             onmouseover="this.style.opacity=0.8" onmouseout="this.style.opacity=1">
+        <div style="padding:0.35rem 0.4rem;color:#777;font-size:0.68rem;line-height:1.3;">Nameplate — NAFTA-UD Gbely 1996</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="sources">
   <div class="container">
     <div class="section-label">References</div>
