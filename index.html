@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trebišov Gas Field — NAFTA Gbely Wellhead Documentation</title>
+<meta name="description" content="Field documentation of decommissioned NAFTA Gbely natural gas wellheads in Trebišov, eastern Slovakia. Wells Trebišov 8–12, Christmas tree assemblies, history, geology, and geothermal conversion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00d2ff;
+    --orange: #ff5200;
+    --dark: #07071e;
+    --darker: #030310;
+    --card: #0c0c28;
+    --border: #1c1c48;
+    --text: #d0d0ec;
+    --silver: #9aa0bc;
+    --yellow: #ffd200;
+    --green: #00e676;
+    --warm: #ffb347;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--darker); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── Nav ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(3,3,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0; height: 52px;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--silver); text-decoration: none;
+    font-family: var(--font-display); font-size: 0.82rem;
+    font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 0 1rem; height: 52px; display: flex; align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  nav a:hover { color: var(--cyan); border-color: var(--cyan); }
+  nav .nav-brand {
+    color: var(--yellow); border-color: transparent;
+    margin-right: 1rem; border-right: 1px solid var(--border);
+    padding-right: 1.5rem; font-size: 0.88rem; font-weight: 800;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 90vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .hero-text {
+    padding: 5rem 3rem 4rem 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-display); font-size: 0.78rem;
+    font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .hero-eyebrow::before { content: ''; display: block;
+    width: 28px; height: 2px; background: var(--orange); }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.4rem);
+    font-weight: 800; line-height: 1.05; color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span { color: var(--cyan); }
+  .hero-sub {
+    font-family: var(--font-display); font-size: 1.25rem;
+    font-weight: 600; color: var(--silver); margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+  }
+  .hero-desc {
+    font-size: 1rem; color: var(--silver); max-width: 480px;
+    margin-bottom: 2.5rem; line-height: 1.8;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .hero-tag {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 0.3rem 0.8rem; font-size: 0.8rem; color: var(--silver);
+    font-family: var(--font-display); font-weight: 600; letter-spacing: 1px;
+  }
+  .hero-image {
+    position: relative; overflow: hidden;
+  }
+  .hero-image img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    filter: brightness(0.75) saturate(0.8);
+  }
+  .hero-image::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--darker) 0%, transparent 30%);
+  }
+
+  /* ── Fact bar ── */
+  .fact-bar {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 3px solid var(--orange);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .fact-item {
+    padding: 1.2rem 1.5rem;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .fact-item:last-child { border-right: none; }
+  .fact-label {
+    font-family: var(--font-display); font-size: 0.68rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 0.2rem;
+  }
+  .fact-value {
+    font-family: var(--font-display); font-size: 1.05rem;
+    font-weight: 700; color: var(--cyan);
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 1.5rem; }
+  section { padding: 5rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: var(--font-display); font-size: 0.75rem;
+    font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-label::before { content: ''; display: block;
+    width: 20px; height: 2px; background: var(--orange); }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800; color: #fff; line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .section-title span { color: var(--cyan); }
+  .lead {
+    font-size: 1.05rem; color: var(--silver);
+    max-width: 720px; line-height: 1.85; margin-bottom: 2rem;
+  }
+
+  /* ── Source badge ── */
+  .src {
+    display: inline-block; font-size: 0.7rem; font-weight: 700;
+    font-family: var(--font-display); letter-spacing: 0.5px;
+    background: rgba(0,210,255,0.08); border: 1px solid rgba(0,210,255,0.28);
+    color: var(--cyan); border-radius: 3px; padding: 1px 6px;
+    text-decoration: none; margin-left: 4px; vertical-align: middle;
+    transition: background 0.15s;
+  }
+  .src:hover { background: rgba(0,210,255,0.2); color: #fff; }
+
+  /* ── Photo grid ── */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap: 6px;
+    margin: 2rem 0;
+  }
+  .photo-item {
+    position: relative; overflow: hidden;
+    background: var(--card); cursor: pointer;
+    border-radius: 4px;
+  }
+  .photo-item img {
+    width: 100%; display: block;
+    object-fit: cover; object-position: center top;
+    transition: transform 0.4s ease, filter 0.3s;
+    filter: brightness(0.88);
+  }
+  .photo-item:hover img { transform: scale(1.03); filter: brightness(1); }
+  .photo-item.tall { grid-row: span 2; }
+  .photo-item.wide { grid-column: span 2; }
+  .photo-item img.landscape {
+    max-height: 260px;
+    object-position: center center;
+  }
+  .photo-item img.portrait { height: 100%; min-height: 300px; }
+  .photo-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    padding: 1.5rem 0.9rem 0.7rem;
+    font-family: var(--font-display); font-size: 0.82rem;
+    font-weight: 600; color: rgba(255,255,255,0.9);
+    letter-spacing: 0.5px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  .photo-item:hover .photo-caption { transform: translateY(0); }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.93);
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 92vw; max-height: 92vh;
+    object-fit: contain; border-radius: 4px;
+  }
+  .lightbox-close {
+    position: absolute; top: 1.2rem; right: 1.5rem;
+    font-size: 2rem; color: #fff; cursor: pointer;
+    background: none; border: none; line-height: 1;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-caption {
+    position: absolute; bottom: 1.2rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display); font-size: 0.9rem;
+    color: rgba(255,255,255,0.7); text-align: center;
+    max-width: 600px;
+  }
+
+  /* ── Annotated image ── */
+  .annotated-wrap {
+    text-align: center; margin: 2rem 0;
+  }
+  .annotated-wrap img {
+    max-width: 100%; max-height: 88vh;
+    border: 2px solid rgba(0,210,255,0.3);
+    border-radius: 6px;
+    box-shadow: 0 0 40px rgba(0,210,255,0.08);
+    cursor: zoom-in;
+  }
+  .annotated-note {
+    margin-top: 0.6rem; font-size: 0.82rem;
+    color: var(--silver); font-style: italic;
+  }
+
+  /* ── Nameplate ── */
+  .nameplate-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 2.5rem; align-items: start;
+    margin: 2rem 0;
+  }
+  .nameplate-grid img {
+    width: 100%; border-radius: 6px;
+    border: 2px solid var(--warm);
+    cursor: zoom-in;
+  }
+  .nameplate-table { width: 100%; border-collapse: collapse; }
+  .nameplate-table th {
+    background: var(--orange); color: #fff;
+    padding: 0.55rem 0.9rem; text-align: left;
+    font-family: var(--font-display); font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .nameplate-table td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem; vertical-align: top;
+  }
+  .nameplate-table tr:nth-child(even) td { background: rgba(255,255,255,0.025); }
+  .nameplate-table .field { color: var(--yellow); font-weight: 700; white-space: nowrap; }
+  .nameplate-table .val { color: var(--cyan); font-weight: 600; }
+
+  /* ── Card ── */
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.8rem 2rem; margin-bottom: 1.5rem;
+  }
+  .card p { margin-bottom: 0.9rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .card strong { color: var(--yellow); }
+  .card em { color: var(--cyan); font-style: normal; }
+
+  /* ── Component cards ── */
+  .component-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 1rem;
+    transition: border-color 0.2s;
+  }
+  .component-card:hover { border-color: rgba(0,210,255,0.4); }
+  .cc-header { display: flex; align-items: stretch; }
+  .cc-num {
+    background: var(--orange); color: #fff;
+    font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
+    min-width: 50px; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+  }
+  .cc-titles {
+    padding: 0.75rem 1.1rem; border-bottom: 1px solid var(--border); flex: 1;
+  }
+  .cc-en {
+    font-family: var(--font-display); font-size: 1rem;
+    font-weight: 700; color: var(--cyan);
+  }
+  .cc-sk {
+    font-size: 0.85rem; color: var(--yellow); margin-top: 0.1rem;
+  }
+  .cc-body {
+    padding: 1.1rem 1.3rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem 2rem;
+  }
+  .lang-tag {
+    font-family: var(--font-display); font-size: 0.68rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 0.3rem;
+  }
+  .cc-body p { color: var(--silver); font-size: 0.9rem; }
+  .cc-body .sk { color: #bccfe0; }
+  @media (max-width: 640px) { .cc-body { grid-template-columns: 1fr; } }
+
+  /* ── Flow diagram ── */
+  .flow { display: flex; flex-direction: column; align-items: center; margin: 2rem auto; }
+  .flow-step {
+    background: rgba(0,210,255,0.06); border: 1px solid rgba(0,210,255,0.25);
+    border-radius: 5px; padding: 0.55rem 1.4rem;
+    text-align: center; width: 100%; max-width: 440px;
+    font-family: var(--font-display); font-size: 0.9rem;
+    font-weight: 600; color: var(--cyan); letter-spacing: 0.3px;
+  }
+  .flow-arrow { color: var(--orange); font-size: 1.1rem; line-height: 1.6; }
+
+  /* ── Compare ── */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 2rem 0; }
+  .compare-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.4rem;
+  }
+  .compare-title {
+    font-family: var(--font-display); font-size: 1rem;
+    font-weight: 800; margin-bottom: 0.9rem;
+    padding-bottom: 0.6rem; border-bottom: 2px solid;
+  }
+  .compare-box.blue .compare-title { color: #5bc8ff; border-color: #5bc8ff; }
+  .compare-box.yellow .compare-title { color: var(--yellow); border-color: var(--yellow); }
+  .compare-box p { font-size: 0.88rem; color: var(--silver); margin-bottom: 0.6rem; }
+  .compare-box p:last-child { margin-bottom: 0; }
+  @media (max-width: 600px) { .compare { grid-template-columns: 1fr; } }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 2.2rem; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 0.5rem; top: 0; bottom: 0;
+    width: 2px; background: var(--border);
+  }
+  .tl-item { position: relative; margin-bottom: 1.4rem; }
+  .tl-item::before {
+    content: ''; position: absolute;
+    left: -1.78rem; top: 0.45rem;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--orange); border: 2px solid var(--darker);
+  }
+  .tl-year {
+    font-family: var(--font-display); font-size: 0.8rem;
+    font-weight: 700; color: var(--orange);
+    letter-spacing: 1.5px; margin-bottom: 0.15rem;
+    text-transform: uppercase;
+  }
+  .tl-text { font-size: 0.92rem; color: var(--silver); }
+  .tl-text strong { color: var(--yellow); }
+
+  /* ── Callout ── */
+  .callout {
+    background: linear-gradient(135deg, #071510 0%, #0a1e12 100%);
+    border: 1px solid rgba(0,230,118,0.3); border-left: 4px solid var(--green);
+    border-radius: 8px; padding: 1.6rem 2rem; margin: 2rem 0;
+  }
+  .callout-title {
+    font-family: var(--font-display); font-size: 1.05rem;
+    font-weight: 800; color: var(--green); margin-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+  .callout p { color: var(--silver); font-size: 0.93rem; margin-bottom: 0.7rem; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout strong { color: #a0ffca; }
+
+  /* ── Sources panel ── */
+  .sources-list { list-style: none; }
+  .sources-list li {
+    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.86rem; color: var(--silver);
+  }
+  .sources-list li:last-child { border-bottom: none; }
+  .sources-list a { color: var(--cyan); word-break: break-all; }
+  .sources-list .domain {
+    color: var(--orange); font-family: var(--font-display);
+    font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px;
+    margin-right: 0.5rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 1.5rem; text-align: center;
+    font-size: 0.83rem; color: var(--silver);
+  }
+  footer a { color: var(--cyan); text-decoration: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-image { height: 340px; }
+    .hero-image::after { background: linear-gradient(to top, var(--darker), transparent 60%); }
+    .hero-text { padding: 3rem 1.5rem; }
+    .nameplate-grid { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: 1fr 1fr; }
+    .photo-item.tall { grid-row: span 1; }
+  }
+  @media (max-width: 560px) {
+    .photo-grid { grid-template-columns: 1fr; }
+    .photo-item.wide { grid-column: span 1; }
+    nav { padding: 0 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a href="#" class="nav-brand">Trebišov Field</a>
+  <a href="#photos">Photos</a>
+  <a href="#annotated">Annotated</a>
+  <a href="#nameplate">Nameplate</a>
+  <a href="#components">Components</a>
+  <a href="#history">History</a>
+  <a href="#geology">Geology</a>
+  <a href="#geothermal">Geothermal</a>
+  <a href="#technical">Engineering</a>
+  <a href="#sources">Sources</a>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Field Documentation · Vrtová Dokumentácia</div>
+    <h1>Trebišov<br><span>Gas Field</span></h1>
+    <div class="hero-sub">NAFTA Gbely — Decommissioned Christmas Tree Wellheads</div>
+    <p class="hero-desc">
+      Five natural gas wells — Trebišov 8 through 12 — drilled to depths of 2,250–2,607 metres
+      into the East Slovak Basin. Operated by NAFTA VÝCHOD a.s. from 1996 until decommissioning
+      in 2015. Now approved for conversion to geothermal district heating — the first project
+      of its kind in Slovakia.
+    </p>
+    <div class="hero-tags">
+      <span class="hero-tag">📍 Trebišov, Košice Region</span>
+      <span class="hero-tag">🗓 Equipment: 1996</span>
+      <span class="hero-tag">⛽ Wells 8–12</span>
+      <span class="hero-tag">🌡 2,250–2,607 m depth</span>
+      <span class="hero-tag">🛑 Decommissioned 2015</span>
+      <span class="hero-tag">♻ Geothermal conversion approved 2024</span>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="images/panorama.jpg" alt="Trebišov gas field panorama showing multiple Christmas tree wellheads">
+  </div>
+</div>
+
+<!-- ── Fact bar ── -->
+<div class="fact-bar">
+  <div class="fact-item"><div class="fact-label">Coordinates</div><div class="fact-value">48°37′N 21°42′E</div></div>
+  <div class="fact-item"><div class="fact-label">Elevation</div><div class="fact-value">104 m a.s.l.</div></div>
+  <div class="fact-item"><div class="fact-label">Wells</div><div class="fact-value">Trebišov 8–12</div></div>
+  <div class="fact-item"><div class="fact-label">Max Depth</div><div class="fact-value">2,607 m</div></div>
+  <div class="fact-item"><div class="fact-label">Pressure Rated</div><div class="fact-value">35 MPa</div></div>
+  <div class="fact-item"><div class="fact-label">Gas Purity</div><div class="fact-value">94–99% CH₄</div></div>
+  <div class="fact-item"><div class="fact-label">Production End</div><div class="fact-value">2015</div></div>
+  <div class="fact-item"><div class="fact-label">Geothermal MW</div><div class="fact-value">0.9–1 MW</div></div>
+</div>
+
+<!-- ── What you found ── -->
+<section id="intro">
+  <div class="container">
+    <div class="section-label">Introduction</div>
+    <h2 class="section-title">What Are <span>These Structures?</span></h2>
+    <p class="lead">
+      The cross-shaped metal assemblies rising from concrete pads across this field are called
+      <strong style="color:var(--yellow)">Christmas Trees</strong> — <em style="color:var(--cyan)">vianočné stromčeky</em>
+      in Slovak, or more formally <em style="color:var(--cyan)">ústia vrtov</em> (wellheads).
+      Each one sits directly on top of a single gas well drilled between 2,250 and 2,607 metres
+      straight down into the earth. <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+    </p>
+    <div class="card">
+      <p>
+        The field produced natural gas from 1996 until <strong>2015</strong>, when the deposit
+        was declared depleted and all extraction ceased. Since then the equipment has been left
+        in place — still bolted to the underground casing system — as part of the regulated
+        abandonment process required by Slovak mining regulations.
+      </p>
+      <p>
+        Two distinct generations of wellhead are present on the same field. The
+        <strong>blue Christmas trees</strong> are older Soviet-era designs using gate valves
+        with boxy square actuator housings. The <strong>yellow Christmas trees</strong> represent
+        a newer 1996-era generation using ball valves — the spherical bodies visible along the
+        vertical stack — with pneumatic actuators allowing remote or automatic operation.
+        <a href="https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)" target="_blank" class="src">Slovak Wikipedia</a>
+      </p>
+      <p>
+        Both generations were installed and operated by
+        <strong>NAFTA VÝCHOD a.s.</strong>, the eastern Slovak subsidiary created during
+        NAFTA's controversial 1996 privatisation and headquartered in Michalovce.
+        All five wells tap into the same geology below: a Neogene sandstone reservoir
+        packed with high-purity methane (94–99% CH₄) at depth.
+        <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Photo gallery ── -->
+<section id="photos">
+  <div class="container">
+    <div class="section-label">Photography</div>
+    <h2 class="section-title">Field <span>Photography</span></h2>
+    <p class="lead">Complete photographic documentation of the Trebišov gas field. 29 images across 5 sections. Click any image to enlarge.</p>
+
+    <style>
+      .gallery-section-label {
+        font-family: var(--font-display);
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 2.5rem 0 1rem;
+        padding-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .gallery-section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .gallery-masonry {
+        column-count: 3;
+        column-gap: 12px;
+        margin-bottom: 0.5rem;
+      }
+      @media (max-width: 700px) { .gallery-masonry { column-count: 2; } }
+      .gallery-masonry .gitem {
+        break-inside: avoid;
+        margin-bottom: 12px;
+        cursor: pointer;
+        position: relative;
+        border-radius: 4px;
+        overflow: hidden;
+        background: #0a0a1a;
+      }
+      .gallery-masonry .gitem:hover { opacity: 0.88; }
+      .gallery-masonry .gitem img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 4px;
+      }
+      .gallery-masonry .gcap {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.82));
+        color: #ccc;
+        font-size: 0.72rem;
+        padding: 1.4rem 0.6rem 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+        border-radius: 0 0 4px 4px;
+      }
+      .gallery-masonry .gitem:hover .gcap { opacity: 1; }
+      /* Wide items span 2 cols in masonry via a wrapper trick: use a flex row instead */
+      .gallery-row {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .gallery-row.cols-2 { grid-template-columns: 1fr 1fr; }
+      .gallery-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+      .gallery-row.cols-12 { grid-template-columns: 3fr 2fr; }
+      .gallery-row.cols-21 { grid-template-columns: 2fr 3fr; }
+      .gallery-row .gitem {
+        cursor: pointer; border-radius: 4px; overflow: hidden;
+        background: #0a0a1a; position: relative;
+      }
+      .gallery-row .gitem:hover { opacity: 0.88; }
+      .gallery-row .gitem img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 4px; }
+      .gallery-row .gcap {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.82));
+        color: #ccc; font-size: 0.72rem; padding: 1.4rem 0.6rem 0.5rem;
+        opacity: 0; transition: opacity 0.2s; border-radius: 0 0 4px 4px;
+      }
+      .gallery-row .gitem:hover .gcap { opacity: 1; }
+      .fullwidth-item {
+        cursor: pointer; border-radius: 4px; overflow: hidden;
+        background: #0a0a1a; position: relative; margin-bottom: 12px;
+      }
+      .fullwidth-item:hover { opacity: 0.88; }
+      .fullwidth-item img { width: 100%; height: auto; display: block; border-radius: 4px; }
+      .fullwidth-item .gcap {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.82));
+        color: #ccc; font-size: 0.72rem; padding: 1.4rem 0.6rem 0.5rem;
+        opacity: 0; transition: opacity 0.2s; border-radius: 0 0 4px 4px;
+      }
+      .fullwidth-item:hover .gcap { opacity: 1; }
+    </style>
+
+    <!-- ── Overview & Context ── -->
+    <div class="gallery-section-label" style="color:var(--silver);">📐 Field Overview &amp; Context</div>
+
+    <!-- Full-width wide panorama -->
+    <div class="fullwidth-item" onclick="openLightbox('images/field_panorama_wide.jpg','Wide field panorama — multiple Christmas trees visible with city of Trebišov in background')">
+      <img src="images/field_panorama_wide.jpg" alt="Wide field panorama">
+      <div class="gcap">Full Field Panorama — City of Trebišov in Background</div>
+    </div>
+
+    <!-- 2 landscape side by side -->
+    <div class="gallery-row cols-12" style="height:280px;">
+      <div class="gitem" onclick="openLightbox('images/two_yellow_city_skyline.jpg','Two yellow Christmas trees with Trebišov city skyline and church tower beyond the highway')">
+        <img src="images/two_yellow_city_skyline.jpg" alt="Two yellow trees city skyline" style="object-position:center 60%;">
+        <div class="gcap">Two Yellow Trees — Trebišov Skyline &amp; Church Tower</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/panorama.jpg','Field panorama shot — yellow and blue wellheads on concrete pads')">
+        <img src="images/panorama.jpg" alt="Field panorama" style="object-position:center center;">
+        <div class="gcap">Panorama — Yellow &amp; Blue Trees Together</div>
+      </div>
+    </div>
+
+    <!-- Full wide panorama -->
+    <div class="fullwidth-item" onclick="openLightbox('images/field_overview.jpg','Field overview showing original concrete access road and well pads')">
+      <img src="images/field_overview.jpg" alt="Field overview">
+      <div class="gcap">Field Overview — Access Road &amp; Well Pads</div>
+    </div>
+
+    <!-- ── Yellow Trees ── -->
+    <div class="gallery-section-label" style="color:var(--yellow);">🟡 Yellow Christmas Trees — Ball Valve Design (1996)</div>
+
+    <!-- TR-8 silhouette full width -->
+    <div class="fullwidth-item" onclick="openLightbox('images/tr8_backlit_silhouette.jpg','TR-8 backlit silhouette against sun — TR-8 label clearly visible, second well pipe behind')">
+      <img src="images/tr8_backlit_silhouette.jpg" alt="TR-8 backlit">
+      <div class="gcap">TR-8 — Backlit Silhouette Against Sun, Label Visible</div>
+    </div>
+
+    <!-- 3 portrait columns — equal height, natural fill -->
+    <div class="gallery-masonry" style="column-count:3;">
+      <div class="gitem" onclick="openLightbox('images/yellow_ball_valve_closeup.jpg','Yellow Christmas tree — full view with ball valve actuator disc, hazard tape, wellhead grating')">
+        <img src="images/yellow_ball_valve_closeup.jpg" alt="Yellow ball valve full">
+        <div class="gcap">Ball Valve Tree — Pneumatic Actuator Disc &amp; Hazard Tape</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_tr_front_full.jpg','Yellow Christmas tree front view — full stack from conductor flange to pressure gauge at top')">
+        <img src="images/yellow_tr_front_full.jpg" alt="Yellow tree front">
+        <div class="gcap">Yellow Tree — Full Front Stack</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_full_with_cellar.jpg','Yellow Christmas tree with wellhead cellar drain grating visible at base')">
+        <img src="images/yellow_full_with_cellar.jpg" alt="Yellow tree cellar">
+        <div class="gcap">Yellow Tree — With Wellhead Cellar Grating</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow Christmas tree side view — flowline connection going horizontal to gathering line')">
+        <img src="images/yellow_tr_side_full.jpg" alt="Yellow tree side">
+        <div class="gcap">Yellow Tree — Side View, Flowline Connection</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_tr8_angled.jpg','TR-8 angled view — TR-8 label on production cross, sun flare from upper right')">
+        <img src="images/yellow_tr8_angled.jpg" alt="TR-8 angled">
+        <div class="gcap">TR-8 — Label on Production Cross</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_tr_angled_full.jpg','Yellow tree angled — ball valve spherical bodies clearly visible throughout stack')">
+        <img src="images/yellow_tr_angled_full.jpg" alt="Yellow angled">
+        <div class="gcap">Yellow Tree — Angled, Ball Valve Bodies</div>
+      </div>
+    </div>
+
+    <!-- 2-col: mid closeup + yellow mid detail -->
+    <div class="gallery-row cols-2" style="height:340px;">
+      <div class="gitem" onclick="openLightbox('images/yellow_mid_closeup.jpg','Yellow tree mid-section close-up — production cross and lower wing valves')">
+        <img src="images/yellow_mid_closeup.jpg" alt="Yellow mid closeup" style="object-position:center 35%;">
+        <div class="gcap">Yellow Tree — Production Cross Close-Up</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_tr_side_full.jpg','Yellow tree full side view with flowline')">
+        <img src="images/gauge_mer_needle_closeup.jpg" alt="MER gauge">
+        <div class="gcap">Casing Gauge (Yellow) — MER, 25 MPa, ~12 MPa Reading</div>
+      </div>
+    </div>
+
+    <!-- Previous session annotated diagrams -->
+    <div class="gallery-row cols-2" style="height:300px;">
+      <div class="gitem" onclick="openLightbox('images/yellow_well_1.jpg','Yellow wellhead earlier session — overview angle')">
+        <img src="images/yellow_well_1.jpg" alt="Yellow well 1" style="object-position:center 20%;">
+        <div class="gcap">Yellow Well — Earlier Session View 1</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_well_2.jpg','Yellow wellhead earlier session — second angle')">
+        <img src="images/yellow_well_2.jpg" alt="Yellow well 2" style="object-position:center 20%;">
+        <div class="gcap">Yellow Well — Earlier Session View 2</div>
+      </div>
+    </div>
+    <div class="gallery-row cols-2" style="height:300px;">
+      <div class="gitem" onclick="openLightbox('images/yellow_well_closeup.jpg','Yellow wellhead closeup — earlier session')">
+        <img src="images/yellow_well_closeup.jpg" alt="Yellow well closeup" style="object-position:center 30%;">
+        <div class="gcap">Yellow Well — Close-Up, Earlier Session</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree — component labels overlaid')">
+        <img src="images/yellow_annotated.jpg" alt="Yellow annotated" style="object-position:center 30%;">
+        <div class="gcap">Yellow Tree — Annotated Diagram</div>
+      </div>
+    </div>
+
+    <!-- ── TR-9 Low Angle ── -->
+    <div class="gallery-section-label" style="color:var(--warm);">📷 TR-9 — Ground-Level Perspectives</div>
+
+    <div class="gallery-masonry" style="column-count:3;">
+      <div class="gitem" onclick="openLightbox('images/tr_worm_eye_view.jpg','Extreme worm-eye ground-level view looking straight up at Christmas tree against blue sky')">
+        <img src="images/tr_worm_eye_view.jpg" alt="Worm eye view">
+        <div class="gcap">TR — Worm-Eye View, Looking Straight Up</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/tr9_backlit_gravel.jpg','TR-9 from gravel level — cross silhouette with sun flare behind, mixed yellow/blue casing base')">
+        <img src="images/tr9_backlit_gravel.jpg" alt="TR9 gravel">
+        <div class="gcap">TR-9 — Backlit from Gravel Level</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/tr9_backlit_gravel_2.jpg','TR-9 alternative ground angle — slightly different framing, mixed casing colors on lower spool')">
+        <img src="images/tr9_backlit_gravel_2.jpg" alt="TR9 alt angle">
+        <div class="gcap">TR-9 — Alternative Ground Angle</div>
+      </div>
+    </div>
+
+    <!-- ── Blue Trees ── -->
+    <div class="gallery-section-label" style="color:#5bc8ff;">🔵 Blue Christmas Trees — Soviet-era Gate Valve Design</div>
+
+    <!-- Blue full clear sky full width -->
+    <div class="gallery-masonry" style="column-count:3;">
+      <div class="gitem" onclick="openLightbox('images/blue_full_clear_sky.jpg','Blue Christmas tree full view against clear blue sky — gate valve boxy square housings')">
+        <img src="images/blue_full_clear_sky.jpg" alt="Blue tree clear sky">
+        <div class="gcap">Blue Tree — Full View, Clear Sky</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/blue_full_front.jpg','Blue Christmas tree front — casing annulus outlet assemblies and pressure gauges on grating platform')">
+        <img src="images/blue_full_front.jpg" alt="Blue tree front">
+        <div class="gcap">Blue Tree — Front View, Casing Outlets</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/blue_backlit_silhouette.jpg','Blue tree backlit by sun — second blue tree in background, flooded cellar below')">
+        <img src="images/blue_backlit_silhouette.jpg" alt="Blue backlit">
+        <div class="gcap">Blue Tree — Backlit, Second Tree Behind</div>
+      </div>
+    </div>
+
+    <!-- Flooded cellar full width -->
+    <div class="fullwidth-item" onclick="openLightbox('images/blue_cellar_flooded.jpg','Blue wellhead cellar flooded — casing head and lower flange reflected in standing water, chain-link fence')">
+      <img src="images/blue_cellar_flooded.jpg" alt="Blue cellar flooded">
+      <div class="gcap">Blue Tree — Flooded Wellhead Cellar, Reflection in Standing Water</div>
+    </div>
+
+    <!-- Earlier blue session photos -->
+    <div class="gallery-row cols-2" style="height:300px;">
+      <div class="gitem" onclick="openLightbox('images/blue_well_full.jpg','Blue wellhead full view — earlier session')">
+        <img src="images/blue_well_full.jpg" alt="Blue well full" style="object-position:center 20%;">
+        <div class="gcap">Blue Well — Full View, Earlier Session</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/blue_well_cellar.jpg','Blue wellhead cellar detail — earlier session')">
+        <img src="images/blue_well_cellar.jpg" alt="Blue well cellar" style="object-position:center 30%;">
+        <div class="gcap">Blue Well — Cellar Detail, Earlier Session</div>
+      </div>
+    </div>
+    <div class="fullwidth-item" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree — component labels overlaid')">
+      <img src="images/blue_annotated.jpg" alt="Blue annotated">
+      <div class="gcap">Blue Tree — Annotated Diagram</div>
+    </div>
+
+    <!-- ── Gauges & Detail ── -->
+    <div class="gallery-section-label" style="color:var(--cyan);">🔬 Detail &amp; Instrument Close-Ups</div>
+
+    <div class="fullwidth-item" onclick="openLightbox('images/gauge_en837_closeup.jpg','Casing annulus pressure gauge — EN 837 standard, 25 MPa range, needle at ~12 MPa, on blue wellhead')">
+      <img src="images/gauge_en837_closeup.jpg" alt="EN837 gauge">
+      <div class="gcap">Casing Gauge — EN 837, 25 MPa Range (Blue Wellhead)</div>
+    </div>
+
+    <div class="gallery-row cols-2" style="height:280px;">
+      <div class="gitem" onclick="openLightbox('images/gauge_mer_needle_closeup.jpg','MER brand casing gauge — 25 MPa range, needle reading ~12–13 MPa, yellow wellhead with needle valve')">
+        <img src="images/gauge_mer_needle_closeup.jpg" alt="MER gauge" style="object-position:center center;">
+        <div class="gcap">Casing Gauge — MER Brand, 25 MPa (Yellow Wellhead)</div>
+      </div>
+      <div class="gitem" onclick="openLightbox('images/nameplate.jpg','NAFTA-UD Gbely nameplate — stamped metal, 28 October 1996, 35 MPa rated')">
+        <img src="images/nameplate.jpg" alt="Nameplate" style="object-position:center center;">
+        <div class="gcap">Nameplate — NAFTA-UD Gbely, 28.10.1996</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Annotated wellheads ── -->
+<section id="annotated">
+  <div class="container">
+    <div class="section-label">Component Identification</div>
+    <h2 class="section-title">Annotated <span>Wellhead Diagrams</span></h2>
+    <p class="lead">Both wellhead generations labelled with component names in English and Slovak. Click to view full size.</p>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:#5bc8ff;margin-bottom:0.6rem;font-weight:700;">
+      🔵 Blue Christmas Tree — Soviet-era Gate Valve Design
+    </h3>
+    <div class="annotated-wrap" onclick="openLightbox('images/blue_annotated.jpg','Annotated blue Christmas tree wellhead — Soviet-era gate valve design, NAFTA Gbely Trebišov')">
+      <img src="images/blue_annotated.jpg" alt="Annotated blue Christmas tree wellhead">
+    </div>
+    <p class="annotated-note">Blue Christmas tree. Gate valves with boxy square actuators — characteristic of 1960s–80s Eastern European oilfield equipment. Click image for full resolution.</p>
+
+    <br><br>
+
+    <h3 style="font-family:var(--font-display);font-size:1.2rem;color:var(--yellow);margin-bottom:0.6rem;font-weight:700;">
+      🟡 Yellow Christmas Tree — Ball Valve Design (1996)
+    </h3>
+    <div class="annotated-wrap" onclick="openLightbox('images/yellow_annotated.jpg','Annotated yellow Christmas tree wellhead — ball valve design with pneumatic actuator, 1996')">
+      <img src="images/yellow_annotated.jpg" alt="Annotated yellow Christmas tree wellhead — ball valve design">
+    </div>
+    <p class="annotated-note">Yellow Christmas tree. Ball valves (spherical bodies) with a pneumatic actuator disc on the left wing arm for remote operation. Matches the 28 October 1996 nameplate date.
+      <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+    </p>
+  </div>
+</section>
+
+<!-- ── Nameplate ── -->
+<section id="nameplate">
+  <div class="container">
+    <div class="section-label">Equipment Identification</div>
+    <h2 class="section-title">The <span>Nameplate</span> — Line by Line</h2>
+    <p class="lead">
+      A stamped aluminium plate found on the yellow wellhead equipment. Every line is a specific
+      engineering specification or administrative record. Here is a complete decode.
+    </p>
+    <div class="nameplate-grid">
+      <img src="images/nameplate.jpg" alt="NAFTA-UD Gbely nameplate stamped metal plate"
+        onclick="openLightbox('images/nameplate.jpg','NAFTA-UD Gbely nameplate — stamped metal identification plate dated 28 October 1996')">
+      <div>
+        <table class="nameplate-table">
+          <thead><tr><th>Line on Plate</th><th>Value</th><th>What It Means</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="field">NAFTA-UD GBELY</td><td class="val">—</td>
+              <td>Manufacturer: NAFTA a.s., division UD, headquartered in Gbely, western Slovakia.
+                <a href="https://www.nafta.sk/en/about-us" target="_blank" class="src">nafta.sk</a></td>
+            </tr>
+            <tr>
+              <td class="field">PK</td><td class="val">—</td>
+              <td><em>Potrubný kríž</em> — Slovak for "pipe cross." The four-way production cross fitting at the heart of the Christmas tree.</td>
+            </tr>
+            <tr>
+              <td class="field">2 1/16″ × 2 1/16″</td><td class="val">52.4 × 52.4 mm</td>
+              <td>Standard API flange connection size on both horizontal axes. Ensures interchangeability with compatible equipment.</td>
+            </tr>
+            <tr>
+              <td class="field">35 MPa</td><td class="val">~5,000 PSI / 350 bar</td>
+              <td>Maximum rated working pressure — the highest pressure this component is certified to safely contain.</td>
+            </tr>
+            <tr>
+              <td class="field">BORE 2″ / 50.8 mm</td><td class="val">50.8 mm</td>
+              <td>Internal bore diameter — the physical hole through which gas flows.</td>
+            </tr>
+            <tr>
+              <td class="field">DAT. SK: 28.10.96</td><td class="val">28 October 1996</td>
+              <td><em>Dátum skúšky</em> — date of factory pressure test and quality certification.</td>
+            </tr>
+            <tr>
+              <td class="field">V.C. – 707/96</td><td class="val">707th item, 1996</td>
+              <td><em>Výstupná kontrola</em> — quality control certificate number. This was the 707th component certified by NAFTA's QC department that year.</td>
+            </tr>
+            <tr>
+              <td class="field">V – 900405</td><td class="val">Serial #900405</td>
+              <td><em>Výrobné číslo</em> — unique serial number identifying this specific component in NAFTA's equipment registry.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+      <div class="card">
+        <div class="lang-tag" style="margin-bottom:0.6rem;">🇬🇧 English</div>
+        <p>This is the identity and certification plate for the production cross — the critical
+        four-way forged steel fitting at the heart of the Christmas tree where vertical wellbore
+        flow meets the horizontal outlet arms. Made by NAFTA's own manufacturing division in Gbely
+        <a href="https://www.nafta.sk/en/about-us" target="_blank" class="src">nafta.sk</a>,
+        it was certified to handle 35 MPa (~5,000 PSI) with a 2-inch bore, and passed quality
+        control on 28 October 1996 as the 707th component certified that year.</p>
+        <p>The October 1996 date places this installation squarely in the period of NAFTA's
+        controversial privatisation and the creation of NAFTA VÝCHOD, the eastern subsidiary
+        that managed these Trebišov wells.
+        <a href="https://www.rferl.org/a/1086066.html" target="_blank" class="src">RFE/RL</a></p>
+      </div>
+      <div class="card">
+        <div class="lang-tag" style="margin-bottom:0.6rem;">🇸🇰 Slovenčina</div>
+        <p class="sk" style="color:#bccfe0;">Toto je identifikačný a certifikačný štítok produkčného kríža — kritickej štvorcestnej
+        kovanej oceľovej tvarovky v srdci vianočného stromčeka, kde sa vertikálny prietok vrtu
+        stretáva s horizontálnymi vývodovými ramenami. Vyrobený vo vlastnom výrobnom stredisku
+        NAFTA v Gbely, certifikovaný na zvládnutie 35 MPa, prešiel kontrolou kvality
+        28. októbra 1996 ako 707. certifikovaná súčiastka toho roku.</p>
+        <p class="sk" style="color:#bccfe0;">Dátum október 1996 zasadzuje inštaláciu priamo do turbulentného obdobia kontroverznej
+        privatizácie NAFTA a vytvorenia dcérskej spoločnosti NAFTA VÝCHOD, ktorá spravovala
+        tieto trebišovské vrty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gas flow ── -->
+<section>
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Gas Flow <span>Through the Tree</span></h2>
+    <p class="lead">Following the path gas takes from reservoir to surface makes every component's purpose immediately clear.
+      <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
+    </p>
+    <div class="flow">
+      <div class="flow-step">🌍 Neogene sandstone reservoir — 2,250–2,600 m depth</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Production tubing string — rises full depth to surface</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Conductor Flange — top of outermost cemented casing</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Casing Head — first pressure seal at surface level</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Tubing Head Spool — tubing string locked &amp; sealed here</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Lower Master Valve — backup emergency shutoff</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Swab Valve — maintenance &amp; wireline tool access</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Upper Master Valve — primary emergency shutoff</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Production Cross (PK) — flow divides to wing arms</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step">Right Wing Valve → surface flowline → Gas Collection Station → grid</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Components ── -->
+<section id="components">
+  <div class="container">
+    <div class="section-label">Component Reference</div>
+    <h2 class="section-title">Components <span>Explained</span></h2>
+    <p class="lead">Every major part of both wellhead designs explained in English and Slovak.</p>
+
+    <!-- Blue vs Yellow comparison first -->
+    <div class="compare">
+      <div class="compare-box blue">
+        <div class="compare-title">🔵 Blue Tree — Soviet-era Gate Valve Design</div>
+        <p><strong style="color:#5bc8ff">Valve type:</strong> Gate valves — a metal wedge slides across the bore. Many turns to open/close. Extremely robust but slow.</p>
+        <p><strong style="color:#5bc8ff">Actuators:</strong> Manual handwheels only — operator must be physically present.</p>
+        <p><strong style="color:#5bc8ff">Body shape:</strong> Large, boxy, square housings — classic Soviet industrial aesthetic. Built for field repairability.</p>
+        <p><strong style="color:#5bc8ff">Era:</strong> 1960s–1980s Czechoslovak oilfield equipment.
+          <a href="https://www.nafta.sk/en/about-us/history-gas-production-and-storage" target="_blank" class="src">nafta.sk history</a></p>
+      </div>
+      <div class="compare-box yellow">
+        <div class="compare-title">🟡 Yellow Tree — Ball Valve Design (1996)</div>
+        <p><strong style="color:var(--yellow)">Valve type:</strong> Ball valves — a sphere rotates 90° to open/close. Quarter-turn = much faster emergency shutoff.</p>
+        <p><strong style="color:var(--yellow)">Actuators:</strong> Pneumatic actuator disc on left wing arm — compressed air operates valve remotely or automatically.</p>
+        <p><strong style="color:var(--yellow)">Body shape:</strong> Rounder, more compact — the spherical ball bodies give the tree its "bubble" silhouette.</p>
+        <p><strong style="color:var(--yellow)">Era:</strong> Mid-1990s, matching the 28 October 1996 nameplate date.
+          <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a></p>
+      </div>
+    </div>
+
+    <div id="comp-list">
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">1</div>
+          <div class="cc-titles"><div class="cc-en">Pressure Gauge</div><div class="cc-sk">Tlakomer / Manometer</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>Mechanical dial at the very top reading static wellbore pressure at all times. On an active well it shows reservoir pressure minus friction losses. On an abandoned well it must read zero — any non-zero reading signals gas is still migrating upward through the casing, a serious safety issue requiring investigation.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Mechanický ciferník na vrchu, zobrazujúci statický tlak vrtu. Na aktívnom vrte ukazuje tlak zásobníka. Na opustenom vrte musí ukazovať nulu — akákoľvek nenulová hodnota signalizuje migráciu plynu nahor a vyžaduje vyšetrenie.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">2</div>
+          <div class="cc-titles"><div class="cc-en">Tree Cap</div><div class="cc-sk">Uzáver stromu / Kryt ústia vrtu</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>Flanged cap bolted to the topmost connection, sealing the wellbore from the atmosphere. On a working well it is removed when wireline tools enter from above. On these decommissioned wells it is almost certainly permanently sealed — possibly even welded — as required by Slovak mining abandonment regulations.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Prírubový uzáver tesniaci vrt od atmosféry. Na funkčnom vrte sa odšraubuje pre vstup drôtových nástrojov. Na odstavených vrtoch je takmer určite natrvalo utesnený podľa slovenskej banskej legislatívy.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">3</div>
+          <div class="cc-titles"><div class="cc-en">Upper Master Valve</div><div class="cc-sk">Horný hlavný ventil / Horný uzáverový ventil</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>The primary emergency shutoff. Gate valve form (blue tree): metal wedge slides across the bore — slow but robust. Ball valve form (yellow tree): sphere rotates 90° — quarter-turn, far faster emergency response. Both create a metal-to-metal seat rated for the full 35 MPa stamped on the nameplate. The yellow tree's pneumatic actuator suggests partial remote operation was designed in.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Primárny núdzový uzáver. Šúpadlová forma (modrý strom): klin kĺže cez otvor — pomalé, ale odolné. Guľová forma (žltý strom): guľa sa otočí o 90° — štvrťotočka, oveľa rýchlejšia reakcia. Oba vytvárajú kovové sedlo na plný tlak 35 MPa podľa štítku.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">4</div>
+          <div class="cc-titles"><div class="cc-en">Wing Valves — Left &amp; Right</div><div class="cc-sk">Krídlové ventily — ľavý a pravý</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>The horizontal arms of the Christmas tree cross. The right wing is the main production outlet — gas flowed out here to the Trebišov Gas Collection Station
+            <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>.
+            The left wing connects to the casing annulus (the space between underground pipe strings) for monitoring and bleeding any migrated gas. The large pneumatic disc on the yellow tree's left arm enables remote operation via compressed air signal.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Vodorovné ramená vianočného stromčeka. Pravé krídlo je hlavným vývodom — plyn tu vytekával do Zberného plynového strediska Trebišov. Ľavé krídlo sa pripája k medzikružiu plášťa pre monitorovanie. Pneumatický pohon na ľavom krídle žltého stromu umožňuje diaľkové ovládanie.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">5</div>
+          <div class="cc-titles"><div class="cc-en">Production Cross (PK)</div><div class="cc-sk">Produkčný kríž / Ťažobný kríž</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>The specific component described on the nameplate — PK, 2 1/16″ × 2 1/16″, 35 MPa. Machined from a single forged steel billet, it is the structural hub where vertical wellbore flow meets the horizontal arms. The cross design enables access from all four directions: above for tool entry, below from the well, and left and right for production and annulus control.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Konkrétna súčiastka popísaná na typovom štítku — PK, 2 1/16″ × 2 1/16″, 35 MPa. Opracovaná z jedného bloku kovanej ocele, je štrukturálnym centrom. Krížový dizajn umožňuje prístup zo všetkých štyroch smerov.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">6</div>
+          <div class="cc-titles"><div class="cc-en">Swab Valve</div><div class="cc-sk">Čistiaci / Servisný ventil</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>Positioned between the two master valves, this provides controlled access for running tools into the well — wireline logging instruments, pressure sensors, or rubber-tipped swabbing tools (from which the name comes) historically used to lift accumulated liquids. With both master valves sealing below, opening this valve allows safe tool access during maintenance or inspection.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Umiestnený medzi dvoma hlavnými ventilmi, poskytuje prístup pre nástroje — karotážne prístroje, tlakové senzory alebo gumové čistiace nástroje. S oboma hlavnými ventilmi zatvoreným nižšie umožňuje bezpečný servisný prístup.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">7</div>
+          <div class="cc-titles"><div class="cc-en">Lower Master Valve</div><div class="cc-sk">Dolný hlavný ventil</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>A second full-bore shutoff providing mandatory redundancy. Regulations require two independent master valves so the well remains sealed even if one fails or needs maintenance. Closing this valve is the strongest possible safety position — it fully isolates the production tubing from everything above.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Druhý uzáver s plným prietokom — povinný záložný stupeň. Predpisy vyžadujú dva nezávislé hlavné ventily. Zatvorenie tohto ventilu úplne izoluje rúrkovú kolonu od všetkého nad ňou.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">8</div>
+          <div class="cc-titles"><div class="cc-en">Tubing Head Spool</div><div class="cc-sk">Hlava produkčnej rúrky</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>A large flanged spool that physically suspends and seals the production tubing string — the narrow inner pipe (typically 50–75 mm diameter) running the full 2,250–2,600 m to the reservoir
+            <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>.
+            Inside sits a tubing hanger — a machined conical seat from which the tubing string hangs under its own considerable weight. Side ports allow independent pressure monitoring of the annular space around the tubing.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Veľká prírubová tvarovka nesúca a tesniaca produkčnú rúrkovú kolonu — úzku rúru (50–75 mm) vedúcu celých 2 250–2 600 m k zásobníku. Vo vnútri je závesník rúrky, kužeľové sedlo. Bočné otvory umožňujú monitorovanie tlaku medzikružia.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">9</div>
+          <div class="cc-titles"><div class="cc-en">Casing Head</div><div class="cc-sk">Hlava plášťa / Plášťová hlava</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>The first permanent fixture at surface level — welded onto the outermost casing string, providing the first pressure containment. The entire Christmas tree above bolts to its top flange. Think of it as the foundation for everything visible: all valves, spools, and fittings ultimately stand on this one component, which is itself anchored to concentric steel casing pipes cemented deep into the earth.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Prvá trvalá armatúra na povrchu — privarená na vonkajší plášť, poskytujúca prvé tlakové zadržanie. Celý vianočný stromček je priskrutkovaný k jej hornej prírube. Je základom všetkého viditeľného nad zemou.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">10</div>
+          <div class="cc-titles"><div class="cc-en">Casing Outlet Assemblies &amp; Annulus Gauges</div><div class="cc-sk">Vývody plášťa a manometre medzikružia</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>Horizontal branch assemblies on the grating platform, each connecting to a different annular space between concentric casing strings underground. The blue tree's two separate assemblies indicate at least three concentric casing strings — like Russian dolls of steel pipe, each cemented at a different depth. Any gauge reading above zero signals potential casing integrity failure, even on a decommissioned well.
+            <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a></p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Horizontálne vývodové zostavy na plošine, každá sa pripájajúca k inému medzikružiu medzi sústredne uloženými rúrami plášťa. Dve zostavy modrého stromu naznačujú aspoň tri sústredné plášte — ako matriosky zo ocele. Tlak nad nulou signalizuje potenciálne zlyhanie integrity plášťa.</p></div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="cc-header"><div class="cc-num">11</div>
+          <div class="cc-titles"><div class="cc-en">Conductor Flange &amp; Wellhead Cellar</div><div class="cc-sk">Príruba vodiaceho plášťa a vrtoví pivnica</div></div></div>
+        <div class="cc-body">
+          <div><div class="lang-tag">🇬🇧 English</div>
+            <p>The large round disc at the very base is the top flange of the conductor pipe — the outermost, widest casing, driven in first and cemented to approximately 30–100 m depth. Everything above bolts to this. Below it, under the steel grating, is the wellhead cellar — a shallow excavated pit giving access to cables and instrument lines, and acting as a sump to safely collect any leaking fluids.</p></div>
+          <div><div class="lang-tag">🇸🇰 Slovenčina</div>
+            <p class="sk">Veľký okrúhly disk pri základni je horná príruby vodiaceho potrubia — najvonkajšieho, najširšieho plášťa, zacementovaného do ~30–100 m hĺbky. Pod ním, pod roštom, je vrtoví pivnica — jama pre prístup k káblom, slúžiaca tiež ako zberná nádrž.</p></div>
+        </div>
+      </div>
+
+    </div><!-- /#comp-list -->
+  </div>
+</section>
+
+<!-- ── History ── -->
+<section id="history">
+  <div class="container">
+    <div class="section-label">Historical Context</div>
+    <h2 class="section-title">NAFTA &amp; Trebišov — <span>A History</span></h2>
+    <p class="lead">From Europe's earliest oil discovery to Slovakia's first geothermal well conversion — over a century of industrial history connected to this field.</p>
+
+    <div class="card">
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-year">1913–1914</div>
+          <div class="tl-text">Oil discovered at <strong>Gbely</strong> in western Slovakia (then Austro-Hungarian Empire) — one of the first commercial oilfields in continental Europe. Industrial production began 13 January 1914. The "NAFTA-UD GBELY" name stamped on the wellhead equipment you found traces directly back to this moment.
+            <a href="https://www.nafta.sk/en/about-us/history-gas-production-and-storage" target="_blank" class="src">nafta.sk</a>
+            <a href="https://spectator.sme.sk/business/c/100-years-of-oil-and-gas-production-and-40-years-of-storing-natural-gas-in-underground-storage-facilities-in-slovakia" target="_blank" class="src">Slovak Spectator — 100 Years</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1966</div>
+          <div class="tl-text">NAFTA begins <strong>natural gas production in eastern Slovakia</strong>. The East Slovak Basin becomes the source of approximately 70% of Czechoslovakia's domestic gas.
+            <a href="https://www.nafta.sk/en/about-us/history-gas-production-and-storage" target="_blank" class="src">nafta.sk</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1993</div>
+          <div class="tl-text">Dissolution of Czechoslovakia; NAFTA becomes a Slovak state company. The national field network includes <strong>270 registered wells</strong> across the East Slovak Lowland.
+            <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">August 1996</div>
+          <div class="tl-text">NAFTA is <strong>controversially privatised</strong>. The Fund of National Property sells the government's 45.9% stake for approximately <strong>500 million Slovak crowns (~$16.6 million)</strong> — roughly <strong>one-seventh of market value</strong> — to Druhá obchodná a.s., a company linked to HZDS official <strong>Vladimír Poór</strong>. The opposition calls it the <em>"theft of the century" (lúpež storočia)</em>. The company is restructured into subsidiaries, including <strong>NAFTA VÝCHOD a.s.</strong> in Michalovce, which takes over management of the Trebišov wells.
+            <a href="https://www.rferl.org/a/1086066.html" target="_blank" class="src">RFE/RL</a>
+            <a href="https://spectator.sme.sk/politics-and-society/c/nafta-scandal-a-cabinet-own-goal" target="_blank" class="src">Slovak Spectator</a>
+            <a href="https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)" target="_blank" class="src">Slovak Wikipedia</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">28 October 1996</div>
+          <div class="tl-text">The <strong>nameplate you found</strong> is stamped and certified on this exact date. Serial V-900405 is the 707th component quality-certified by NAFTA that year, installed at one of the Trebišov 8–12 wells during active field operations under the newly created NAFTA VÝCHOD.
+            <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1998–1999</div>
+          <div class="tl-text">Following the 1998 elections, criminal charges are filed against Poór and 40.9% of shares are returned to state ownership. International investors subsequently enter the ownership structure.
+            <a href="https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)" target="_blank" class="src">Slovak Wikipedia</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2015</div>
+          <div class="tl-text">NAFTA <strong>terminates gas extraction</strong> at the Trebišov deposit. Wells Trebišov 8–12 are officially decommissioned. The Christmas tree assemblies in your photographs are left in place as required by regulated safe abandonment procedures.
+            <a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+            <a href="https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/" target="_blank" class="src">SLOVGAS</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">2019–2020</div>
+          <div class="tl-text">NAFTA and partner <strong>Aspect Holdings</strong> acquire the Beša Exploration Area (771 km²) and Pavlovce nad Uhom Exploration Area (1,070 km²) — targeting new potential gas reserves in the East Slovak Lowland.
+            <a href="https://www.nafta.sk/en/news/naftas-exploring-slovakia" target="_blank" class="src">nafta.sk</a>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">February 2024</div>
+          <div class="tl-text">The Slovak <strong>Ministry of Environment approves</strong> NAFTA's geothermal conversion plan (EIA opinion 6 February 2024). Wells Trebišov 8–12 will be repurposed as closed-loop geothermal heat exchangers producing approximately <strong>0.9–1 MW of thermal energy</strong> for Trebišov's district heating network — the first such project in Slovakia.
+            <a href="https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html" target="_blank" class="src">TERAZ.sk — MŽP Approval</a>
+            <a href="https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/" target="_blank" class="src">SLOVGAS</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Geology ── -->
+<section id="geology">
+  <div class="container">
+    <div class="section-label">Geology</div>
+    <h2 class="section-title">Why There Is Gas <span>Under Trebišov</span></h2>
+    <p class="lead">The East Slovak Basin is a textbook example of a Neogene back-arc basin — and understanding its geology explains both the gas that was extracted and the geothermal heat that will be harvested next.</p>
+    <div class="card">
+      <p>The East Slovak Basin is a <strong>Neogene back-arc basin</strong> — it formed when tectonic plates shifted over the last 20 million years, creating a rift-like depression that slowly filled with sediment from surrounding highlands.
+        <a href="https://pubs.usgs.gov/bul/2204/b/" target="_blank" class="src">USGS — Pannonian Basin</a>
+        The <em>Trebišov Depression</em>, the specific sub-basin beneath the town, contains sedimentary sequences <strong>up to 2,000 metres thick</strong>, built up from calcareous clays, sandstone layers, and volcanic ash from the Slanské vrchy mountains visible to the west.</p>
+      <p>The gas reservoirs sit in <strong>Badenian and Lower Sarmatian sandstone layers</strong> — porous rock about 15 million years old, buried deep enough for organic matter to transform into methane over geological time. The gas is <strong>94–99% methane (CH₄)</strong>, extremely high purity.
+        <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
+      </p>
+      <p>The same high geothermal gradient that makes these wells valuable for geothermal conversion today is also part of what originally drove the hydrocarbon maturation. The East Slovak Basin has a heat flow of <strong>90–125 mW/m²</strong> — well above the European average — and subsurface temperatures reach approximately 100°C at 1,700 m depth.
+        <a href="https://www.mdpi.com/2079-9276/10/4/31" target="_blank" class="src">MDPI — Resources 2021</a>
+        <a href="https://www.mdpi.com/2076-3417/12/5/2745" target="_blank" class="src">MDPI — Applied Sciences 2022</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Geothermal ── -->
+<section id="geothermal">
+  <div class="container">
+    <div class="section-label">Future Use</div>
+    <h2 class="section-title">The Geothermal <span>Conversion</span></h2>
+    <div class="callout">
+      <div class="callout-title">♻ Slovakia's First Geothermal Well Conversion — Approved February 2024</div>
+      <p>The wells you photographed are not simply abandoned. NAFTA has secured government approval to convert <strong>Trebišov 8–12</strong> into closed-loop geothermal heat exchangers, feeding the city's district heating network.
+        <a href="https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html" target="_blank" class="src">TERAZ.sk</a>
+        <a href="https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/" target="_blank" class="src">SLOVGAS</a>
+      </p>
+      <p>Rather than pumping gas up, the converted wells will circulate heat-exchange fluid down to 1,700 m depth and back up, extracting warmth from the naturally hot rock. At approximately <strong>0.9–1 MW of thermal output</strong>, this is the <strong>first project of its kind in Slovakia</strong>. The high geothermal gradient of the East Slovak Basin — 90–125 mW/m² — makes these ageing boreholes surprisingly well-suited for a second life as heating infrastructure.
+        <a href="https://www.mdpi.com/2079-9276/10/4/31" target="_blank" class="src">MDPI — Resources 2021</a>
+      </p>
+      <p>The equipment in your photographs — all that rust and peeling yellow paint — stands at the crossroads of two eras: the <strong>fossil fuel past</strong> of Soviet-era Czechoslovak industry, and a <strong>clean energy future</strong> being built on the same boreholes drilled more than thirty years ago.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Technical Reference ── -->
+<section id="technical">
+  <div class="container">
+    <div class="section-label">Engineering Reference</div>
+    <h2 class="section-title">Wellbore <span>Cross-Section</span> — How a Gas Well Is Built &amp; Abandoned</h2>
+    <p class="lead">
+      The diagram below is a faithful reproduction of the official wellbore schematic published by
+      the <strong>U.S. Environmental Protection Agency</strong> (EPA Region 5, Underground Injection Control program).
+      It shows exactly what is happening underground at the Trebišov wells — both during active production
+      and after plug and abandonment in 2015.
+      <a href="https://www.epa.gov/sites/default/files/2018-09/documents/r5-wellbore-schematic.pdf"
+         target="_blank" class="src">EPA Region 5 — Official Wellbore Schematic PDF ↗</a>
+    </p>
+
+    <!-- Citation box -->
+    <div style="background:rgba(255,82,0,0.06);border:1px solid rgba(255,82,0,0.3);border-left:4px solid var(--orange);
+      border-radius:6px;padding:1rem 1.4rem;margin-bottom:2rem;font-size:0.88rem;color:var(--silver);">
+      <strong style="color:var(--orange);font-family:var(--font-display);font-size:0.8rem;
+        letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:0.4rem;">
+        Primary Source
+      </strong>
+      U.S. Environmental Protection Agency, Region 5 — Underground Injection Control (UIC) Program.<br>
+      <em>"Wellbore Schematic Diagram — Original Well Construction During Operation / Plugging and Abandonment Construction."</em><br>
+      Published: September 2018. Document: R5-wellbore-schematic.<br>
+      <a href="https://www.epa.gov/sites/default/files/2018-09/documents/r5-wellbore-schematic.pdf"
+         target="_blank" style="color:var(--cyan);word-break:break-all;">
+        https://www.epa.gov/sites/default/files/2018-09/documents/r5-wellbore-schematic.pdf
+      </a><br><br>
+      <strong style="color:var(--orange);font-family:var(--font-display);font-size:0.8rem;
+        letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:0.4rem;">
+        Supporting Reference
+      </strong>
+      National Petroleum Council (NPC) — "Plugging and Abandonment of Oil and Gas Wells."
+      <em>Working Document of the NPC North American Resource Development Study.</em> 2011.<br>
+      <a href="https://www.npc.org/Prudent_Development-Topic_Papers/2-25_Well_Plugging_and_Abandonment_Paper.pdf"
+         target="_blank" style="color:var(--cyan);word-break:break-all;">
+        https://www.npc.org/Prudent_Development-Topic_Papers/2-25_Well_Plugging_and_Abandonment_Paper.pdf
+      </a>
+    </div>
+
+    <!-- SVG diagram — two-column: Active Production | Plugged & Abandoned -->
+    <div style="overflow-x:auto;margin:0 0 2rem;">
+    <svg viewBox="0 0 860 720" xmlns="http://www.w3.org/2000/svg"
+      style="width:100%;max-width:860px;display:block;margin:0 auto;
+             background:#06060f;border:1px solid #1c1c48;border-radius:8px;font-family:'Barlow Condensed',sans-serif;">
+
+      <!-- ── Background panels ── -->
+      <rect x="10" y="10" width="410" height="700" rx="6" fill="#0a0a20" stroke="#1c3040" stroke-width="1.5"/>
+      <rect x="440" y="10" width="410" height="700" rx="6" fill="#0a200a" stroke="#1c4020" stroke-width="1.5"/>
+
+      <!-- ── Panel titles ── -->
+      <rect x="10" y="10" width="410" height="40" rx="6" fill="#0d2035"/>
+      <text x="215" y="36" text-anchor="middle" fill="#5bc8ff"
+        font-size="16" font-weight="700" letter-spacing="1">
+        DURING ACTIVE PRODUCTION (1996–2015)
+      </text>
+      <rect x="440" y="10" width="410" height="40" rx="6" fill="#0a2510"/>
+      <text x="645" y="36" text-anchor="middle" fill="#00e676"
+        font-size="16" font-weight="700" letter-spacing="1">
+        AFTER PLUG &amp; ABANDONMENT (post-2015)
+      </text>
+
+      <!-- ══════════════════════════════════
+           LEFT PANEL — Active production
+           ══════════════════════════════════ -->
+
+      <!-- Ground surface line -->
+      <line x1="30" y1="95" x2="400" y2="95" stroke="#8888aa" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="50" y="91" fill="#aab0c8" font-size="11" letter-spacing="0.5">SURFACE (104 m a.s.l.)</text>
+
+      <!-- Christmas tree symbol at top -->
+      <rect x="175" y="52" width="70" height="38" rx="3" fill="#ffd200" fill-opacity="0.15"
+        stroke="#ffd200" stroke-width="1.5"/>
+      <text x="210" y="67" text-anchor="middle" fill="#ffd200" font-size="9" font-weight="700">CHRISTMAS TREE</text>
+      <text x="210" y="81" text-anchor="middle" fill="#ffd200" font-size="9">35 MPa / Ball valves</text>
+
+      <!-- Conductor casing — widest, outermost -->
+      <rect x="170" y="95" width="80" height="55" fill="none" stroke="#6688aa" stroke-width="3"/>
+      <text x="110" y="116" fill="#6688aa" font-size="11" text-anchor="end">Conductor casing</text>
+      <text x="110" y="129" fill="#6688aa" font-size="10" text-anchor="end">~30–100 m depth</text>
+      <line x1="112" y1="122" x2="170" y2="122" stroke="#6688aa" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Surface casing -->
+      <rect x="180" y="95" width="60" height="180" fill="none" stroke="#88aacc" stroke-width="2.5"/>
+      <text x="110" y="175" fill="#88aacc" font-size="11" text-anchor="end">Surface casing</text>
+      <text x="110" y="188" fill="#88aacc" font-size="10" text-anchor="end">Cemented to surface</text>
+      <line x1="112" y1="182" x2="180" y2="182" stroke="#88aacc" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Cement behind surface casing — grey fill -->
+      <rect x="180" y="95" width="10" height="180" fill="#444466" fill-opacity="0.6"/>
+      <rect x="230" y="95" width="10" height="180" fill="#444466" fill-opacity="0.6"/>
+
+      <!-- Intermediate casing -->
+      <rect x="188" y="275" width="44" height="220" fill="none" stroke="#aabbdd" stroke-width="2"/>
+      <text x="110" y="340" fill="#aabbdd" font-size="11" text-anchor="end">Intermediate casing</text>
+      <line x1="112" y1="338" x2="188" y2="338" stroke="#aabbdd" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Cement behind intermediate casing -->
+      <rect x="188" y="275" width="7" height="220" fill="#444466" fill-opacity="0.5"/>
+      <rect x="225" y="275" width="7" height="220" fill="#444466" fill-opacity="0.5"/>
+
+      <!-- Production casing / long string -->
+      <rect x="196" y="95" width="28" height="530" rx="1" fill="none" stroke="#ccddee" stroke-width="1.5"/>
+      <text x="320" y="520" fill="#ccddee" font-size="11">Long-string</text>
+      <text x="320" y="533" fill="#ccddee" font-size="11">production casing</text>
+      <line x1="318" y1="526" x2="224" y2="526" stroke="#ccddee" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Production tubing — innermost -->
+      <rect x="203" y="95" width="14" height="490" rx="1" fill="#00d2ff" fill-opacity="0.12"
+        stroke="#00d2ff" stroke-width="1.5"/>
+      <text x="320" y="390" fill="#00d2ff" font-size="11">Production tubing</text>
+      <text x="320" y="403" fill="#00d2ff" font-size="10">⌀ ~50 mm</text>
+      <line x1="318" y1="396" x2="224" y2="385" stroke="#00d2ff" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Packer -->
+      <rect x="200" y="580" width="20" height="10" rx="2" fill="#ff5200"/>
+      <text x="320" y="590" fill="#ff5200" font-size="11">Packer — ~1,700 m</text>
+      <line x1="318" y1="588" x2="224" y2="586" stroke="#ff5200" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Perforations / reservoir -->
+      <rect x="168" y="605" width="84" height="60" rx="3" fill="#331100" fill-opacity="0.8"
+        stroke="#ff5200" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <!-- Perforation ticks -->
+      <g stroke="#ff8844" stroke-width="1.5">
+        <line x1="196" y1="608" x2="188" y2="616"/>
+        <line x1="206" y1="608" x2="198" y2="616"/>
+        <line x1="216" y1="608" x2="208" y2="616"/>
+        <line x1="196" y1="625" x2="188" y2="633"/>
+        <line x1="206" y1="625" x2="198" y2="633"/>
+        <line x1="216" y1="625" x2="208" y2="633"/>
+        <line x1="196" y1="642" x2="188" y2="650"/>
+        <line x1="206" y1="642" x2="198" y2="650"/>
+        <line x1="216" y1="642" x2="208" y2="650"/>
+      </g>
+      <text x="260" y="625" fill="#ff8844" font-size="11">Badenian/Sarmatian</text>
+      <text x="260" y="638" fill="#ff8844" font-size="11">sandstone reservoir</text>
+      <text x="260" y="651" fill="#ff8844" font-size="10">2,250–2,607 m depth</text>
+      <text x="260" y="664" fill="#ff8844" font-size="10">94–99% CH₄</text>
+      <line x1="258" y1="635" x2="252" y2="635" stroke="#ff8844" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Gas flow arrows up the tubing -->
+      <g fill="#00d2ff" fill-opacity="0.7">
+        <polygon points="210,460 206,475 214,475"/>
+        <polygon points="210,420 206,435 214,435"/>
+        <polygon points="210,380 206,395 214,395"/>
+        <polygon points="210,340 206,355 214,355"/>
+        <polygon points="210,300 206,315 214,315"/>
+        <polygon points="210,260 206,275 214,275"/>
+        <polygon points="210,220 206,235 214,235"/>
+        <polygon points="210,180 206,195 214,195"/>
+        <polygon points="210,140 206,155 214,155"/>
+      </g>
+
+      <!-- Depth markers left axis -->
+      <text x="38" y="96" fill="#555577" font-size="10">0 m</text>
+      <line x1="55" y1="200" x2="168" y2="200" stroke="#222244" stroke-width="0.5"/>
+      <text x="38" y="204" fill="#555577" font-size="10">~500 m</text>
+      <line x1="55" y1="330" x2="168" y2="330" stroke="#222244" stroke-width="0.5"/>
+      <text x="38" y="334" fill="#555577" font-size="10">~1,000 m</text>
+      <line x1="55" y1="460" x2="168" y2="460" stroke="#222244" stroke-width="0.5"/>
+      <text x="38" y="464" fill="#555577" font-size="10">~1,700 m</text>
+      <line x1="55" y1="590" x2="168" y2="590" stroke="#222244" stroke-width="0.5"/>
+      <text x="38" y="594" fill="#555577" font-size="10">~2,250 m</text>
+      <line x1="55" y1="660" x2="168" y2="660" stroke="#222244" stroke-width="0.5"/>
+      <text x="38" y="664" fill="#555577" font-size="10">~2,607 m</text>
+
+      <!-- ══════════════════════════════════
+           RIGHT PANEL — Plugged & Abandoned
+           ══════════════════════════════════ -->
+
+      <!-- Shifted 430px right for right panel, same structure -->
+
+      <!-- Ground surface line -->
+      <line x1="460" y1="95" x2="830" y2="95" stroke="#8888aa" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="480" y="91" fill="#aab0c8" font-size="11" letter-spacing="0.5">SURFACE (Christmas trees remain)</text>
+
+      <!-- Top plug — at surface -->
+      <rect x="598" y="97" width="64" height="22" rx="3" fill="#00e676" fill-opacity="0.25"
+        stroke="#00e676" stroke-width="2"/>
+      <text x="630" y="112" text-anchor="middle" fill="#00e676" font-size="10" font-weight="700">
+        SURFACE CEMENT PLUG
+      </text>
+      <text x="745" y="104" fill="#00e676" font-size="10">Top Plug — 0 m</text>
+      <line x1="743" y1="108" x2="662" y2="108" stroke="#00e676" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Conductor casing outline -->
+      <rect x="600" y="95" width="60" height="55" fill="none" stroke="#6688aa" stroke-width="3"/>
+      <!-- Surface casing outline -->
+      <rect x="608" y="95" width="44" height="180" fill="none" stroke="#88aacc" stroke-width="2.5"/>
+      <!-- Intermediate casing outline -->
+      <rect x="616" y="275" width="28" height="220" fill="none" stroke="#aabbdd" stroke-width="2"/>
+      <!-- Long string outline -->
+      <rect x="622" y="95" width="16" height="530" rx="1" fill="none" stroke="#ccddee" stroke-width="1.5"/>
+
+      <!-- Cement fill in tubing — abandoned = tubing filled with cement -->
+      <rect x="624" y="97" width="12" height="530" fill="#667788" fill-opacity="0.45"/>
+
+      <!-- USDW Base Plug — shallow aquifer protection zone -->
+      <rect x="606" y="190" width="48" height="20" rx="2" fill="#00e676" fill-opacity="0.2"
+        stroke="#00e676" stroke-width="2"/>
+      <text x="630" y="204" text-anchor="middle" fill="#00e676" font-size="9" font-weight="700">
+        AQUIFER PROTECTION PLUG
+      </text>
+      <text x="470" y="200" fill="#00e676" font-size="10">USDW Base Plug</text>
+      <line x1="540" y1="200" x2="606" y2="200" stroke="#00e676" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Intermediate / Middle plug -->
+      <rect x="614" y="335" width="32" height="20" rx="2" fill="#00e676" fill-opacity="0.2"
+        stroke="#00e676" stroke-width="2"/>
+      <text x="630" y="349" text-anchor="middle" fill="#00e676" font-size="9" font-weight="700">
+        MID CEMENT PLUG
+      </text>
+      <text x="470" y="343" fill="#00e676" font-size="10">Intermediate Plug</text>
+      <line x1="540" y1="341" x2="614" y2="345" stroke="#00e676" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Casing cut/rip depth marker -->
+      <line x1="598" y1="465" x2="654" y2="465" stroke="#ffb347" stroke-width="1.5" stroke-dasharray="5,2"/>
+      <text x="470" y="462" fill="#ffb347" font-size="10">Casing cut point</text>
+      <text x="470" y="475" fill="#ffb347" font-size="10">(~1,700 m) →</text>
+
+      <!-- Mechanical / bridge plug above reservoir -->
+      <rect x="618" y="575" width="24" height="16" rx="2" fill="#ff5200" fill-opacity="0.3"
+        stroke="#ff5200" stroke-width="2"/>
+      <polygon points="622,575 638,575 634,569 626,569" fill="#ff5200" fill-opacity="0.6"/>
+      <text x="470" y="581" fill="#ff5200" font-size="10">Mechanical bridge plug</text>
+      <line x1="540" y1="579" x2="618" y2="583" stroke="#ff5200" stroke-width="1" stroke-dasharray="3,2"/>
+
+      <!-- Reservoir cement plug — bottom plug -->
+      <rect x="596" y="600" width="68" height="55" rx="3" fill="#004400" fill-opacity="0.6"
+        stroke="#00e676" stroke-width="2"/>
+      <text x="630" y="620" text-anchor="middle" fill="#00e676" font-size="10" font-weight="700">
+        FORMATION
+      </text>
+      <text x="630" y="634" text-anchor="middle" fill="#00e676" font-size="10" font-weight="700">
+        CEMENT PLUG
+      </text>
+      <text x="630" y="648" text-anchor="middle" fill="#aad0aa" font-size="9">
+        Seals reservoir
+      </text>
+
+      <!-- Cement fill hatching behind casings in abandoned well -->
+      <rect x="608" y="95" width="8" height="180" fill="#445566" fill-opacity="0.5"/>
+      <rect x="652" y="95" width="8" height="180" fill="#445566" fill-opacity="0.5"/>
+      <rect x="616" y="275" width="6" height="220" fill="#445566" fill-opacity="0.45"/>
+      <rect x="644" y="275" width="6" height="220" fill="#445566" fill-opacity="0.45"/>
+
+      <!-- Right panel depth markers -->
+      <text x="462" y="204" fill="#555577" font-size="9">~200 m</text>
+      <text x="462" y="344" fill="#555577" font-size="9">~700 m</text>
+      <text x="462" y="600" fill="#555577" font-size="9">~2,250 m</text>
+
+      <!-- ── Legend at bottom ── -->
+      <rect x="20" y="682" width="820" height="28" rx="4" fill="#0d0d22"/>
+
+      <!-- Legend items -->
+      <rect x="35" y="691" width="18" height="12" fill="#667788" fill-opacity="0.6" stroke="#aabbcc" stroke-width="1"/>
+      <text x="58" y="702" fill="#aab0c8" font-size="11">Cement / plug material</text>
+
+      <rect x="185" y="691" width="18" height="12" fill="none" stroke="#00d2ff" stroke-width="1.5"/>
+      <text x="208" y="702" fill="#aab0c8" font-size="11">Production tubing</text>
+
+      <rect x="320" y="691" width="18" height="12" fill="none" stroke="#ccddee" stroke-width="1.5"/>
+      <text x="343" y="702" fill="#aab0c8" font-size="11">Steel casing strings</text>
+
+      <rect x="460" y="691" width="18" height="12" fill="#331100" fill-opacity="0.8" stroke="#ff8844" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="483" y="702" fill="#aab0c8" font-size="11">Perforated / reservoir zone</text>
+
+      <rect x="640" y="691" width="18" height="12" fill="#00e676" fill-opacity="0.2" stroke="#00e676" stroke-width="1.5"/>
+      <text x="663" y="702" fill="#aab0c8" font-size="11">Cement barrier plugs</text>
+    </svg>
+    </div>
+
+    <!-- Explanation of what the diagram shows -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:0.5rem;">
+      <div class="card">
+        <div class="lang-tag" style="margin-bottom:0.7rem;color:#5bc8ff;">
+          🔵 LEFT — During Active Production (1996–2015)
+        </div>
+        <p>During production, gas flowed upward through the narrow <strong>production tubing</strong> (the innermost cyan pipe, ~50 mm diameter) running the full 2,250–2,607 m from the Badenian sandstone reservoir. A <strong>packer</strong> — an inflatable rubber seal — sat at ~1,700 m to isolate the annular space between the tubing and the casing, preventing gas from bypassing the tubing. The multiple <strong>concentric casing strings</strong> (conductor, surface, intermediate, and long-string production casing), each cemented at different depths, provided structural integrity and kept the borehole from collapsing. At the top, the Christmas tree valves controlled flow to the Gas Collection Station.</p>
+        <a href="https://www.npc.org/Prudent_Development-Topic_Papers/2-25_Well_Plugging_and_Abandonment_Paper.pdf"
+           target="_blank" class="src">NPC — Well Plugging &amp; Abandonment (2011)</a>
+      </div>
+      <div class="card">
+        <div class="lang-tag" style="margin-bottom:0.7rem;color:#00e676;">
+          🟢 RIGHT — After Plug &amp; Abandonment (post-2015)
+        </div>
+        <p>After decommissioning, the well must be permanently sealed against any future hydrocarbon migration. Engineers set multiple independent <strong>cement barrier plugs</strong> at critical points: a <strong>formation plug</strong> at reservoir depth to seal the source rock; a <strong>mechanical bridge plug</strong> just above it as a platform for cement; a <strong>mid-well plug</strong> isolating different pressure zones; and an <strong>aquifer protection plug</strong> preventing any hydrocarbons from contaminating shallow groundwater. The entire tubing interior is filled with cement. A final <strong>surface plug</strong> seals the top. The Christmas trees you photographed remain bolted in place above all of this — sealed, but physically still there. The Slovak mining authority requires wells to remain in this state under monitoring.</p>
+        <a href="https://www.epa.gov/sites/default/files/2018-09/documents/r5-wellbore-schematic.pdf"
+           target="_blank" class="src">EPA Region 5 — Wellbore Schematic (2018)</a>
+      </div>
+    </div>
+
+    <!-- Trebišov-specific annotation -->
+    <div class="callout" style="margin-top:1.5rem;">
+      <div class="callout-title">🔗 How This Connects Directly to the Trebišov Wells</div>
+      <p>The nameplate you found — stamped <strong>35 MPa / BORE 50.8 mm / 28.10.1996</strong> — is the engineering specification for the production cross sitting at the very top of the left-hand diagram above. The 35 MPa rating matches the pressure class required for the reservoir depth of 2,250–2,607 m. The 50.8 mm bore is the inner diameter of the tubing shown running down the centre of the diagram.</p>
+      <p>The right-hand diagram is the current physical state of all five Trebišov wells as of 2015. The Christmas trees you photographed are the surface expression of this permanently sealed underground structure. The geothermal conversion approved in 2024 will involve returning to a configuration <em>between</em> these two states: re-opening access at ~1,700 m depth, circulating heat-exchange fluid, but never re-perforating the reservoir — keeping the formation plug permanently in place.
+        <a href="https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html"
+           target="_blank" class="src">TERAZ.sk — MŽP Geothermal Approval 2024</a>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ── Sources ── -->
+<section id="sources">
+  <div class="container">
+    <div class="section-label">References</div>
+    <h2 class="section-title">All <span>Sources</span></h2>
+    <p class="lead">Every factual claim in this document is traceable to one of the following verified primary sources.</p>
+    <div class="card">
+      <ul class="sources-list">
+        <li><span class="domain">epa.gov</span><a href="https://www.epa.gov/sites/default/files/2018-09/documents/r5-wellbore-schematic.pdf" target="_blank">Wellbore Schematic Diagram (Original Construction / P&A) — U.S. EPA Region 5, Underground Injection Control, 2018</a></li>
+        <li><span class="domain">npc.org</span><a href="https://www.npc.org/Prudent_Development-Topic_Papers/2-25_Well_Plugging_and_Abandonment_Paper.pdf" target="_blank">Plugging and Abandonment of Oil and Gas Wells — National Petroleum Council (NPC), 2011</a></li>
+        <li><span class="domain">nafta.sk</span><a href="https://www.nafta.sk/en/about-us/history-gas-production-and-storage" target="_blank">History of Gas Production and Storage — nafta.sk</a></li>
+        <li><span class="domain">nafta.sk</span><a href="https://www.nafta.sk/en/about-us" target="_blank">About Us — nafta.sk</a></li>
+        <li><span class="domain">nafta.sk</span><a href="https://www.nafta.sk/en/news/naftas-exploring-slovakia" target="_blank">NAFTA's Exploring in Slovakia — nafta.sk</a></li>
+        <li><span class="domain">nafta.sk</span><a href="https://www.nafta.sk/en/news/nafta-strengthens-its-international-positioning" target="_blank">NAFTA Strengthens Its International Positioning (ownership data) — nafta.sk</a></li>
+        <li><span class="domain">teraz.sk</span><a href="https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html" target="_blank">Spoločnosť Nafta chce využiť vrty na vykurovanie mesta Trebišov — TERAZ.sk / TASR</a></li>
+        <li><span class="domain">teraz.sk</span><a href="https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html" target="_blank">Rezort životného prostredia súhlasí s využitím vrtov v Trebišove — TERAZ.sk / TASR</a></li>
+        <li><span class="domain">slovgas.sk</span><a href="https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/" target="_blank">Trebišov bude môcť na vykurovanie využiť aj geotermál — SLOVGAS</a></li>
+        <li><span class="domain">rferl.org</span><a href="https://www.rferl.org/a/1086066.html" target="_blank">Slovakia: Opposition Says Privatization Case Was Theft — Radio Free Europe / Radio Liberty</a></li>
+        <li><span class="domain">spectator.sme.sk</span><a href="https://spectator.sme.sk/politics-and-society/c/nafta-scandal-a-cabinet-own-goal" target="_blank">Nafta scandal a cabinet 'own goal' — The Slovak Spectator</a></li>
+        <li><span class="domain">spectator.sme.sk</span><a href="https://spectator.sme.sk/c/20011982/jozef-majsky-gave-government-fundamental-help.html" target="_blank">Jozef Majský: Gave government 'fundamental' help — The Slovak Spectator</a></li>
+        <li><span class="domain">spectator.sme.sk</span><a href="https://spectator.sme.sk/business/c/100-years-of-oil-and-gas-production-and-40-years-of-storing-natural-gas-in-underground-storage-facilities-in-slovakia" target="_blank">100 years of oil and gas production in Slovakia — The Slovak Spectator</a></li>
+        <li><span class="domain">sk.wikipedia.org</span><a href="https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)" target="_blank">NAFTA (spoločnosť) — Slovak Wikipedia</a></li>
+        <li><span class="domain">en.wikipedia.org</span><a href="https://en.wikipedia.org/wiki/Trebi%C5%A1ov" target="_blank">Trebišov — English Wikipedia</a></li>
+        <li><span class="domain">mdpi.com</span><a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank">Understanding Slovakian Gas Well Performance through ArcGIS System Mapping — MDPI Processes 2021, 9(10), 1850</a></li>
+        <li><span class="domain">mdpi.com</span><a href="https://www.mdpi.com/2079-9276/10/4/31" target="_blank">Critical Tectonic Limits for Geothermal Aquifer Use: East Slovakian Basin — MDPI Resources 2021, 10(4), 31</a></li>
+        <li><span class="domain">mdpi.com</span><a href="https://www.mdpi.com/2076-3417/12/5/2745" target="_blank">Geothermal Study, Humenné Unit, East Slovak Basin — MDPI Applied Sciences 2022, 12(5), 2745</a></li>
+        <li><span class="domain">usgs.gov</span><a href="https://pubs.usgs.gov/bul/2204/b/" target="_blank">Pannonian Basin Province, Central Europe (Province 4808) — USGS Bulletin 2204-B</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Field documentation by an independent observer — Trebišov, Košice Region, Slovakia, 2026.</p>
+    <p style="margin-top:0.4rem;">Operator: <a href="https://www.nafta.sk" target="_blank">NAFTA a.s. Gbely</a> / NAFTA VÝCHOD a.s. &nbsp;·&nbsp;
+    Research assistance: <a href="https://claude.ai" target="_blank">Claude AI</a> (Anthropic)</p>
+  </div>
+</footer>
+
+<!-- ── Lightbox ── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<script>
+  function openLightbox(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
+<!-- NOTE: technical section will be injected via Python below -->

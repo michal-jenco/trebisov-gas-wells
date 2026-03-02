@@ -1,0 +1,155 @@
+{
+  "project": "NAFTA Gbely — Trebišov Gas Field Documentation",
+  "last_updated": "2026-03-02",
+  "description": "Field documentation of decommissioned natural gas wellheads operated by NAFTA a.s. Gbely / NAFTA VÝCHOD a.s. in Trebišov, eastern Slovakia. Five wells Trebišov 8–12, Christmas tree assemblies, both blue (Soviet-era gate valve) and yellow (1996 ball valve) designs.",
+
+  "location": {
+    "city": "Trebišov",
+    "region": "Košice kraj, eastern Slovakia",
+    "coordinates": "48°37′43″N 21°42′56″E",
+    "elevation_m": 104,
+    "population_2021": 23213,
+    "distance_to_kosice_km": 36,
+    "distance_to_hungary_km": 20
+  },
+
+  "wells": {
+    "names": ["Trebišov 8", "Trebišov 9", "Trebišov 10", "Trebišov 11", "Trebišov 12"],
+    "depth_range_m": "2,250–2,607",
+    "gas_composition_methane_pct": "94–99",
+    "production_started": "1996",
+    "production_ended": "2015",
+    "operator": "NAFTA VÝCHOD a.s., Michalovce (subsidiary of NAFTA a.s. Gbely)",
+    "collection_station": "Zberné plynové stredisko (Gas Collection Station), Trebišov"
+  },
+
+  "nameplate": {
+    "manufacturer": "NAFTA-UD GBELY",
+    "component_type": "PK — Potrubný kríž (Production Cross)",
+    "flange_size": "2 1/16\" × 2 1/16\"",
+    "max_working_pressure_MPa": 35,
+    "max_working_pressure_PSI": 5000,
+    "bore_diameter_inches": 2,
+    "bore_diameter_mm": 50.8,
+    "date_of_test": "28 October 1996",
+    "date_field": "DAT. SK: 28.10.96",
+    "qc_certificate": "V.C. – 707/96 (707th component certified that year)",
+    "serial_number": "V – 900405"
+  },
+
+  "wellhead_designs": {
+    "blue_tree": {
+      "color": "Blue",
+      "valve_type": "Gate valves",
+      "actuators": "Manual handwheels only",
+      "era": "1960s–1980s Soviet/Czechoslovak industrial design",
+      "distinguishing_features": "Boxy square actuator housings, two casing outlet assemblies at base with individual gauges indicating at least 3 concentric casings",
+      "annotated_image_file": "blue_wellhead_v4.jpg"
+    },
+    "yellow_tree": {
+      "color": "Yellow",
+      "valve_type": "Ball valves (quarter-turn)",
+      "actuators": "Pneumatic actuator disc on left wing arm — remote/auto operation",
+      "era": "Mid-1990s, matching 28 October 1996 nameplate date",
+      "distinguishing_features": "Spherical ball valve bodies, large multi-bolt pneumatic actuator disc on left wing, more compact profile",
+      "annotated_image_file": "yellow2_annotated.jpg (second yellow well)"
+    }
+  },
+
+  "geothermal_conversion": {
+    "project_status": "Approved",
+    "approval_date": "6 February 2024",
+    "approving_body": "Slovak Ministry of Environment (MŽP SR)",
+    "converted_depth_m": 1700,
+    "thermal_output_MW": "0.9–1",
+    "purpose": "District heating network for city of Trebišov",
+    "significance": "First project of this kind in Slovakia",
+    "system_type": "Closed-loop dry geothermal heat exchanger"
+  },
+
+  "geology": {
+    "basin": "East Slovak Basin — Neogene back-arc basin (part of Pannonian Basin system)",
+    "sub_basin": "Trebišov Depression",
+    "sediment_thickness_m": "up to 2,000",
+    "reservoir_age": "Badenian and Lower Sarmatian (~15 million years old)",
+    "reservoir_type": "Porous sandstone",
+    "heat_flow_mW_m2": "90–125 (above European average)",
+    "tectonic_origin": "Back-arc extension following Outer Carpathian subduction"
+  },
+
+  "nafta_company": {
+    "full_name": "NAFTA a.s.",
+    "headquarters": "Gbely, western Slovakia",
+    "founded": "Origins in 1913 Gbely oil discovery; industrial production from 13 January 1914",
+    "eastern_subsidiary": "NAFTA VÝCHOD a.s., Michalovce — created 1996 during restructuring",
+    "registered_wells_nationwide": 270,
+    "active_hydrocarbon_sites_2020": 6,
+    "current_majority_shareholder": "SPP Infrastructure a.s. — 56.15%",
+    "current_minority_shareholder": "Czech Gas Holding Investment B.V. — 40.45%",
+    "exploration_partner": "Aspect Holdings (via Slovakian Horizon Energy s.r.o.)",
+    "exploration_areas": {
+      "besa": "771 km²",
+      "pavlovce_nad_uhom": "1,070 km²"
+    }
+  },
+
+  "privatisation_1996": {
+    "date": "August 1996",
+    "stake_sold_pct": 45.9,
+    "sale_price_crowns_millions": 500,
+    "sale_price_USD_millions": 16.6,
+    "estimated_market_value_fraction": "approximately one-seventh",
+    "buyer": "Druhá obchodná a.s.",
+    "buyer_linked_to": "Vladimír Poór, HZDS official",
+    "opposition_phrase": "theft of the century / lúpež storočia",
+    "aftermath": "Criminal charges filed 1998; 40.9% of shares returned to state FNM March 1999"
+  },
+
+  "verified_source_urls": {
+    "nafta_history": "https://www.nafta.sk/en/about-us/history-gas-production-and-storage",
+    "nafta_about": "https://www.nafta.sk/en/about-us",
+    "nafta_exploring": "https://www.nafta.sk/en/news/naftas-exploring-slovakia",
+    "nafta_ownership": "https://www.nafta.sk/en/news/nafta-strengthens-its-international-positioning",
+    "teraz_wells": "https://www.teraz.sk/ekonomika/spolocnost-nafta-chce-vyuzit-vrty-na/678826-clanok.html",
+    "teraz_geo_approval": "https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html",
+    "slovgas_geo": "https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/",
+    "rferl_privatisation": "https://www.rferl.org/a/1086066.html",
+    "spectator_privatisation": "https://spectator.sme.sk/politics-and-society/c/nafta-scandal-a-cabinet-own-goal",
+    "spectator_majsky": "https://spectator.sme.sk/c/20011982/jozef-majsky-gave-government-fundamental-help.html",
+    "spectator_100years": "https://spectator.sme.sk/business/c/100-years-of-oil-and-gas-production-and-40-years-of-storing-natural-gas-in-underground-storage-facilities-in-slovakia",
+    "sk_wikipedia_nafta": "https://sk.wikipedia.org/wiki/NAFTA_(spolo%C4%8Dnos%C5%A5)",
+    "en_wikipedia_trebisov": "https://en.wikipedia.org/wiki/Trebi%C5%A1ov",
+    "mdpi_wells_arcgis": "https://www.mdpi.com/2227-9717/9/10/1850",
+    "mdpi_geothermal_resources": "https://www.mdpi.com/2079-9276/10/4/31",
+    "mdpi_geothermal_applied": "https://www.mdpi.com/2076-3417/12/5/2745",
+    "usgs_pannonian_basin": "https://pubs.usgs.gov/bul/2204/b/"
+  },
+
+  "output_files": {
+    "main_report_sourced": "NAFTA_Trebisov_Sourced_Report.html",
+    "main_report_complete": "NAFTA_Trebisov_Complete_Report.html",
+    "blue_annotated_image": "blue_wellhead_v4.jpg",
+    "yellow_annotated_image": "wellhead_annotated_v3.jpg",
+    "pdf_report": "NAFTA_Gbely_Well_Analysis.pdf"
+  },
+
+  "uploaded_image_files": {
+    "yellow_well_1_full": "1000114898.jpg",
+    "yellow_well_closeup": "1000114894.jpg",
+    "blue_cellar_detail": "1000114876.jpg",
+    "blue_well_full": "1000114880.jpg",
+    "yellow_well_2_ball_valve": "1000114862.jpg",
+    "field_overview_path": "1000114856.jpg",
+    "field_panorama": "1000114892.jpg",
+    "nameplate": "1000114933.jpg"
+  },
+
+  "notes": [
+    "Wikipedia URL for Trebišov was previously misspelled as Trabisov — correct URL uses Trebi%C5%A1ov",
+    "Exploration partner is Aspect Holdings (not Aspect Energy as earlier stated)",
+    "Pavlovce nad Uhom area is 1,070 km² (not round 1,000 km²)",
+    "Ownership percentages (SPP 56.15%, Czech Gas Holding 40.45%) are on the news page, not the about-us page",
+    "Two Slovak Spectator articles are 403 to bots but fully accessible in a browser",
+    "Production started 1996 (not the 1960s — that was when eastern Slovak gas production generally began under Czechoslovakia)"
+  ]
+}
