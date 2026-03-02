@@ -8,517 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cyan: #00d2ff;
-    --orange: #ff5200;
-    --dark: #07071e;
-    --darker: #030310;
-    --card: #0c0c28;
-    --border: #1c1c48;
-    --text: #d0d0ec;
-    --silver: #9aa0bc;
-    --yellow: #ffd200;
-    --green: #00e676;
-    --warm: #ffb347;
-    --font-display: 'Barlow Condensed', sans-serif;
-    --font-body: 'Barlow', sans-serif;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--darker);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.75;
-  }
-
-  /* ── Scrollbar ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--darker); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  /* ── Nav ── */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(3,3,16,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; gap: 0; height: 52px;
-    overflow-x: auto;
-  }
-  nav a {
-    color: var(--silver); text-decoration: none;
-    font-family: var(--font-display); font-size: 0.82rem;
-    font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
-    padding: 0 1rem; height: 52px; display: flex; align-items: center;
-    border-bottom: 2px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-  }
-  nav a:hover { color: var(--cyan); border-color: var(--cyan); }
-  nav .nav-brand {
-    color: var(--yellow); border-color: transparent;
-    margin-right: 1rem; border-right: 1px solid var(--border);
-    padding-right: 1.5rem; font-size: 0.88rem; font-weight: 800;
-  }
-
-  /* ── Hero ── */
-  .hero {
-    min-height: 90vh;
-    display: grid; grid-template-columns: 1fr 1fr;
-    position: relative; overflow: hidden;
-  }
-  .hero-text {
-    padding: 5rem 3rem 4rem 3rem;
-    display: flex; flex-direction: column; justify-content: center;
-    position: relative; z-index: 2;
-  }
-  .hero-eyebrow {
-    font-family: var(--font-display); font-size: 0.78rem;
-    font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 1.2rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .hero-eyebrow::before { content: ''; display: block;
-    width: 28px; height: 2px; background: var(--orange); }
-  .hero h1 {
-    font-family: var(--font-display); font-size: clamp(2.8rem, 5vw, 4.4rem);
-    font-weight: 800; line-height: 1.05; color: #fff;
-    margin-bottom: 0.5rem;
-  }
-  .hero h1 span { color: var(--cyan); }
-  .hero-sub {
-    font-family: var(--font-display); font-size: 1.25rem;
-    font-weight: 600; color: var(--silver); margin-bottom: 2rem;
-    letter-spacing: 0.5px;
-  }
-  .hero-desc {
-    font-size: 1rem; color: var(--silver); max-width: 480px;
-    margin-bottom: 2.5rem; line-height: 1.8;
-  }
-  .hero-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .hero-tag {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 0.3rem 0.8rem; font-size: 0.8rem; color: var(--silver);
-    font-family: var(--font-display); font-weight: 600; letter-spacing: 1px;
-  }
-  .hero-image {
-    position: relative; overflow: hidden;
-  }
-  .hero-image img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
-    filter: brightness(0.75) saturate(0.8);
-  }
-  .hero-image::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(to right, var(--darker) 0%, transparent 30%);
-  }
-
-  /* ── Fact bar ── */
-  .fact-bar {
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    border-bottom: 3px solid var(--orange);
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-  .fact-item {
-    padding: 1.2rem 1.5rem;
-    border-right: 1px solid var(--border);
-    text-align: center;
-  }
-  .fact-item:last-child { border-right: none; }
-  .fact-label {
-    font-family: var(--font-display); font-size: 0.68rem;
-    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 0.2rem;
-  }
-  .fact-value {
-    font-family: var(--font-display); font-size: 1.05rem;
-    font-weight: 700; color: var(--cyan);
-  }
-
-  /* ── Layout ── */
-  .container { max-width: 1160px; margin: 0 auto; padding: 0 1.5rem; }
-  section { padding: 5rem 0; }
-  section + section { border-top: 1px solid var(--border); }
-
-  .section-label {
-    font-family: var(--font-display); font-size: 0.75rem;
-    font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 0.6rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .section-label::before { content: ''; display: block;
-    width: 20px; height: 2px; background: var(--orange); }
-  .section-title {
-    font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 800; color: #fff; line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-  .section-title span { color: var(--cyan); }
-  .lead {
-    font-size: 1.05rem; color: var(--silver);
-    max-width: 720px; line-height: 1.85; margin-bottom: 2rem;
-  }
-
-  /* ── Source badge ── */
-  .src {
-    display: inline-block; font-size: 0.7rem; font-weight: 700;
-    font-family: var(--font-display); letter-spacing: 0.5px;
-    background: rgba(0,210,255,0.08); border: 1px solid rgba(0,210,255,0.28);
-    color: var(--cyan); border-radius: 3px; padding: 1px 6px;
-    text-decoration: none; margin-left: 4px; vertical-align: middle;
-    transition: background 0.15s;
-  }
-  .src:hover { background: rgba(0,210,255,0.2); color: #fff; }
-
-  /* ── Photo grid ── */
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 6px;
-    margin: 2rem 0;
-  }
-  .photo-item {
-    position: relative; overflow: hidden;
-    background: var(--card); cursor: pointer;
-    border-radius: 4px;
-  }
-  .photo-item img {
-    width: 100%; display: block;
-    object-fit: cover; object-position: center top;
-    transition: transform 0.4s ease, filter 0.3s;
-    filter: brightness(0.88);
-  }
-  .photo-item:hover img { transform: scale(1.03); filter: brightness(1); }
-  .photo-item.tall { grid-row: span 2; }
-  .photo-item.wide { grid-column: span 2; }
-  .photo-item img.landscape {
-    max-height: 260px;
-    object-position: center center;
-  }
-  .photo-item img.portrait { height: 100%; min-height: 300px; }
-  .photo-caption {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-    padding: 1.5rem 0.9rem 0.7rem;
-    font-family: var(--font-display); font-size: 0.82rem;
-    font-weight: 600; color: rgba(255,255,255,0.9);
-    letter-spacing: 0.5px;
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-  }
-  .photo-item:hover .photo-caption { transform: translateY(0); }
-
-  /* ── Lightbox ── */
-  .lightbox {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,0.93);
-    align-items: center; justify-content: center;
-    padding: 1rem;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox img {
-    max-width: 92vw; max-height: 92vh;
-    object-fit: contain; border-radius: 4px;
-  }
-  .lightbox-close {
-    position: absolute; top: 1.2rem; right: 1.5rem;
-    font-size: 2rem; color: #fff; cursor: pointer;
-    background: none; border: none; line-height: 1;
-    opacity: 0.7; transition: opacity 0.2s;
-  }
-  .lightbox-close:hover { opacity: 1; }
-  .lightbox-caption {
-    position: absolute; bottom: 1.2rem; left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-display); font-size: 0.9rem;
-    color: rgba(255,255,255,0.7); text-align: center;
-    max-width: 600px;
-  }
-  .lightbox-arrow {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
-    color: #fff; font-size: 1.4rem; cursor: pointer;
-    width: 50px; height: 50px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0.7; transition: opacity 0.2s, background 0.2s;
-    z-index: 1000;
-  }
-  .lightbox-arrow:hover { opacity: 1; background: rgba(255,255,255,0.18); }
-  .lightbox-arrow.prev { left: 1.5rem; }
-  .lightbox-arrow.next { right: 1.5rem; }
-  .lightbox-arrow[hidden] { display: none; }
-
-  /* ── Annotated image ── */
-  .annotated-wrap {
-    text-align: center; margin: 2rem 0;
-  }
-  .annotated-wrap img {
-    max-width: 100%; max-height: 88vh;
-    border: 2px solid rgba(0,210,255,0.3);
-    border-radius: 6px;
-    box-shadow: 0 0 40px rgba(0,210,255,0.08);
-    cursor: zoom-in;
-  }
-  .annotated-note {
-    margin-top: 0.6rem; font-size: 0.82rem;
-    color: var(--silver); font-style: italic;
-  }
-
-  /* ── Nameplate ── */
-  .nameplate-grid {
-    display: grid; grid-template-columns: 1fr 1.4fr;
-    gap: 2.5rem; align-items: start;
-    margin: 2rem 0;
-  }
-  .nameplate-grid img {
-    width: 100%; border-radius: 6px;
-    border: 2px solid var(--warm);
-    cursor: zoom-in;
-  }
-  .nameplate-table { width: 100%; border-collapse: collapse; }
-  .nameplate-table th {
-    background: var(--orange); color: #fff;
-    padding: 0.55rem 0.9rem; text-align: left;
-    font-family: var(--font-display); font-size: 0.82rem;
-    font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-  }
-  .nameplate-table td {
-    padding: 0.55rem 0.9rem;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.9rem; vertical-align: top;
-  }
-  .nameplate-table tr:nth-child(even) td { background: rgba(255,255,255,0.025); }
-  .nameplate-table .field { color: var(--yellow); font-weight: 700; white-space: nowrap; }
-  .nameplate-table .val { color: var(--cyan); font-weight: 600; }
-
-  /* ── Card ── */
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.8rem 2rem; margin-bottom: 1.5rem;
-  }
-  .card p { margin-bottom: 0.9rem; }
-  .card p:last-child { margin-bottom: 0; }
-  .card strong { color: var(--yellow); }
-  .card em { color: var(--cyan); font-style: normal; }
-
-  /* ── Component cards ── */
-  .component-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; overflow: hidden; margin-bottom: 1rem;
-    transition: border-color 0.2s;
-  }
-  .component-card:hover { border-color: rgba(0,210,255,0.4); }
-  .cc-header { display: flex; align-items: stretch; }
-  .cc-num {
-    background: var(--orange); color: #fff;
-    font-family: var(--font-display); font-size: 1.1rem; font-weight: 800;
-    min-width: 50px; display: flex; align-items: center;
-    justify-content: center; flex-shrink: 0;
-  }
-  .cc-titles {
-    padding: 0.75rem 1.1rem; border-bottom: 1px solid var(--border); flex: 1;
-  }
-  .cc-en {
-    font-family: var(--font-display); font-size: 1rem;
-    font-weight: 700; color: var(--cyan);
-  }
-  .cc-sk {
-    font-size: 0.85rem; color: var(--yellow); margin-top: 0.1rem;
-  }
-  .cc-body {
-    padding: 1.1rem 1.3rem;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem 2rem;
-  }
-  .lang-tag {
-    font-family: var(--font-display); font-size: 0.68rem;
-    font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--orange); margin-bottom: 0.3rem;
-  }
-  .cc-body p { color: var(--silver); font-size: 0.9rem; }
-  .cc-body .sk { color: #bccfe0; }
-  @media (max-width: 640px) { .cc-body { grid-template-columns: 1fr; } }
-
-  /* ── Flow diagram ── */
-  .flow { display: flex; flex-direction: column; align-items: center; margin: 2rem auto; }
-  .flow-step {
-    background: rgba(0,210,255,0.06); border: 1px solid rgba(0,210,255,0.25);
-    border-radius: 5px; padding: 0.55rem 1.4rem;
-    text-align: center; width: 100%; max-width: 440px;
-    font-family: var(--font-display); font-size: 0.9rem;
-    font-weight: 600; color: var(--cyan); letter-spacing: 0.3px;
-  }
-  .flow-arrow { color: var(--orange); font-size: 1.1rem; line-height: 1.6; }
-
-  /* ── Compare ── */
-  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 2rem 0; }
-  .compare-box {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.4rem;
-  }
-  .compare-title {
-    font-family: var(--font-display); font-size: 1rem;
-    font-weight: 800; margin-bottom: 0.9rem;
-    padding-bottom: 0.6rem; border-bottom: 2px solid;
-  }
-  .compare-box.blue .compare-title { color: #5bc8ff; border-color: #5bc8ff; }
-  .compare-box.yellow .compare-title { color: var(--yellow); border-color: var(--yellow); }
-  .compare-box p { font-size: 0.88rem; color: var(--silver); margin-bottom: 0.6rem; }
-  .compare-box p:last-child { margin-bottom: 0; }
-  @media (max-width: 600px) { .compare { grid-template-columns: 1fr; } }
-
-  /* ── Timeline ── */
-  .timeline { position: relative; padding-left: 2.2rem; }
-  .timeline::before {
-    content: ''; position: absolute;
-    left: 0.5rem; top: 0; bottom: 0;
-    width: 2px; background: var(--border);
-  }
-  .tl-item { position: relative; margin-bottom: 1.4rem; }
-  .tl-item::before {
-    content: ''; position: absolute;
-    left: -1.78rem; top: 0.45rem;
-    width: 11px; height: 11px; border-radius: 50%;
-    background: var(--orange); border: 2px solid var(--darker);
-  }
-  .tl-year {
-    font-family: var(--font-display); font-size: 0.8rem;
-    font-weight: 700; color: var(--orange);
-    letter-spacing: 1.5px; margin-bottom: 0.15rem;
-    text-transform: uppercase;
-  }
-  .tl-text { font-size: 0.92rem; color: var(--silver); }
-  .tl-text strong { color: var(--yellow); }
-
-  /* ── Callout ── */
-  .callout {
-    background: linear-gradient(135deg, #071510 0%, #0a1e12 100%);
-    border: 1px solid rgba(0,230,118,0.3); border-left: 4px solid var(--green);
-    border-radius: 8px; padding: 1.6rem 2rem; margin: 2rem 0;
-  }
-  .callout-title {
-    font-family: var(--font-display); font-size: 1.05rem;
-    font-weight: 800; color: var(--green); margin-bottom: 0.8rem;
-    letter-spacing: 0.5px;
-  }
-  .callout p { color: var(--silver); font-size: 0.93rem; margin-bottom: 0.7rem; }
-  .callout p:last-child { margin-bottom: 0; }
-  .callout strong { color: #a0ffca; }
-
-  /* ── Sources panel ── */
-  .sources-list { list-style: none; }
-  .sources-list li {
-    padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
-    font-size: 0.86rem; color: var(--silver);
-  }
-  .sources-list li:last-child { border-bottom: none; }
-  .sources-list a { color: var(--cyan); word-break: break-all; }
-  .sources-list .domain {
-    color: var(--orange); font-family: var(--font-display);
-    font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px;
-    margin-right: 0.5rem;
-  }
-
-  /* ── Map / satellite section ── */
-  .map-wrap {
-    position: relative; border-radius: 6px; overflow: hidden;
-    border: 1px solid var(--border); background: var(--card);
-    margin: 2rem 0 0;
-  }
-  .map-wrap iframe {
-    display: block; width: 100%; height: 500px; border: none;
-  }
-  .map-credit {
-    display: block; padding: 0.5rem 1rem;
-    background: var(--card); border-top: 1px solid var(--border);
-    font-family: var(--font-display); font-size: 0.75rem;
-    letter-spacing: 0.5px; color: var(--silver);
-    text-decoration: none; text-align: right;
-    transition: color 0.15s;
-  }
-  .map-credit:hover { color: var(--cyan); }
-
-  /* ── Historical imagery grid ── */
-  .hist-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 12px; margin: 1.5rem 0;
-  }
-  .hist-card {
-    position: relative; border-radius: 4px; overflow: hidden;
-    border: 1px solid var(--border); background: var(--card);
-    aspect-ratio: 4/3; cursor: pointer;
-  }
-  .hist-card img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform 0.4s ease;
-  }
-  .hist-card:hover img { transform: scale(1.04); }
-  .hist-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
-    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
-    padding: 1.8rem 0.8rem 0.6rem;
-  }
-  .hist-year {
-    display: block;
-    font-family: var(--font-display); font-size: 1.15rem;
-    font-weight: 800; color: var(--cyan);
-    margin-bottom: 0.1rem;
-  }
-  .hist-label {
-    display: block;
-    font-family: var(--font-display); font-size: 0.68rem;
-    font-weight: 600; letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.75);
-  }
-  .hist-link {
-    display: inline-block; padding: 0.55rem 1.4rem;
-    border: 1px solid var(--cyan); color: var(--cyan);
-    font-family: var(--font-display); font-size: 0.8rem;
-    letter-spacing: 1px; text-transform: uppercase;
-    text-decoration: none; border-radius: 3px;
-    transition: background 0.15s, color 0.15s;
-  }
-  .hist-link:hover { background: rgba(0,210,255,0.12); color: #fff; }
-
-  /* ── Footer ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2.5rem 1.5rem; text-align: center;
-    font-size: 0.83rem; color: var(--silver);
-  }
-  footer a { color: var(--cyan); text-decoration: none; }
-
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; min-height: auto; }
-    .hero-image { height: 340px; }
-    .hero-image::after { background: linear-gradient(to top, var(--darker), transparent 60%); }
-    .hero-text { padding: 3rem 1.5rem; }
-    .nameplate-grid { grid-template-columns: 1fr; }
-    .photo-grid { grid-template-columns: 1fr 1fr; }
-    .photo-item.tall { grid-row: span 1; }
-  }
-  @media (max-width: 700px) {
-    .hist-grid { grid-template-columns: repeat(2, 1fr); }
-    .map-wrap iframe { height: 360px; }
-  }
-  @media (max-width: 560px) {
-    .photo-grid { grid-template-columns: 1fr; }
-    .photo-item.wide { grid-column: span 1; }
-    nav { padding: 0 0.8rem; }
-  }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -528,9 +18,12 @@
   <a href="#photos">Photos</a>
   <a href="#location">Location</a>
   <a href="#annotated">Annotated</a>
+  <a href="#comparison">Comparison</a>
   <a href="#nameplate">Nameplate</a>
+  <a href="#gasflow">Flow</a>
   <a href="#components">Components</a>
   <a href="#history">History</a>
+  <a href="#timeline">Timeline</a>
   <a href="#geology">Geology</a>
   <a href="#geothermal">Geothermal</a>
   <a href="#technical">Engineering</a>
@@ -763,6 +256,85 @@
   </div>
 </section>
 
+
+<!-- ── Comparison ── -->
+<section id="comparison">
+  <div class="container">
+    <div class="section-label">Side by Side</div>
+    <h2 class="section-title">Yellow vs Blue — <span>Two Generations</span></h2>
+    <p class="lead">The Trebišov field contains two distinct wellhead generations separated by roughly three decades of engineering progress. Here is how they compare across every key dimension.</p>
+
+    <div class="cmp-wrap">
+
+      <!-- Header row with photos -->
+      <div class="cmp-header">
+        <div class="cmp-header-cell">
+          <span class="section-label" style="margin:0;">Attribute</span>
+        </div>
+        <div class="cmp-header-cell">
+          <img class="cmp-header-thumb" src="images/yellow_ball_valve_closeup.jpg" alt="Yellow Christmas tree">
+          <span class="cmp-header-label" style="color:var(--yellow);">🟡 Yellow Tree</span>
+          <span class="cmp-header-sub">Ball Valve Design</span>
+        </div>
+        <div class="cmp-header-cell">
+          <img class="cmp-header-thumb" src="images/blue_full_clear_sky.jpg" alt="Blue Christmas tree">
+          <span class="cmp-header-label" style="color:#5bc8ff;">🔵 Blue Tree</span>
+          <span class="cmp-header-sub">Gate Valve Design</span>
+        </div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Era</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-yellow">1996</span> Mid-1990s — post-Soviet Czechoslovak engineering</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-silver">1960s–80s</span> Late Soviet-era Eastern European oilfield standard</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Valve Type</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-yellow">Ball valve</span> Quarter-turn spherical plug — rotates 90° to open/close. Fast, tight seal, low friction.</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-cyan">Gate valve</span> Wedge-shaped gate slides across bore. Slower operation, higher torque required.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Actuator</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-green">Pneumatic</span> Large disc actuator on left wing arm — enables remote and automated operation.</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-silver">Manual</span> Handwheels only. Every valve operated by hand, on-site.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Operation Mode</div>
+        <div class="cmp-cell">Remote / semi-automatic. Can be actuated from a control room without personnel at the wellhead.</div>
+        <div class="cmp-cell">Manual only. Requires a technician physically present at the wellhead for every valve operation.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Visual Identifier</div>
+        <div class="cmp-cell">Spherical ball valve bodies, compact profile, prominent pneumatic actuator disc on left wing.</div>
+        <div class="cmp-cell">Boxy square actuator housings, two casing outlet assemblies at base with individual pressure gauges.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Casing Outlets</div>
+        <div class="cmp-cell">Single casing outlet assembly at base.</div>
+        <div class="cmp-cell">Two casing outlet assemblies with separate gauges — indicates at least 3 concentric casing strings monitored individually.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Nameplate Date</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-yellow">28 Oct 1996</span> Certified by NAFTA-UD Gbely. Serial no. V–900405.</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-silver">Unknown</span> No nameplate recovered. Estimated 1960s–1980s based on design characteristics.</div>
+      </div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell">Working Pressure</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-orange">35 MPa</span> (~5,000 PSI) — confirmed on nameplate.</div>
+        <div class="cmp-cell"><span class="cmp-badge badge-silver">Unconfirmed</span> Likely comparable rating for same reservoir pressure.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ── Nameplate ── -->
 <section id="nameplate">
   <div class="container">
@@ -847,33 +419,150 @@
 </section>
 
 <!-- ── Gas flow ── -->
-<section>
+<!-- ── How a Christmas Tree Works ── -->
+<section id="gasflow">
   <div class="container">
     <div class="section-label">How It Works</div>
     <h2 class="section-title">Gas Flow <span>Through the Tree</span></h2>
-    <p class="lead">Following the path gas takes from reservoir to surface makes every component's purpose immediately clear.
+    <p class="lead">From the Neogene reservoir 2,400 m below ground to the surface flowline — click through each component to trace the gas path.
       <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
     </p>
-    <div class="flow">
-      <div class="flow-step">🌍 Neogene sandstone reservoir — 2,250–2,600 m depth</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Production tubing string — rises full depth to surface</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Conductor Flange — top of outermost cemented casing</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Casing Head — first pressure seal at surface level</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Tubing Head Spool — tubing string locked &amp; sealed here</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Lower Master Valve — backup emergency shutoff</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Swab Valve — maintenance &amp; wireline tool access</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Upper Master Valve — primary emergency shutoff</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Production Cross (PK) — flow divides to wing arms</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-step">Right Wing Valve → surface flowline → Gas Collection Station → grid</div>
+
+    <div class="gf-layout">
+
+      <!-- Left: SVG schematic -->
+      <div class="gf-diagram-wrap">
+        <svg id="gfSvg" viewBox="0 108 240 412" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Christmas tree wellhead schematic showing gas flow path">
+          <defs>
+            <filter id="gfGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Underground zone -->
+          <rect x="0" y="440" width="240" height="80" fill="#04040e"/>
+          <line x1="0" y1="440" x2="240" y2="440" stroke="#1c1c3a" stroke-width="1.5"/>
+          <line x1="18"  y1="440" x2="6"   y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="48"  y1="440" x2="36"  y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="78"  y1="440" x2="66"  y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="108" y1="440" x2="96"  y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="138" y1="440" x2="126" y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="168" y1="440" x2="156" y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="198" y1="440" x2="186" y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <line x1="228" y1="440" x2="216" y2="455" stroke="#0e0e2a" stroke-width="1"/>
+          <text x="6" y="437" fill="#1c1c3a" font-family="'Barlow Condensed',sans-serif" font-size="7.5" letter-spacing="1.5" font-weight="600">GROUND LEVEL</text>
+          <text x="6" y="470" fill="#0e0e28" font-family="'Barlow',sans-serif" font-size="8">≈ 2,400 m to reservoir</text>
+
+          <!-- Wellbore / production tubing (dashed, underground) -->
+          <rect id="gf-wellbore" class="gf-el" x="84" y="440" width="12" height="72" rx="1"
+                fill="none" stroke="#1c1c48" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+          <!-- Subtle bore centerline guide -->
+          <line x1="90" y1="440" x2="90" y2="132" stroke="#00d2ff" stroke-width="0.5" opacity="0.07"/>
+          <line x1="90" y1="132" x2="230" y2="132" stroke="#00d2ff" stroke-width="0.5" opacity="0.07"/>
+
+          <!-- 1 · Casing head -->
+          <rect id="gf-casing" class="gf-el" x="50" y="390" width="80" height="50" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="50" y1="394" x2="130" y2="394" stroke="#252560" stroke-width="0.8"/>
+          <line x1="50" y1="436" x2="130" y2="436" stroke="#252560" stroke-width="0.8"/>
+
+          <!-- 2 · Tubing head spool -->
+          <rect id="gf-tubing-head" class="gf-el" x="62" y="328" width="56" height="62" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="62" y1="332" x2="118" y2="332" stroke="#252560" stroke-width="0.8"/>
+          <line x1="62" y1="386" x2="118" y2="386" stroke="#252560" stroke-width="0.8"/>
+
+          <!-- 3 · Lower master valve -->
+          <rect id="gf-lower-master" class="gf-el" x="74" y="272" width="32" height="56" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <!-- Gate valve X symbol -->
+          <line x1="79" y1="282" x2="101" y2="312" stroke="#1c1c48" stroke-width="1.2"/>
+          <line x1="101" y1="282" x2="79" y2="312" stroke="#1c1c48" stroke-width="1.2"/>
+          <!-- Handwheel -->
+          <line x1="90" y1="272" x2="90" y2="264" stroke="#1c1c48" stroke-width="2"/>
+          <ellipse cx="90" cy="262" rx="9" ry="3.5" fill="none" stroke="#1c1c48" stroke-width="1.5"/>
+
+          <!-- 4 · Swab valve -->
+          <rect id="gf-swab" class="gf-el" x="77" y="236" width="26" height="36" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="81" y1="245" x2="99" y2="263" stroke="#1c1c48" stroke-width="1"/>
+          <line x1="99" y1="245" x2="81" y2="263" stroke="#1c1c48" stroke-width="1"/>
+
+          <!-- 5 · Upper master valve -->
+          <rect id="gf-upper-master" class="gf-el" x="74" y="176" width="32" height="60" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <line x1="79" y1="187" x2="101" y2="215" stroke="#1c1c48" stroke-width="1.2"/>
+          <line x1="101" y1="187" x2="79" y2="215" stroke="#1c1c48" stroke-width="1.2"/>
+          <line x1="90" y1="176" x2="90" y2="168" stroke="#1c1c48" stroke-width="2"/>
+          <ellipse cx="90" cy="166" rx="9" ry="3.5" fill="none" stroke="#1c1c48" stroke-width="1.5"/>
+
+          <!-- 6 · Production cross — left arm, right arm, body -->
+          <rect id="gf-arm-left" class="gf-el" x="0" y="124" width="74" height="16" rx="1"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <rect id="gf-arm-right" class="gf-el" x="106" y="124" width="134" height="16" rx="1"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <rect id="gf-prod-cross" class="gf-el" x="74" y="122" width="32" height="54" rx="2"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+
+          <!-- 7 · Left wing valve (blanked / dead end) -->
+          <rect id="gf-wing-left" class="gf-el" x="0" y="121" width="22" height="18" rx="1"
+                fill="#080820" stroke="#141438" stroke-width="1.5"/>
+          <line x1="0" y1="121" x2="0" y2="139" stroke="#141438" stroke-width="3.5"/>
+
+          <!-- 8 · Right wing valve (flowing) — ball valve symbol -->
+          <rect id="gf-wing-right" class="gf-el" x="208" y="121" width="22" height="18" rx="1"
+                fill="#0c0c28" stroke="#1c1c48" stroke-width="1.5"/>
+          <circle cx="219" cy="130" r="5" fill="none" stroke="#1c1c48" stroke-width="1"/>
+          <line x1="219" y1="125" x2="219" y2="135" stroke="#1c1c48" stroke-width="1.2"/>
+
+          <!-- Flowline exit -->
+          <line id="gf-flowline-el" class="gf-el" x1="230" y1="132" x2="240" y2="132" stroke="#1c1c48" stroke-width="2.5"/>
+          <polygon id="gf-flowline-arrow" class="gf-el" points="235,128 242,132 235,136" fill="#1c1c48"/>
+
+          <!-- Gas flow animation path -->
+          <path id="gfPath" d="M90,512 L90,132 L242,132" fill="none"/>
+
+          <!-- Particles: 5 staggered bubbles -->
+          <circle r="3" fill="#00d2ff" opacity="0">
+            <animateMotion dur="5s" begin="0s" repeatCount="indefinite"><mpath href="#gfPath"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;0.85;0.85;0.85;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="5s" begin="0s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="#00d2ff" opacity="0">
+            <animateMotion dur="5s" begin="1s" repeatCount="indefinite"><mpath href="#gfPath"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;0.85;0.85;0.85;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="5s" begin="1s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="#00d2ff" opacity="0">
+            <animateMotion dur="5s" begin="2s" repeatCount="indefinite"><mpath href="#gfPath"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;0.85;0.85;0.85;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="5s" begin="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="#00d2ff" opacity="0">
+            <animateMotion dur="5s" begin="3s" repeatCount="indefinite"><mpath href="#gfPath"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;0.85;0.85;0.85;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="5s" begin="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="3" fill="#00d2ff" opacity="0">
+            <animateMotion dur="5s" begin="4s" repeatCount="indefinite"><mpath href="#gfPath"/></animateMotion>
+            <animate attributeName="opacity" values="0;0;0.85;0.85;0.85;0" keyTimes="0;0.04;0.13;0.87;0.96;1" dur="5s" begin="4s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <!-- Right: Step panel -->
+      <div class="gf-panel">
+        <div class="gf-step-meta">Step <span id="gfStepNum">1</span> of 7</div>
+        <h3 class="gf-step-title" id="gfStepTitle">Reservoir &amp; Production Tubing</h3>
+        <p class="gf-step-desc" id="gfStepDesc">Natural gas accumulates in Neogene sandstone at 2,250–2,600 m depth. A steel production tubing string carries it to surface under reservoir pressure — approximately 18 bar at decommissioning.</p>
+        <div class="gf-controls">
+          <button class="gf-btn" id="gfPrevBtn" onclick="gfStep(-1)" disabled>← Prev</button>
+          <div class="gf-dots" id="gfDots"></div>
+          <button class="gf-btn" id="gfNextBtn" onclick="gfStep(1)">Next →</button>
+        </div>
+        <div class="gf-progress">
+          <div class="gf-progress-bar" id="gfProgressBar" style="width:14.3%"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1142,6 +831,93 @@
             <a href="https://www.teraz.sk/regiony/rezort-zivotneho-prostredia-suhlasi/773121-clanok.html" target="_blank" class="src">TERAZ.sk — MŽP Approval</a>
             <a href="https://www.slovgas.sk/aktuality/trebisov-bude-moct-na-vykurovanie-vyuzit-aj-geotermal-mzp-schvalilo-zamer-spolocnosti-nafta-vyuzit-stare-vrty-ako-vymenniky-tepla/" target="_blank" class="src">SLOVGAS</a>
           </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Timeline ── -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label">Chronology</div>
+    <h2 class="section-title">From Drilling <span>to Geothermal</span></h2>
+    <p class="lead">The full arc of the Trebišov field — from NAFTA's origins in 1913 through two decades of gas production to the geothermal future approved in 2024.</p>
+
+    <div class="vtl-outer" id="vtlOuter">
+      <div class="vtl-track"><div class="vtl-fill" id="vtlFill"></div></div>
+      <div class="vtl-events">
+
+        <div class="vtl-ev vtl-above" data-c="orange">
+          <div class="vtl-card">
+            <div class="vtl-year">1913–1914</div>
+            <div class="vtl-title">NAFTA Founded</div>
+            <div class="vtl-body">Oil discovered at Gbely, western Slovakia. Industrial production begins 13 Jan 1914 — the oldest continuously operating oil field in Central Europe.</div>
+          </div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-dot"></div>
+        </div>
+
+        <div class="vtl-ev vtl-below" data-c="orange">
+          <div class="vtl-dot"></div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-card">
+            <div class="vtl-year">Aug 1996</div>
+            <div class="vtl-title">Privatisation Scandal</div>
+            <div class="vtl-body">45.9% stake sold for ~$16.6M — estimated at one-seventh of market value. Opposition coins the phrase <em>lúpež storočia</em> — theft of the century.</div>
+          </div>
+        </div>
+
+        <div class="vtl-ev vtl-above" data-c="yellow">
+          <div class="vtl-card">
+            <div class="vtl-year">Oct 1996</div>
+            <div class="vtl-title">Wells Commissioned</div>
+            <div class="vtl-body">Trebišov 8–12 enter production. Yellow Christmas trees certified 28 Oct 1996. NAFTA VÝCHOD a.s. established in Michalovce to operate the eastern fields.</div>
+          </div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-dot"></div>
+        </div>
+
+        <div class="vtl-ev vtl-below" data-c="orange">
+          <div class="vtl-dot"></div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-card">
+            <div class="vtl-year">1998–1999</div>
+            <div class="vtl-title">Criminal Charges</div>
+            <div class="vtl-body">Criminal proceedings filed over the 1996 privatisation. March 1999: 40.9% of shares returned to the state Fund of National Property.</div>
+          </div>
+        </div>
+
+        <div class="vtl-ev vtl-above" data-c="silver">
+          <div class="vtl-card">
+            <div class="vtl-year">2015</div>
+            <div class="vtl-title">Decommissioned</div>
+            <div class="vtl-body">All five wells — Trebišov 8 through 12 — cease gas production after nearly two decades. Equipment left in place. Site begins returning to nature.</div>
+          </div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-dot"></div>
+        </div>
+
+        <div class="vtl-ev vtl-below" data-c="green">
+          <div class="vtl-dot"></div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-card">
+            <div class="vtl-year">Feb 2024</div>
+            <div class="vtl-title">Geothermal Approved</div>
+            <div class="vtl-body">Slovak Ministry of Environment approves NAFTA's conversion plan. Wells to become closed-loop geothermal heat exchangers — first project of its kind in Slovakia.</div>
+          </div>
+        </div>
+
+        <div class="vtl-ev vtl-above vtl-future" data-c="green">
+          <div class="vtl-card">
+            <div class="vtl-year">Near future</div>
+            <div class="vtl-title">District Heating</div>
+            <div class="vtl-body">Trebišov's district heating network to be partially powered by geothermal energy from these exact wells. Projected output: 0.9–1 MW thermal.</div>
+          </div>
+          <div class="vtl-stem"></div>
+          <div class="vtl-dot"></div>
         </div>
 
       </div>
@@ -1798,6 +1574,97 @@
     if (e.key === 'ArrowLeft')  lightboxStep(-1);
     if (e.key === 'ArrowRight') lightboxStep(1);
   });
+  // ── Gas Flow Interactive Diagram ──
+  const gfSteps = [
+    {
+      title: 'Reservoir & Production Tubing',
+      desc: 'Natural gas accumulates in Neogene sandstone at 2,250–2,600 m depth. A steel production tubing string carries it to surface under reservoir pressure — approximately 18 bar at decommissioning.',
+      els: ['gf-wellbore']
+    },
+    {
+      title: 'Casing Head',
+      desc: 'The structural base of the Christmas tree, bolted atop the cemented well casing. It provides the first pressure barrier at surface level and supports all equipment above. Every component above it is connected by flanged bolted joints.',
+      els: ['gf-casing']
+    },
+    {
+      title: 'Tubing Head Spool',
+      desc: 'The tubing head houses the tubing hanger — a mandrel that suspends the full weight of the production tubing string (several tonnes) while sealing the annular gap between the tubing and the surrounding casing to prevent gas migrating up the annulus.',
+      els: ['gf-tubing-head']
+    },
+    {
+      title: 'Master Valves & Swab Valve',
+      desc: 'Two master valves provide redundant emergency shutoff on the main bore — close either and the well is isolated. The swab valve between them is for wireline access: it opens to allow logging or intervention tools to be lowered into the well without killing it with heavy fluid.',
+      els: ['gf-lower-master', 'gf-swab', 'gf-upper-master']
+    },
+    {
+      title: 'Production Cross',
+      desc: 'Gas flowing up the vertical bore reaches the production cross (PK — produkčný kríž) and is diverted horizontally into two wing arms. This cross-shaped fitting at the top of the valve stack gives the Christmas tree its characteristic silhouette when viewed from the side.',
+      els: ['gf-prod-cross', 'gf-arm-left', 'gf-arm-right']
+    },
+    {
+      title: 'Wing Valve',
+      desc: 'Each arm carries a wing valve. On the yellow tree, the flowing right wing valve is a ball valve with a pneumatic actuator — a quarter-turn closes in under a second for fast emergency shutoff. The left arm is blanked off or connected to test equipment. Only one side flows during normal production.',
+      els: ['gf-wing-right', 'gf-arm-right']
+    },
+    {
+      title: 'Surface Flowline',
+      desc: 'Gas exits through the wing valve into the surface flowline. A choke manifold controls the flow rate before gas travels several kilometres to the Gas Collection Station (GCS) at Milhostov and into the Slovak national transmission grid.',
+      els: ['gf-flowline-el', 'gf-flowline-arrow', 'gf-wing-right']
+    }
+  ];
+
+  let _gfStep = 0;
+
+  function _gfRender() {
+    document.querySelectorAll('.gf-el').forEach(el => el.classList.remove('gf-active'));
+    gfSteps[_gfStep].els.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('gf-active');
+    });
+    document.getElementById('gfStepNum').textContent = _gfStep + 1;
+    document.getElementById('gfStepTitle').textContent = gfSteps[_gfStep].title;
+    document.getElementById('gfStepDesc').textContent = gfSteps[_gfStep].desc;
+    document.getElementById('gfPrevBtn').disabled = _gfStep === 0;
+    document.getElementById('gfNextBtn').disabled = _gfStep === gfSteps.length - 1;
+    const pct = ((_gfStep + 1) / gfSteps.length * 100).toFixed(1);
+    document.getElementById('gfProgressBar').style.width = pct + '%';
+    document.querySelectorAll('.gf-dot').forEach((dot, i) => dot.classList.toggle('active', i === _gfStep));
+  }
+
+  function gfStep(dir) {
+    _gfStep = Math.max(0, Math.min(gfSteps.length - 1, _gfStep + dir));
+    _gfRender();
+  }
+
+  (function gfInit() {
+    const dots = document.getElementById('gfDots');
+    if (!dots) return;
+    gfSteps.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'gf-dot' + (i === 0 ? ' active' : '');
+      d.onclick = () => { _gfStep = i; _gfRender(); };
+      dots.appendChild(d);
+    });
+    _gfRender();
+  })();
+
+  // Timeline animation
+  (function() {
+    const outer = document.getElementById('vtlOuter');
+    const fill  = document.getElementById('vtlFill');
+    if (!outer || !fill) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          outer.classList.add('animated');
+          fill.style.width = '100%';
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    io.observe(outer);
+  })();
+
 </script>
 
 </body>
