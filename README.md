@@ -2,8 +2,6 @@
 
 Field documentation of decommissioned natural gas wellheads operated by **NAFTA a.s. Gbely** in Trebišov, eastern Slovakia. This project records the physical equipment, engineering details, history, and future geothermal conversion plans for wells **Trebišov 8–12**.
 
-🌐 **Live site:** `https://YOUR-USERNAME.github.io/nafta-trebisov/`
-
 ---
 
 ## What This Documents
@@ -21,33 +19,44 @@ In February 2024, the Slovak Ministry of Environment approved NAFTA's plan to re
 ## Repository Structure
 
 ```
-nafta-trebisov/
-├── index.html                  ← main site (open this in a browser)
-├── README.md                   ← this file
-├── nafta_trebisov_project_notes.json   ← all verified data & source URLs
+trebisov-gas-wells/
+├── index.html                          ← entire site (HTML + CSS + JS, single file)
+├── README.md                           ← this file
+├── nafta_trebisov_project_notes.json   ← all verified research data & source URLs
 └── images/
-    ├── panorama.jpg            ← field panorama, multiple wellheads
-    ├── field_overview.jpg      ← access road and well pads
-    ├── blue_well_full.jpg      ← blue Christmas tree, full view
-    ├── blue_well_cellar.jpg    ← blue wellhead cellar & base detail
-    ├── blue_annotated.jpg      ← blue tree with component labels
-    ├── yellow_well_1.jpg       ← yellow Christmas tree #1
-    ├── yellow_well_2.jpg       ← yellow Christmas tree #2 (ball valve design)
-    ├── yellow_well_closeup.jpg ← yellow wellhead mid-section detail
-    ├── yellow_annotated.jpg    ← yellow tree with component labels
-    └── nameplate.jpg           ← NAFTA-UD Gbely stamped identification plate
+    ├── maps/                           ← aerial & satellite imagery
+    │   ├── hist_2014-2016.jpg          ← historical aerial, 2011–2013 period
+    │   ├── hist_2017-2019.jpg          ← historical aerial, 2014–2016 period
+    │   ├── hist_2020-2022.jpg          ← historical aerial, 2017–2019 period
+    │   ├── hist_newest.jpg             ← aerial, present day (~2022)
+    │   ├── mapy.png                    ← mapy.com screenshot (source, newest)
+    │   ├── mapy (1).png                ← mapy.com screenshot (source, 2020–2022)
+    │   ├── mapy (2).png                ← mapy.com screenshot (source, 2017–2019)
+    │   └── mapy (3).png                ← mapy.com screenshot (source, 2014–2016)
+    ├── field_panorama_wide.jpg         ← wide panorama with Trebišov city beyond
+    ├── field_overview.jpg              ← access road and well pads
+    ├── two_yellow_city_skyline.jpg     ← two yellow trees, city skyline
+    ├── blue_annotated.jpg              ← blue tree with component labels
+    ├── blue_backlit_silhouette.jpg     ← blue tree backlit
+    ├── blue_cellar_flooded.jpg         ← blue wellhead cellar, flooded
+    ├── blue_full_clear_sky.jpg         ← blue Christmas tree, full view
+    ├── blue_full_front.jpg             ← blue tree front, casing outlets
+    ├── yellow_annotated.jpg            ← yellow tree with component labels
+    ├── yellow_ball_valve_closeup.jpg   ← yellow ball valve tree, full view
+    ├── yellow_full_with_cellar.jpg     ← yellow tree with cellar
+    ├── yellow_mid_closeup.jpg          ← yellow tree production cross detail
+    ├── yellow_tr8_angled.jpg           ← TR-8, label visible
+    ├── yellow_tr_angled_full.jpg       ← yellow tree angled view
+    ├── yellow_tr_front_full.jpg        ← yellow tree front stack
+    ├── yellow_tr_side_full.jpg         ← yellow tree side, flowline
+    ├── tr8_backlit_silhouette.jpg      ← TR-8 backlit silhouette
+    ├── tr9_backlit_gravel.jpg          ← TR-9 backlit from gravel
+    ├── tr9_backlit_gravel_2.jpg        ← TR-9 alternate ground angle
+    ├── tr_worm_eye_view.jpg            ← worm-eye ground level view
+    ├── gauge_en837_closeup.jpg         ← EN 837 gauge, blue wellhead
+    ├── gauge_mer_needle_closeup.jpg    ← MER gauge, yellow wellhead
+    └── nameplate.jpg                   ← NAFTA-UD Gbely stamped identification plate
 ```
-
----
-
-## Deploying to GitHub Pages
-
-1. Create a new public repository on GitHub (e.g. `nafta-trebisov`)
-2. Upload all files maintaining the folder structure above — `index.html` and `README.md` at the root, all images inside an `images/` subfolder
-3. Go to **Settings → Pages → Source** and select `main` branch, `/ (root)`
-4. GitHub will publish the site at `https://YOUR-USERNAME.github.io/nafta-trebisov/`
-
-That's it. No build step, no dependencies, no server required.
 
 ---
 
@@ -76,7 +85,7 @@ All 17 verified source URLs are listed in the site's Sources section and stored 
 
 ## Photography
 
-All field photographs were taken on-site at the Trebišov gas field in early 2026. Images are provided as original full-resolution JPEGs. The annotated wellhead diagrams (`blue_annotated.jpg`, `yellow_annotated.jpg`) were produced with AI assistance for educational and documentary purposes.
+All field photographs were taken on-site at the Trebišov gas field in early 2026. Images are provided as original full-resolution JPEGs. The annotated wellhead diagrams (`blue_annotated.jpg`, `yellow_annotated.jpg`) were produced with AI assistance for educational and documentary purposes. Historical aerial imagery sourced from mapy.com.
 
 ---
 
