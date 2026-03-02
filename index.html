@@ -417,6 +417,67 @@
     margin-right: 0.5rem;
   }
 
+  /* ── Map / satellite section ── */
+  .map-wrap {
+    position: relative; border-radius: 6px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--card);
+    margin: 2rem 0 0;
+  }
+  .map-wrap iframe {
+    display: block; width: 100%; height: 500px; border: none;
+  }
+  .map-credit {
+    display: block; padding: 0.5rem 1rem;
+    background: var(--card); border-top: 1px solid var(--border);
+    font-family: var(--font-display); font-size: 0.75rem;
+    letter-spacing: 0.5px; color: var(--silver);
+    text-decoration: none; text-align: right;
+    transition: color 0.15s;
+  }
+  .map-credit:hover { color: var(--cyan); }
+
+  /* ── Historical imagery grid ── */
+  .hist-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; margin: 1.5rem 0;
+  }
+  .hist-card {
+    position: relative; border-radius: 4px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--card);
+    aspect-ratio: 4/3; cursor: pointer;
+  }
+  .hist-card img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.4s ease;
+  }
+  .hist-card:hover img { transform: scale(1.04); }
+  .hist-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+    padding: 1.8rem 0.8rem 0.6rem;
+  }
+  .hist-year {
+    display: block;
+    font-family: var(--font-display); font-size: 1.15rem;
+    font-weight: 800; color: var(--cyan);
+    margin-bottom: 0.1rem;
+  }
+  .hist-label {
+    display: block;
+    font-family: var(--font-display); font-size: 0.68rem;
+    font-weight: 600; letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.75);
+  }
+  .hist-link {
+    display: inline-block; padding: 0.55rem 1.4rem;
+    border: 1px solid var(--cyan); color: var(--cyan);
+    font-family: var(--font-display); font-size: 0.8rem;
+    letter-spacing: 1px; text-transform: uppercase;
+    text-decoration: none; border-radius: 3px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .hist-link:hover { background: rgba(0,210,255,0.12); color: #fff; }
+
   /* ── Footer ── */
   footer {
     border-top: 1px solid var(--border);
@@ -435,6 +496,10 @@
     .photo-grid { grid-template-columns: 1fr 1fr; }
     .photo-item.tall { grid-row: span 1; }
   }
+  @media (max-width: 700px) {
+    .hist-grid { grid-template-columns: repeat(2, 1fr); }
+    .map-wrap iframe { height: 360px; }
+  }
   @media (max-width: 560px) {
     .photo-grid { grid-template-columns: 1fr; }
     .photo-item.wide { grid-column: span 1; }
@@ -447,6 +512,7 @@
 <!-- ── Navigation ── -->
 <nav>
   <a href="#" class="nav-brand">Trebišov Field</a>
+  <a href="#location">Location</a>
   <a href="#photos">Photos</a>
   <a href="#annotated">Annotated</a>
   <a href="#nameplate">Nameplate</a>
@@ -532,6 +598,83 @@
         packed with high-purity methane (94–99% CH₄) at depth.
         <a href="https://www.mdpi.com/2227-9717/9/10/1850" target="_blank" class="src">MDPI — Processes 2021</a>
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Site Location & Satellite View ── -->
+<section id="location">
+  <div class="container">
+    <div class="section-label">Site Location</div>
+    <h2 class="section-title">The Field <span>from Above</span></h2>
+    <p class="lead">
+      Five wellheads in a fenced compound on flat agricultural land 3 km south-east of Trebišov town centre.
+      The concrete well pads and access road are clearly visible from the air at 48°37′10″N 21°42′01″E.
+    </p>
+
+    <!-- Live aerial embed — mapy.com -->
+    <div class="map-wrap">
+      <iframe
+        src="https://mapy.com/s/fujunukude"
+        height="500"
+        frameborder="0"
+        allowfullscreen
+        loading="lazy"
+        title="Trebišov gas field — live aerial view">
+      </iframe>
+      <a class="map-credit"
+         href="https://mapy.com/s/fujunukude"
+         target="_blank" rel="noopener">
+        Open in mapy.com ↗
+      </a>
+    </div>
+
+    <!-- Historical aerial imagery -->
+    <div style="margin-top: 3.5rem;">
+      <div class="section-label">Historical Aerial Views</div>
+      <h3 class="section-title" style="font-size: clamp(1.4rem, 2.5vw, 2rem);">The Site <span>Through Time</span></h3>
+      <p class="lead">
+        Historical aerial photography from mapy.cz documents how this site changed — from agricultural land
+        through well pad construction, active production (1996–2015), to the current decommissioned state.
+        Use the year slider on mapy.cz to browse imagery back to the 1950s.
+      </p>
+      <div class="hist-grid">
+        <div class="hist-card" onclick="openLightbox('images/maps/hist_2014-2016.jpg','2014–2016 — Final years of gas production. Wells decommissioned in 2015; concrete pads and Christmas trees still maintained.')">
+          <img src="images/maps/hist_2014-2016.jpg" alt="Aerial view 2014–2016">
+          <div class="hist-overlay">
+            <span class="hist-year">2011-2013</span>
+            <span class="hist-label">Final years of production</span>
+          </div>
+        </div>
+        <div class="hist-card" onclick="openLightbox('images/maps/hist_2017-2019.jpg','2017–2019 — Two years after decommissioning. Site abandoned, equipment standing but no longer operated.')">
+          <img src="images/maps/hist_2017-2019.jpg" alt="Aerial view 2017–2019">
+          <div class="hist-overlay">
+            <span class="hist-year">2014-2016</span>
+            <span class="hist-label">Abandoned after decommissioning</span>
+          </div>
+        </div>
+        <div class="hist-card" onclick="openLightbox('images/maps/hist_2020-2022.jpg','2020–2022 — Five to seven years after decommissioning. Vegetation beginning to reclaim the well pads.')">
+          <img src="images/maps/hist_2020-2022.jpg" alt="Aerial view 2020–2022">
+          <div class="hist-overlay">
+            <span class="hist-year">2017-2019</span>
+            <span class="hist-label">Vegetation reclaiming the site</span>
+          </div>
+        </div>
+        <div class="hist-card" onclick="openLightbox('images/maps/hist_newest.jpg','Present day — Nearly a decade after decommissioning. Geothermal conversion approved February 2024; the first project of its kind in Slovakia.')">
+          <img src="images/maps/hist_newest.jpg" alt="Aerial view — present">
+          <div class="hist-overlay">
+            <span class="hist-year">2022</span>
+            <span class="hist-label">Awaiting geothermal conversion</span>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 1.2rem;">
+        <a class="hist-link"
+           href="https://mapy.com/s/fujunukude"
+           target="_blank" rel="noopener">
+          Browse historical aerial imagery on mapy.com ↗
+        </a>
+      </div>
     </div>
   </div>
 </section>
