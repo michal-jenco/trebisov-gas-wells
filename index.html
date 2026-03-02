@@ -1645,6 +1645,22 @@
       d.onclick = () => { _gfStep = i; _gfRender(); };
       dots.appendChild(d);
     });
+    // Build element ID → step index map (first occurrence wins)
+    const _gfElStepMap = {};
+    gfSteps.forEach((step, i) => {
+      step.els.forEach(id => {
+        if (_gfElStepMap[id] === undefined) _gfElStepMap[id] = i;
+      });
+    });
+
+    // Click any SVG component to jump to its step
+    document.getElementById('gfSvg').addEventListener('click', e => {
+      const el = e.target.closest('.gf-el');
+      if (!el) return;
+      const stepIdx = _gfElStepMap[el.id];
+      if (stepIdx !== undefined) { _gfStep = stepIdx; _gfRender(); }
+    });
+
     _gfRender();
   })();
 
