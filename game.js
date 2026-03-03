@@ -140,7 +140,7 @@
   /* ── Log ── */
   function log(msg, color, eventId) {
     const el = $('gLog');
-    const ts = formatTime(GS.elapsed);
+    const ts = formatSimDateLog(GS.elapsed);
     const div = document.createElement('div');
     div.style.color = color || '#6666aa';
     div.style.lineHeight = '1.7';
@@ -173,6 +173,50 @@
 
   function formatTime(s) {
     return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(Math.floor(s%60)).padStart(2,'0');
+  }
+
+  /* ── Simulated calendar ──
+     Well TR-9 commissioned: 1 April 1996
+     Decommissioned:         mid-2015  → 19 years of production
+     Session length target:  10 min = 600 s
+     Scale: 600 real seconds = 19 years = 19 × 365.25 = 6939.75 days
+     → 1 real second = 6939.75 / 600 = 11.5663 simulated days
+  ── */
+  const SIM_START    = new Date('1996-04-01');   // first production date
+  const SIM_END_YEAR = 2015;                     // decommission year
+  const SIM_SESSION  = 600;                      // target session seconds
+  const SIM_DAYS_PER_SECOND = (19 * 365.25) / SIM_SESSION;  // ≈ 11.57
+
+  function simDate(elapsedSeconds) {
+    const msOffset = elapsedSeconds * SIM_DAYS_PER_SECOND * 86400 * 1000;
+    return new Date(SIM_START.getTime() + msOffset);
+  }
+
+  const SIM_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // "Apr 1996"  — for HUD timer
+  function formatSimDateShort(elapsedSeconds) {
+    const d = simDate(elapsedSeconds);
+    return SIM_MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+
+  // "01 Apr 1996"  — for log timestamps
+  function formatSimDateLog(elapsedSeconds) {
+    const d = simDate(elapsedSeconds);
+    return String(d.getUTCDate()).padStart(2,'0') + ' ' + SIM_MONTHS[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+
+  // "Apr 1996 – Jun 2003"  — for session report
+  function formatSimDateRange(startS, endS) {
+    return formatSimDateShort(startS) + ' – ' + formatSimDateShort(endS);
+  }
+
+  // Euro formatter: €0 → €999 → €1.2k → €1.5M → €2.1B
+  function fmtEur(v) {
+    if      (v >= 1e9)  return '€' + (v / 1e9).toFixed(1) + 'B';
+    else if (v >= 1e6)  return '€' + (v / 1e6).toFixed(1) + 'M';
+    else if (v >= 1e3)  return '€' + (v / 1e3).toFixed(1) + 'k';
+    else                return '€' + v.toFixed(0);
   }
 
   /* ── Physics step (called every 250ms) ── */
@@ -274,10 +318,14 @@
         GS.score = Math.max(0, GS.score - 1.0);
         GS.multiplier = Math.max(1.0, GS.multiplier * 0.995);
       }
-      // Accumulate gas delivered (m³) — tick is 0.25s, flowRate is m³/h → m³ per tick = flowRate/3600*0.25
-      // During a demand spike, spot price is elevated — multiply earnings by spikePriceMultiplier
-      const m3ThisTick = GS.flowRate / 3600 * 0.25;
-      GS.totalGasDelivered += m3ThisTick * GS.spikePriceMultiplier;  // weighted m³ (price-adjusted)
+      // Accumulate gas delivered (m³) — scaled to simulated time.
+      // 1 real second = SIM_DAYS_PER_SECOND simulated days = SIM_DAYS_PER_SECOND×24 simulated hours.
+      // So m³ per tick = flowRate (m³/h) × simulated hours per tick
+      //                = flowRate × 0.25 × SIM_DAYS_PER_SECOND × 24
+      // During a demand spike, spot price is elevated — multiply by spikePriceMultiplier.
+      const simHoursThisTick = 0.25 * SIM_DAYS_PER_SECOND * 24;
+      const m3ThisTick = GS.flowRate * simHoursThisTick;
+      GS.totalGasDelivered += m3ThisTick * GS.spikePriceMultiplier;
     }
 
     // ── FIX 1: LWV open outside annulus emergency = gas venting penalty ──
@@ -377,6 +425,12 @@
     $('gWHP').textContent = GS.wellheadP.toFixed(1) + ' bar';
     $('gWHP').style.color = GS.wellheadP > 26 ? '#ff5555' : GS.wellheadP > 18 ? '#ffd200' : '#00d2ff';
 
+    const resEl = $('gReservoirP');
+    if (resEl) {
+      resEl.textContent = GS.reservoirP.toFixed(1) + ' bar';
+      resEl.style.color = GS.reservoirP > 20 ? '#9966cc' : GS.reservoirP > 12 ? '#bb77ee' : '#cc88ff';
+    }
+
     $('gFlowRate').textContent = Math.round(GS.flowRate) + ' m³/h';
     const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
     $('gFlowRate').style.color = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
@@ -396,9 +450,7 @@
     const earnings = GS.totalGasDelivered * GAS_PRICE_EUR_PER_M3;
     const earningsEl = $('gEarnings');
     if (earningsEl) {
-      earningsEl.textContent = earnings >= 1000
-        ? '€' + (earnings / 1000).toFixed(2) + 'k'
-        : '€' + earnings.toFixed(2);
+      earningsEl.textContent = fmtEur(earnings);
     }
     // Spike pricing label
     const gasPriceLblEl = $('gGasPriceLbl');
@@ -412,7 +464,7 @@
       gasPriceLblEl.style.color = '';
       if (earningsEl) earningsEl.style.color = '#00e676';
     }
-    $('gTimer').textContent = formatTime(GS.elapsed);
+    $('gTimer').textContent = formatSimDateShort(GS.elapsed);
 
     // Gauge needle — maps 0–32 bar to -135 to +135 deg
     const angle = -135 + (GS.wellheadP / 32) * 270;
@@ -454,17 +506,19 @@
 
   // Series definitions: key, scale factor (so all fit 0-100), color, label
   const CHART_SERIES = [
-    { key: 'whp',    scale: 100/35,    color: '#00d2ff', label: 'WHP (bar)' },
+    { key: 'whp',    scale: 100/35,   color: '#00d2ff', label: 'WHP (bar)' },
+    { key: 'res',    scale: 100/35,   color: '#9966cc', label: 'Reservoir P (bar)', dash: [5,3] },
     { key: 'flow',   scale: 100/480,  color: '#00e676', label: 'Flow ÷3' },
     { key: 'demand', scale: 100/480,  color: '#ffd200', label: 'Demand ÷3', dash: [4,3] },
-    { key: 'ann',    scale: 100/18,    color: '#ff5200', label: 'Ann P (bar)' },
-    { key: 'choke',  scale: 1,         color: '#cc66ff', label: 'Choke %' },
+    { key: 'ann',    scale: 100/18,   color: '#ff5200', label: 'Ann P (bar)' },
+    { key: 'choke',  scale: 1,        color: '#cc66ff', label: 'Choke %' },
   ];
 
   function chartSample() {
     const sample = {
       t:      GS.elapsed,
       whp:    GS.wellheadP,
+      res:    GS.reservoirP,
       flow:   GS.flowRate / 3,
       demand: GS.demand / 3,
       ann:    GS.annulusP,
@@ -525,7 +579,7 @@
     ctx.font = '9px Barlow Condensed, sans-serif';
     for (let i = 0; i <= 4; i++) {
       const t = t0 + tSpan * i / 4;
-      ctx.fillText(formatTime(t), padL + w * i / 4 - 8, H - 4);
+      ctx.fillText(formatSimDateShort(t), padL + w * i / 4 - 8, H - 4);
     }
 
     // Event markers — positioned by timestamp, always correct
@@ -640,6 +694,7 @@
     },
     {
       id: 'demand',
+      weight: 2,
       title: '📈 DEMAND SPIKE',
       desc: 'Gas Collection Station reports surge in pipeline demand. Sustain high flow to satisfy the GCS contract obligation.',
       action: 'ACTION: Open choke to 80%+ with all valves open — then HOLD it there.',
@@ -1273,7 +1328,12 @@
     // After 3 minutes, there's a 30% chance each trigger roll picks a catastrophic event
     const useCatastrophic = GS.elapsed > 180 && Math.random() < 0.30;
     const pool = useCatastrophic ? CATASTROPHIC_EVENTS : EVENTS;
-    const ev = pool[Math.floor(Math.random() * pool.length)];
+
+    // Weighted random pick — events with weight > 1 appear proportionally more often
+    const totalWeight = pool.reduce((s, e) => s + (e.weight || 1), 0);
+    let r = Math.random() * totalWeight;
+    let ev = pool[pool.length - 1];
+    for (const e of pool) { r -= (e.weight || 1); if (r <= 0) { ev = e; break; } }
 
     GS.activeEvent = ev;
     GS.eventTimer = ev.duration;
@@ -1405,7 +1465,7 @@
   const COMPRESSOR_UNLOCK_P = 18;   // bar — unlock threshold
 
   function compressorTick() {
-    // Unlock when reservoir pressure drops low enough (one-way — stays unlocked)
+    // Unlock the first time reservoir pressure drops below threshold — one-way, instant.
     if (GS.compressor === 'locked' && GS.reservoirP <= COMPRESSOR_UNLOCK_P) {
       GS.compressor = 'available';
       _unlockCompressorUI();
@@ -1778,8 +1838,8 @@
      CONTROL POINTER ARROWS
   ════════════════════════════════════ */
   function showPointers(ids) {
-    // Hide all first
-    ['choke','rwv','lwv','umv','lmv','swab','compressor'].forEach(id => {
+    // Hide event-related pointers only — never touch the compressor pointer
+    ['choke','rwv','lwv','umv','lmv','swab'].forEach(id => {
       const el = $('gptr-' + id);
       if (el) el.style.display = 'none';
     });
@@ -1791,7 +1851,8 @@
   }
 
   function hidePointers() {
-    ['choke','rwv','lwv','umv','lmv','swab','compressor'].forEach(id => {
+    // Hide event-related pointers only — compressor pointer is managed separately
+    ['choke','rwv','lwv','umv','lmv','swab'].forEach(id => {
       const el = $('gptr-' + id);
       if (el) el.style.display = 'none';
     });
@@ -1975,7 +2036,7 @@
     eventsResolved: 0,
     eventsFailed: 0,
     peakFlow: 0,
-    peakPressure: 0,
+    minReservoirP: 999, minWHP: 999,
     peakMultiplier: 1.0,
     goodFlowSeconds: 0,   // within ±10% of demand
   };
@@ -2020,7 +2081,7 @@
     });
     Object.assign(SESSION, {
       eventsTriggered: 0, eventsResolved: 0, eventsFailed: 0,
-      peakFlow: 0, peakPressure: 0, peakMultiplier: 1.0, goodFlowSeconds: 0,
+      peakFlow: 0, minReservoirP: 999, minWHP: 999, peakMultiplier: 1.0, goodFlowSeconds: 0,
     });
     chartReset();
     _debriefData = null;
@@ -2057,7 +2118,8 @@
       checkHeroicShutIn();
       // Track session stats
       SESSION.peakFlow = Math.max(SESSION.peakFlow, GS.flowRate);
-      SESSION.peakPressure = Math.max(SESSION.peakPressure, GS.wellheadP);
+      SESSION.minReservoirP = Math.min(SESSION.minReservoirP, GS.reservoirP);
+      if (GS.wellheadP > 0) SESSION.minWHP = Math.min(SESSION.minWHP, GS.wellheadP);
       SESSION.peakMultiplier = Math.max(SESSION.peakMultiplier, GS.multiplier);
       const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
       if (diff <= 0.10 && GS.valves.rwv && !GS.paused) SESSION.goodFlowSeconds += 0.25;
@@ -2159,7 +2221,7 @@
       icon = '■';
       label = 'Session Complete';
       titleText = 'Well Shut In';
-      bodyText = 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well.';
+      bodyText = 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well (' + formatSimDateRange(0, elapsed) + ').';
     } else {
       icon = '💥';
       label = 'Simulation Failed';
@@ -2187,17 +2249,16 @@
 
     // Stats grid
     const totalEarnings = GS.totalGasDelivered * GAS_PRICE_EUR_PER_M3;
-    const earningsStr = totalEarnings >= 1000
-      ? '€' + (totalEarnings / 1000).toFixed(2) + 'k'
-      : '€' + totalEarnings.toFixed(2);
+    const earningsStr = fmtEur(totalEarnings);
     const stats = [
       { label: 'Final Score',     value: score.toLocaleString() + ' pts', color: 'var(--orange)' },
       { label: 'Earnings',        value: earningsStr,                      color: '#00e676' },
-      { label: 'Time on Well',    value: formatTime(elapsed),              color: 'var(--cyan)'   },
+      { label: 'Time on Well',    value: formatSimDateRange(0, elapsed),   color: 'var(--cyan)'   },
       { label: 'Events Resolved', value: evR + ' / ' + evT,               color: evF === 0 ? '#00e676' : '#ffd200' },
       { label: 'On-Target Flow',  value: onTarget + '%',                   color: onTarget >= 60 ? '#00e676' : onTarget >= 30 ? '#ffd200' : '#ff5555' },
       { label: 'Peak Flow',       value: Math.round(SESSION.peakFlow) + ' m³/h', color: 'var(--cyan)' },
-      { label: 'Peak Pressure',   value: SESSION.peakPressure.toFixed(1) + ' bar', color: SESSION.peakPressure > 28 ? '#ff5555' : 'var(--cyan)' },
+      { label: 'Min Reservoir P', value: (SESSION.minReservoirP < 999 ? SESSION.minReservoirP.toFixed(1) : '--') + ' bar', color: SESSION.minReservoirP < 10 ? '#00e676' : SESSION.minReservoirP < 16 ? '#cc88ff' : '#9966cc' },
+      { label: 'Min Wellhead P',  value: (SESSION.minWHP < 999 ? SESSION.minWHP.toFixed(1) : '--') + ' bar',               color: SESSION.minWHP < 10 ? '#00e676' : SESSION.minWHP < 16 ? '#ffd200' : 'var(--cyan)' },
       { label: 'Peak Multiplier', value: (SESSION.peakMultiplier >= 100 ? Math.round(SESSION.peakMultiplier) : SESSION.peakMultiplier.toFixed(1)) + 'x', color: 'var(--yellow)' },
       { label: 'Safety Penalties',value: GS.penaltyCount,                  color: GS.penaltyCount === 0 ? '#00e676' : '#ff5555' },
     ];
@@ -2441,6 +2502,7 @@
       // Series
       const EXP_SERIES = [
         { key: 'whp',    scale: 100/35,   color: CYAN,   dash: [] },
+        { key: 'res',    scale: 100/35,   color: '#9966cc', dash: [5,3] },
         { key: 'flow',   scale: 100/1600, color: GREEN,  dash: [] },
         { key: 'demand', scale: 100/1600, color: YELLOW, dash: [4,3] },
         { key: 'ann',    scale: 100/18,   color: ORANGE, dash: [] },
@@ -2464,7 +2526,7 @@
       for (let i = 0; i <= 5; i++) {
         const t = t0 + tSpan * i/5;
         const x = chX + cpL + cw * i/5;
-        ctx.fillText(formatTime(t), x, chY + chH - 5);
+        ctx.fillText(formatSimDateShort(t), x, chY + chH - 5);
       }
       ctx.textAlign = 'left';
     }
@@ -2537,7 +2599,7 @@
     ctx.textAlign = 'right';
     ctx.fillStyle = '#5a5a88';
     const now = new Date();
-    ctx.fillText(now.toISOString().slice(0,10) + '  ·  Session: ' + formatTime(snap.elapsed), LW - PAD, footY + 8);
+    ctx.fillText(now.toISOString().slice(0,10) + '  ·  Production: ' + formatSimDateRange(0, snap.elapsed), LW - PAD, footY + 8);
     ctx.textAlign = 'left';
 
     // ── Download ──
@@ -2588,13 +2650,15 @@
     $('gPauseOverlay').style.display = 'none';
     refreshValveVisuals();
     $('gWHP').textContent = '-- bar';
+    const resElReset = $('gReservoirP');
+    if (resElReset) { resElReset.textContent = '-- bar'; resElReset.style.color = '#9966cc'; }
     $('gFlowRate').textContent = '-- m³/h';
     $('gAnnPress').textContent = '0 bar';
     $('gScore').textContent = '0';
     if ($('gEarnings')) { $('gEarnings').textContent = '€0'; $('gEarnings').style.color = '#00e676'; }
     const gasPriceLbl = $('gGasPriceLbl');
     if (gasPriceLbl) { gasPriceLbl.textContent = GAS_PRICE_LABEL; gasPriceLbl.style.color = ''; }
-    $('gTimer').textContent = '00:00';
+    $('gTimer').textContent = 'Apr 1996';
     $('gGaugeTxt').textContent = '-- bar';
     $('gFlowBar').style.width = '0%';
     $('gStartBtn').disabled = false;

@@ -1935,11 +1935,16 @@
       <div style="display:flex;flex-direction:column;gap:16px;">
 
         <!-- Top: gauges row -->
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;">
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead Pressure</div>
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead P</div>
             <div id="gWHP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--cyan);">-- bar</div>
             <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Target: 15–25 bar</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Reservoir P</div>
+            <div id="gReservoirP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#9966cc;">-- bar</div>
+            <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Depletes over time</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
             <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Flow Rate</div>
@@ -2006,6 +2011,7 @@
             <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Live Telemetry</span>
             <div style="display:flex;gap:14px;flex-wrap:wrap;">
               <span style="font-size:0.75rem;color:#00d2ff;font-family:var(--font-display);">─ Wellhead P (bar)</span>
+              <span style="font-size:0.75rem;color:#9966cc;font-family:var(--font-display);">─ Reservoir P (bar)</span>
               <span style="font-size:0.75rem;color:#00e676;font-family:var(--font-display);">─ Flow (÷3 m³/h)</span>
               <span style="font-size:0.75rem;color:#ffd200;font-family:var(--font-display);">─ Demand (÷3 m³/h)</span>
               <span style="font-size:0.75rem;color:#ff5200;font-family:var(--font-display);">─ Annulus P (bar)</span>
@@ -2013,7 +2019,7 @@
               <span style="font-size:0.75rem;color:#ff3333;font-family:var(--font-display);">▮ Events</span>
             </div>
           </div>
-          <canvas id="gChart" height="320" style="width:100%;display:block;border-radius:4px;background:#06061a;"></canvas>
+          <canvas id="gChart" height="256" style="width:100%;display:block;border-radius:4px;background:#06061a;"></canvas>
         </div>
 
         <!-- Active event banner -->
@@ -2041,7 +2047,8 @@
               <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Operations Log</span>
               <span id="gLogHint" style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1px;color:#333366;display:none;">🔍 click highlighted entries to read incident report</span>
             </div>
-            <span id="gTimer" style="font-family:var(--font-display);font-size:1rem;color:var(--cyan);">00:00</span>
+            <span id="gTimer" title="Simulated production date — 10 min real time = 19 years (1996–2015)"
+                  style="font-family:var(--font-display);font-size:1rem;color:var(--cyan);">Apr 1996</span>
           </div>
           <div id="gLog" style="max-height:200px;overflow-y:auto;font-size:0.85rem;font-family:'Courier New',monospace;color:#6666aa;line-height:1.7;">
             <div style="color:#333366;">── Waiting for startup ──</div>
@@ -2188,7 +2195,7 @@
         <div style="padding:1.6rem 1.8rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <div>
             <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:4px;">Operator Briefing</div>
-            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Christmas Tree <span style="color:var(--cyan);">Tutorial</span></div>
+            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Gass Well Operation <span style="color:var(--cyan);">Tutorial</span></div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
             <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--silver);">Step <span id="gTutStep">1</span> / <span id="gTutTotal">9</span></div>
