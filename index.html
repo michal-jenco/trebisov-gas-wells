@@ -1923,18 +1923,101 @@
 
         </svg>
 
-        <!-- Choke slider -->
+        <!-- Choke handwheel -->
         <div style="margin-top:16px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
             <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Choke Opening</span>
             <span id="gChokeVal" style="font-family:var(--font-display);font-size:1.15rem;color:var(--cyan);font-weight:700;">50%</span>
           </div>
-          <input type="range" id="gChokeSlider" min="5" max="100" value="50"
-            style="width:100%;accent-color:var(--cyan);cursor:pointer;height:8px;"
-            oninput="gameSetChoke(this.value)">
-          <div style="display:flex;justify-content:space-between;margin-top:4px;">
-            <span style="font-size:0.72rem;color:#444488;">Restrict</span>
-            <span style="font-size:0.72rem;color:#444488;">Wide Open</span>
+
+          <div style="display:flex;align-items:center;gap:16px;">
+            <!-- Handwheel SVG -->
+            <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:4px;" title="Rotate around the centre to adjust choke opening">
+              <svg id="gChokeWheel" width="110" height="110" viewBox="-55 -55 110 110"
+                style="cursor:ns-resize;user-select:none;touch-action:none;">
+
+                <!-- Outer rim shadow / depth ring -->
+                <circle r="48" fill="none" stroke="#0a0a1e" stroke-width="6"/>
+
+                <!-- Rim -->
+                <circle r="44" fill="none" stroke="#2a2a55" stroke-width="8"/>
+                <circle r="44" fill="none" stroke="url(#rimGrad)" stroke-width="5"/>
+
+                <!-- Hub body -->
+                <circle r="40" fill="url(#hubGrad)" stroke="#1a1a45" stroke-width="1.5"/>
+
+                <!-- Radial spokes — 6 spokes, rotate with wheel group -->
+                <g id="gChokeWheelSpokes">
+                  <!-- Spoke lines -->
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round"/>
+
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round" transform="rotate(60)"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round" transform="rotate(60)"/>
+
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round" transform="rotate(120)"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round" transform="rotate(120)"/>
+
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round" transform="rotate(180)"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round" transform="rotate(180)"/>
+
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round" transform="rotate(240)"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round" transform="rotate(240)"/>
+
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#3a3a70" stroke-width="6" stroke-linecap="round" transform="rotate(300)"/>
+                  <line x1="0" y1="-14" x2="0" y2="-40" stroke="#5a5a99" stroke-width="3" stroke-linecap="round" transform="rotate(300)"/>
+
+                  <!-- Indicator handle — points to current position -->
+                  <line x1="0" y1="0" x2="0" y2="-36" stroke="#00d2ff" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+                  <circle cx="0" cy="-33" r="4" fill="#00d2ff" opacity="0.9"/>
+                </g>
+
+                <!-- Centre hub cap -->
+                <circle r="14" fill="url(#capGrad)" stroke="#2a2a55" stroke-width="1.5"/>
+                <circle r="5" fill="#1a1a45"/>
+
+                <!-- Grip notches on rim -->
+                <g id="gChokeWheelRim">
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(30)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(60)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(90)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(120)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(150)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(180)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(210)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(240)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(270)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(300)"/>
+                  <circle cx="0" cy="-44" r="3.5" fill="#1a1a45" stroke="#3a3a70" stroke-width="1" transform="rotate(330)"/>
+                </g>
+
+                <defs>
+                  <radialGradient id="hubGrad" cx="35%" cy="30%">
+                    <stop offset="0%" stop-color="#2e2e6a"/>
+                    <stop offset="100%" stop-color="#0d0d2e"/>
+                  </radialGradient>
+                  <radialGradient id="capGrad" cx="35%" cy="30%">
+                    <stop offset="0%" stop-color="#3a3a80"/>
+                    <stop offset="100%" stop-color="#0f0f38"/>
+                  </radialGradient>
+                  <linearGradient id="rimGrad" x1="0" y1="-1" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#5a5aaa"/>
+                    <stop offset="100%" stop-color="#2a2a55"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div style="font-size:0.65rem;color:#444488;font-family:var(--font-display);letter-spacing:1px;text-align:center;">SCROLL ↑ OPEN · ↓ CLOSE</div>
+            </div>
+
+            <!-- Vertical scale + direction hint -->
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;height:110px;padding:4px 0;">
+              <div style="font-size:0.72rem;color:#00e676;font-family:var(--font-display);">▲ Open<br><span style="color:#555577;font-size:0.65rem;">100%</span></div>
+              <div style="position:relative;width:6px;height:60px;margin:0 auto;border-radius:3px;background:linear-gradient(to top,#ff5555,#ffd200,#00e676);">
+                <div id="gChokeScaleThumb" style="position:absolute;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:var(--cyan);border:2px solid #fff;box-shadow:0 0 6px #00d2ff88;bottom:45%;transition:bottom 0.1s;"></div>
+              </div>
+              <div style="font-size:0.72rem;color:#ff5555;font-family:var(--font-display);">▼ Restrict<br><span style="color:#555577;font-size:0.65rem;">0%</span></div>
+            </div>
           </div>
         </div>
 
@@ -1968,7 +2051,7 @@
       <div style="display:flex;flex-direction:column;gap:16px;">
 
         <!-- Top: gauges row -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
             <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead Pressure</div>
             <div id="gWHP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--cyan);">-- bar</div>
@@ -1988,6 +2071,11 @@
             <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Score</div>
             <div id="gScore" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--orange);">0</div>
             <div id="gMult" style="font-size:0.78rem;color:#444488;margin-top:4px;">×1.0 multiplier</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Earnings</div>
+            <div id="gEarnings" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#00e676;">€0</div>
+            <div id="gGasPriceLbl" style="font-size:0.78rem;color:#444488;margin-top:4px;">fetching price…</div>
           </div>
         </div>
 
@@ -2186,30 +2274,30 @@
 
     <!-- ── Tutorial overlay ── -->
     <div id="gTutorial" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,3,16,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem;">
-      <div style="background:linear-gradient(160deg,#0c0c28 0%,#07071e 100%);border:1.5px solid var(--border);border-radius:10px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+      <div style="background:linear-gradient(160deg,#0c0c28 0%,#07071e 100%);border:1.5px solid var(--border);border-radius:10px;width:100%;max-width:640px;height:min(88vh,680px);display:flex;flex-direction:column;position:relative;">
 
         <!-- Header -->
-        <div style="padding:1.6rem 1.8rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <div style="padding:1.6rem 1.8rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <div>
             <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:4px;">Operator Briefing</div>
             <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Christmas Tree <span style="color:var(--cyan);">Tutorial</span></div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
-            <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--silver);">Step <span id="gTutStep">1</span> / <span id="gTutTotal">6</span></div>
+            <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--silver);">Step <span id="gTutStep">1</span> / <span id="gTutTotal">9</span></div>
             <button onclick="skipTutorial()" style="padding:0.25rem 0.8rem;background:transparent;color:#555577;border:1px solid #2a2a50;border-radius:3px;font-family:var(--font-display);font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;" title="Skip and go straight to the game">✕ Skip</button>
           </div>
         </div>
 
         <!-- Progress bar -->
-        <div style="height:3px;background:#1c1c48;">
-          <div id="gTutProgress" style="height:100%;background:var(--cyan);transition:width 0.3s;width:16.7%;"></div>
+        <div style="height:3px;background:#1c1c48;flex-shrink:0;">
+          <div id="gTutProgress" style="height:100%;background:var(--cyan);transition:width 0.3s;width:11.1%;"></div>
         </div>
 
-        <!-- Step content -->
-        <div id="gTutContent" style="padding:1.8rem;min-height:260px;"></div>
+        <!-- Step content — fixed height, scrolls internally -->
+        <div id="gTutContent" style="padding:1.5rem 1.8rem;flex:1;overflow-y:auto;"></div>
 
-        <!-- Footer nav -->
-        <div style="padding:1rem 1.8rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+        <!-- Footer nav — always pinned to bottom -->
+        <div style="padding:1rem 1.8rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <button id="gTutPrev" onclick="tutStep(-1)"
             style="padding:0.55rem 1.4rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;">
             ← Back
@@ -2245,7 +2333,7 @@
     demand:     800,
     maxFlow:    1200,
     annulusP:   0,
-    choke:      50,
+    choke:      0,
     valves: { lmv: true, umv: true, rwv: true, lwv: false, swab: false },
     particleSpeed: 1.0,
     activeEvent: null,
@@ -2254,12 +2342,60 @@
     nextEventIn: 25,
     penaltyCount: 0,
     noiseOffset: 0,
+    totalGasDelivered: 0,   // m³ delivered to GCS this session
+    spikePriceMultiplier: 1.0,  // >1.0 during demand spike events (spot price premium)
   };
 
   /* ── DOM refs ── */
   const $ = id => document.getElementById(id);
 
-  /* ── Valve appearance ── */
+  /* ── Live gas price ──
+     Conversion chain (fully explicit):
+       Yahoo NG=F price        → USD / MMBtu  (Henry Hub front-month)
+       1 MMBtu = 293.07 kWh    → divide by 293.07 to get USD/kWh, ×1000 = USD/MWh
+       Simplified: USD/MMBtu ÷ 0.293 = USD/MWh
+       USD → EUR               → × 0.92 (approx)
+       MWh → m³                → × 0.01  (natural gas ≈ 10 kWh/m³ at standard conditions,
+                                           i.e. 1 m³ = 0.01 MWh)
+       Final unit stored       → EUR / m³
+
+     Note: NG=F is Henry Hub (US), not TTF (European). For a Slovak operator
+     the relevant market is TTF, which trades significantly higher. We display
+     Henry Hub as a live reference and note it is approximate. The fallback of
+     €35/MWh is a realistic TTF estimate for early 2026.
+  ── */
+  // Fallback = 35 €/MWh × 0.01 MWh/m³ = 0.35 €/m³
+  let GAS_PRICE_EUR_PER_M3 = 35 * 0.01;
+  let GAS_PRICE_LABEL = '≈ €35/MWh (TTF est.)';
+  let GAS_PRICE_LOADED = false;
+
+  (function fetchGasPrice() {
+    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/NG%3DF?interval=1d&range=1d';
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(r => r.json())
+      .then(data => {
+        const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
+        if (!price || isNaN(price)) throw new Error('no price');
+        // price: USD/MMBtu → USD/MWh ÷ 0.293 → EUR/MWh × 0.92 → EUR/m³ × 0.01
+        const usdPerMWh  = price / 0.293;
+        const eurPerMWh  = usdPerMWh * 0.92;
+        const eurPerM3   = eurPerMWh * 0.01;
+        GAS_PRICE_EUR_PER_M3 = eurPerM3;
+        GAS_PRICE_LABEL = '€' + eurPerMWh.toFixed(1) + '/MWh (HH proxy)';
+        GAS_PRICE_LOADED = true;
+        const el = $('gGasPriceLbl');
+        if (el) el.textContent = GAS_PRICE_LABEL;
+      })
+      .catch(() => {
+        // Fallback: TTF European spot ~35 €/MWh, early 2026
+        GAS_PRICE_EUR_PER_M3 = 35 * 0.01;   // = 0.35 €/m³
+        GAS_PRICE_LABEL = '≈ €35/MWh (TTF est.)';
+        const el = $('gGasPriceLbl');
+        if (el) el.textContent = GAS_PRICE_LABEL;
+      });
+  })();
+
+
   const VALVE_COLORS = {
     open:     { rect: '#0a1a0a', stroke: '#00e676', text: '#00e676' },
     closed:   { rect: '#1a0a0a', stroke: '#ff3333', text: '#ff5555' },
@@ -2442,6 +2578,10 @@
         GS.score = Math.max(0, GS.score - 1.0);
         GS.multiplier = Math.max(1.0, GS.multiplier * 0.995);
       }
+      // Accumulate gas delivered (m³) — tick is 0.25s, flowRate is m³/h → m³ per tick = flowRate/3600*0.25
+      // During a demand spike, spot price is elevated — multiply earnings by spikePriceMultiplier
+      const m3ThisTick = GS.flowRate / 3600 * 0.25;
+      GS.totalGasDelivered += m3ThisTick * GS.spikePriceMultiplier;  // weighted m³ (price-adjusted)
     }
 
     // ── FIX 1: LWV open outside annulus emergency = gas venting penalty ──
@@ -2556,6 +2696,27 @@
                                             GS.multiplier.toFixed(2) + 'x';
     $('gMult').textContent = multDisp + ' multiplier';
     $('gMult').style.color = GS.multiplier >= 10 ? '#ffd200' : GS.multiplier >= 3 ? '#00e676' : '#444488';
+
+    // Earnings
+    const earnings = GS.totalGasDelivered * GAS_PRICE_EUR_PER_M3;
+    const earningsEl = $('gEarnings');
+    if (earningsEl) {
+      earningsEl.textContent = earnings >= 1000
+        ? '€' + (earnings / 1000).toFixed(2) + 'k'
+        : '€' + earnings.toFixed(2);
+    }
+    // Spike pricing label
+    const gasPriceLblEl = $('gGasPriceLbl');
+    if (gasPriceLblEl && GS.spikePriceMultiplier > 1.0) {
+      gasPriceLblEl.textContent = GS.spikePriceMultiplier.toFixed(1) + '× SPIKE ⚡';
+      gasPriceLblEl.style.color = '#ffd200';
+      if (earningsEl) earningsEl.style.color = '#ffd200';
+    } else if (gasPriceLblEl && GS.spikePriceMultiplier === 1.0 && !gasPriceLblEl.textContent.includes('MWh') && !gasPriceLblEl.textContent.includes('est')) {
+      // Spike just ended mid-HUD-tick — restore base label
+      gasPriceLblEl.textContent = GAS_PRICE_LABEL;
+      gasPriceLblEl.style.color = '';
+      if (earningsEl) earningsEl.style.color = '#00e676';
+    }
     $('gTimer').textContent = formatTime(GS.elapsed);
 
     // Gauge needle — maps 0–32 bar to -135 to +135 deg
@@ -2779,31 +2940,90 @@
       },
       trigger() { GS.maxFlow = 1600; log('⚠ Overpressure surge detected!', '#ff5555', 'overpressure'); showPointers(['choke','rwv']); },
       check() { return (GS.choke <= 30 || !GS.valves.rwv) && GS.wellheadP < 26; },
-      resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled.', '#00e676'); hidePointers(); },
+      resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled.', '#00e676'); GS.score += 100; GS.multiplier *= 1.3; hidePointers(); },
       expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 100); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! (-100pts)', '#ff3333', 'overpressure'); hidePointers(); }
     },
     {
       id: 'demand',
       title: '📈 DEMAND SPIKE',
-      desc: 'Gas Collection Station reports surge in pipeline demand. Increase production to match.',
-      action: 'ACTION: Open choke to 80%+ and ensure RWV and both masters are open.',
-      duration: 35,
+      desc: 'Gas Collection Station reports surge in pipeline demand. Sustain high flow for 15 seconds to satisfy the GCS contract obligation.',
+      action: 'ACTION: Open choke to 80%+ with all valves open — then HOLD it there for 15 seconds.',
+      duration: 40,
       pointers: ['choke', 'rwv'],
+      _holdRequired: 15,   // seconds of sustained delivery needed
       debrief: {
-        wrong: 'Flow rate fell too far short of pipeline demand. The GCS requires a minimum delivery volume to maintain line pressure. Chronic under-delivery causes line pressure to fall, which can shut down downstream consumers or trigger automatic pipeline isolation.',
-        shouldHave: '1. Open the Choke slider wide — 80% or more.\n2. Make sure RWV, UMV, and LMV are all open (green).\n3. Watch the Flow Rate gauge — it needs to reach at least 85% of the stated demand figure to satisfy the GCS.\n4. If reservoir pressure has declined, you may need to go to 90–100% choke.',
+        wrong: 'Flow rate fell short of pipeline demand during a demand spike, or you could not hold it for the full 15 seconds. The GCS requires sustained delivery — a brief spike followed by a drop still counts as a failure under the contract obligation.',
+        shouldHave: '1. Open the Choke slider wide — 80% or more.\n2. Make sure RWV, UMV, and LMV are all open (green).\n3. Watch the hold progress bar in the event banner — it only fills while you are actively delivering at ≥85% of demand.\n4. If flow dips below threshold, the hold counter resets — you must hold continuously.\n5. If reservoir pressure has declined, go to 90–100% choke.',
         controls: [
-          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open to 80%+' },
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open to 80%+ and hold' },
           { id: 'rwv',   label: 'RWV',          color: '#00e676', hint: 'Must be open' },
           { id: 'lmv',   label: 'LMV',          color: '#00e676', hint: 'Must be open' },
           { id: 'umv',   label: 'UMV',          color: '#00e676', hint: 'Must be open' },
         ],
-        context: 'Gas pipeline contracts specify a "nominated daily quantity" (NDQ). Missing it by more than ~10% triggers financial penalties under the Slovak Gas Act and interconnection agreements. Operators at Milhostov GCS would call the wellhead operator directly when delivery fell short.'
+        context: 'Gas pipeline contracts specify a "nominated daily quantity" (NDQ) with a tolerance band. Under Slovak gas law, sustained under-delivery during a nominated peak period triggered automatic financial penalties and could require a written explanation to eustream a.s. within 24 hours. Operators at Milhostov GCS would call the wellhead operator directly when delivery fell short.'
       },
-      trigger() { GS.demand = 1100; log('📈 Demand spike from GCS — increase flow!', '#ffd200', 'demand'); showPointers(['choke']); },
-      check() { return GS.choke >= 80 && GS.valves.rwv && GS.valves.lmv && GS.valves.umv && GS.flowRate >= GS.demand * 0.85; },
-      resolve() { GS.demand = 800; log('✓ Demand met.', '#00e676'); GS.score += 80; GS.multiplier = Math.min(4, GS.multiplier + 0.3); hidePointers(); },
-      expire() { GS.demand = 800; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 80); log('✗ Demand not met. (-80pts)', '#ff3333', 'demand'); hidePointers(); }
+      trigger() {
+        GS.demand = 1100;
+        GS._demandHeldSeconds = 0;
+        // Spot price spike: 2.5–4.0× base price (realistic TTF intraday spike range)
+        GS.spikePriceMultiplier = 2.5 + Math.random() * 1.5;
+        const el = $('gGasPriceLbl');
+        if (el) { el.textContent = GS.spikePriceMultiplier.toFixed(1) + '× SPIKE ⚡'; el.style.color = '#ffd200'; }
+        const earningsEl = $('gEarnings');
+        if (earningsEl) earningsEl.style.color = '#ffd200';
+        log('📈 Demand spike — sustain flow for 15s! Spot price ' + GS.spikePriceMultiplier.toFixed(1) + '× active!', '#ffd200', 'demand');
+        showPointers(['choke']);
+        // Inject a hold-progress bar into the event banner action line
+        const actionEl = $('gEventAction');
+        if (actionEl) {
+          actionEl.innerHTML =
+            '<div style="margin-bottom:6px;">Open choke to 80%+ with all valves open — then <strong>hold for 15 seconds.</strong></div>' +
+            '<div style="background:#060c1a;border:1px solid #1c1c48;border-radius:4px;overflow:hidden;height:10px;margin-top:4px;">' +
+              '<div id="gDemandHoldBar" style="height:100%;width:0%;background:#ffd200;transition:width 0.25s;border-radius:4px;"></div>' +
+            '</div>' +
+            '<div id="gDemandHoldLbl" style="font-size:0.75rem;color:#ffd200;margin-top:3px;">Hold: 0.0 / 15.0s</div>';
+        }
+      },
+      check() {
+        const meeting = GS.choke >= 80 && GS.valves.rwv && GS.valves.lmv && GS.valves.umv && GS.flowRate >= GS.demand * 0.85;
+        if (meeting) {
+          GS._demandHeldSeconds = (GS._demandHeldSeconds || 0) + 0.25;
+        } else {
+          // Reset hold if they drop below threshold — must hold continuously
+          GS._demandHeldSeconds = Math.max(0, (GS._demandHeldSeconds || 0) - 0.5);
+        }
+        // Update hold progress bar
+        const held = GS._demandHeldSeconds || 0;
+        const holdBar = $('gDemandHoldBar');
+        const holdLbl = $('gDemandHoldLbl');
+        if (holdBar) holdBar.style.width = Math.min(100, held / 15 * 100) + '%';
+        if (holdLbl) holdLbl.textContent = 'Hold: ' + Math.min(held, 15).toFixed(1) + ' / 15.0s';
+        return held >= 15;
+      },
+      resolve() {
+        GS.demand = 800;
+        GS.spikePriceMultiplier = 1.0;
+        GS._demandHeldSeconds = 0;
+        const el = $('gGasPriceLbl');
+        if (el) { el.textContent = GAS_PRICE_LABEL; el.style.color = ''; }
+        const earningsEl = $('gEarnings');
+        if (earningsEl) earningsEl.style.color = '#00e676';
+        log('✓ Demand spike sustained for 15s. Contract obligation met.', '#00e676');
+        GS.score += 150; GS.multiplier *= 1.5; hidePointers();
+      },
+      expire() {
+        GS.demand = 800;
+        GS.spikePriceMultiplier = 1.0;
+        GS._demandHeldSeconds = 0;
+        const el = $('gGasPriceLbl');
+        if (el) { el.textContent = GAS_PRICE_LABEL; el.style.color = ''; }
+        const earningsEl = $('gEarnings');
+        if (earningsEl) earningsEl.style.color = '#00e676';
+        GS.penaltyCount++;
+        GS.score = Math.max(0, GS.score - 100);
+        log('✗ Demand spike not sustained. Contract penalty. (-100pts)', '#ff3333', 'demand');
+        hidePointers();
+      }
     },
     {
       id: 'leak',
@@ -2830,7 +3050,7 @@
         setInterval(function() { if (GS.activeEvent && GS.activeEvent.id==='leak' && !GS.eventResolved) flashEl('gLeakFlash','#ff5200'); }, 2000);
       },
       check() { return !GS.valves.rwv && GS.valves.lwv && !GS.valves.umv; },
-      resolve() { log('✓ RWV isolated. Leak controlled.', '#00e676'); GS.score += 120; GS.multiplier = Math.min(4, GS.multiplier + 0.4); $('gLeakFlash').style.opacity = '0'; hidePointers(); },
+      resolve() { log('✓ RWV isolated. Leak controlled.', '#00e676'); GS.score += 120; GS.multiplier *= 1.3; $('gLeakFlash').style.opacity = '0'; hidePointers(); },
       expire() { $('gLeakFlash').style.opacity = '0'; hidePointers(); gameOver('💧 UNCONTROLLED GAS LEAK', 'The RWV packing seal failed and was not isolated in time. An uncontrolled gas release to atmosphere — a catastrophic safety and environmental violation.'); }
     },
     {
@@ -2851,7 +3071,7 @@
       },
       trigger() { log('🏗 Annulus pressure building — open LWV to bleed off', '#ffd200', 'annulus'); showPointers(['lwv']); },
       check() { return GS.annulusP < 5 && GS.valves.lwv; },
-      resolve() { log('✓ Annulus bled off successfully.', '#00e676'); GS.score += 90; GS.multiplier = Math.min(4, GS.multiplier + 0.3); hidePointers(); },
+      resolve() { log('✓ Annulus bled off successfully.', '#00e676'); GS.score += 90; GS.multiplier *= 1.25; hidePointers(); },
       expire() { hidePointers(); gameOver('💥 CASING FAILURE', 'Annulus pressure was not bled off in time. Casing integrity compromised — uncontrolled gas migration through the cement sheath.'); }
     },
     {
@@ -2873,7 +3093,7 @@
       },
       trigger() { log('🚨 EMERGENCY SHUT-IN — close UMV and RWV NOW!', '#ff3333', 'esi'); showPointers(['umv','rwv']); },
       check() { return !GS.valves.umv && !GS.valves.rwv; },
-      resolve() { log('✓ Emergency shut-in complete.', '#00e676'); GS.score += 200; GS.multiplier = Math.min(4, GS.multiplier + 0.5); hidePointers(); },
+      resolve() { log('✓ Emergency shut-in complete.', '#00e676'); GS.score += 200; GS.multiplier *= 1.4; hidePointers(); },
       expire() { hidePointers(); gameOver('🚨 ESI FAILURE — PIPELINE INCIDENT', 'Emergency shut-in was not executed in time. The well continued feeding gas into a ruptured downstream pipeline. Catastrophic pipeline failure.'); }
     },
     {
@@ -2893,7 +3113,7 @@
       },
       trigger() { GS.maxFlow = 600; log('🪨 Sand plug forming — open choke wide to clear!', '#ffd200', 'sand'); showPointers(['choke']); },
       check() { return GS.choke >= 90; },
-      resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier = Math.min(4, GS.multiplier + 0.2); hidePointers(); },
+      resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier *= 1.2; hidePointers(); },
       expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 70); log('✗ Choke plugged. (-70pts)', '#ff3333', 'sand'); hidePointers(); }
     },
   ];
@@ -2904,7 +3124,7 @@
       id: 'blowthrough',
       title: '💀 RESERVOIR BLOWTHROUGH',
       desc: 'A natural fracture has connected a high-pressure zone directly to the wellbore. Pressure is spiking uncontrollably.',
-      action: 'EMERGENCY: Close UMV AND LMV immediately — you have seconds before the tree exceeds rated pressure.',
+      action: 'EMERGENCY: Close UMV AND LMV immediately — you have seconds before the tree exceeds rated pressure. ⭐ Close ALL 3 bore valves (LMV+UMV+RWV) for a 10× SCORE BONUS — you save the equipment even if the session ends.',
       duration: 12,
       pointers: ['umv', 'rwv'],
       catastrophic: true,
@@ -2941,15 +3161,21 @@
         clearInterval(GS._blowthroughInterval);
         GS.maxFlow = 1200;
         hidePointers();
-        log('💀 Blowthrough uncontrolled.', '#ff0000', 'blowthrough');
-        gameOver('💀 RESERVOIR BLOWTHROUGH', 'Uncontrolled reservoir fracture. The Christmas tree exceeded rated pressure before isolation.');
+        if (GS._heroicShutIn) {
+          log('💀 Blowthrough uncontrolled — but well isolated heroically. Session ends.', '#ffd200');
+          gameHeroicEnd();
+          showSessionReport('heroic', '💀 RESERVOIR BLOWTHROUGH — HEROIC SHUT-IN', 'Uncontrolled reservoir fracture — but you closed all bore valves before the tree failed. The equipment and personnel are safe. 10× score bonus awarded.');
+        } else {
+          log('💀 Blowthrough uncontrolled.', '#ff0000', 'blowthrough');
+          gameOver('💀 RESERVOIR BLOWTHROUGH', 'Uncontrolled reservoir fracture. The Christmas tree exceeded rated pressure before isolation.');
+        }
       }
     },
     {
       id: 'wellfire',
       title: '🔥 WELLHEAD FIRE',
       desc: 'Ignition detected at the wellhead cellar. A gas release has caught fire. Immediate shut-in required — the well cannot continue operating.',
-      action: 'SHUT IN: Close ALL valves — RWV, UMV, LMV. You have 10 seconds. Even a clean shut-in ends this session.',
+      action: 'SHUT IN: Close ALL valves — RWV, UMV, LMV. You have 10 seconds. Even a clean shut-in ends this session. ⭐ Close all 3 bore valves for a 10× SCORE BONUS — you save the equipment and personnel.',
       duration: 10,
       pointers: ['rwv', 'umv'],
       catastrophic: true,
@@ -2976,26 +3202,43 @@
       check() { return !GS.valves.rwv && !GS.valves.umv && !GS.valves.lmv; },
       resolve() {
         clearInterval(GS._wellfireInterval);
-        log('✓ Fire isolated — well shut in. Session ends for safety inspection.', '#ffd200');
         hidePointers();
-        // Wellfire always ends session even if resolved cleanly
-        setTimeout(() => showSessionReport('manual', 'Well Shut In — Fire Isolated', 'You shut in the well during a wellhead fire. Exceptional response. Session ends for mandatory site inspection.'), 2000);
-        GS.running = false;
-        clearInterval(GS._interval);
-        setParticleSpeed(0);
+        // Resolving a wellfire = closing all 3 bore valves under fire — that IS the heroic shut-in
+        if (!GS._heroicShutIn) {
+          GS._heroicShutIn = true;
+          const bonus = Math.round(GS.score * 9);
+          GS.score += bonus;
+          GS.multiplier *= 2.0;
+          chartAddEvent('⭐ HEROIC', '#ffd200');
+          SND.milestone();
+          setTimeout(SND.milestone, 200);
+          setTimeout(SND.milestone, 400);
+          log('⭐ HEROIC SHUT-IN! All bore valves closed during 🔥 WELLHEAD FIRE! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'wellfire');
+        }
+        log('🔥 Fire isolated — well shut in heroically. Session ends for mandatory site inspection.', '#ffd200');
+        setTimeout(() => {
+          gameHeroicEnd();
+          showSessionReport('heroic', '🔥 WELLHEAD FIRE — HEROIC SHUT-IN', 'You shut in the well during a live wellhead fire — closing all bore valves and starving the flame. Personnel safe, equipment preserved. 10× score bonus awarded.');
+        }, 2000);
       },
       expire() {
         clearInterval(GS._wellfireInterval);
         hidePointers();
-        log('🔥 Wellfire uncontrolled.', '#ff0000', 'wellfire');
-        gameOver('🔥 WELLHEAD FIRE — UNCONTROLLED', 'Well was not shut in during a wellhead fire. Catastrophic equipment loss.');
+        if (GS._heroicShutIn) {
+          log('🔥 Fire uncontrolled — but well isolated heroically. Session ends for site inspection.', '#ffd200');
+          gameHeroicEnd();
+          showSessionReport('heroic', '🔥 WELLHEAD FIRE — HEROIC SHUT-IN', 'Fire could not be prevented — but you closed all bore valves before equipment was lost. Personnel safe, equipment preserved. 10× score bonus awarded.');
+        } else {
+          log('🔥 Wellfire uncontrolled.', '#ff0000', 'wellfire');
+          gameOver('🔥 WELLHEAD FIRE — UNCONTROLLED', 'Well was not shut in during a wellhead fire. Catastrophic equipment loss.');
+        }
       }
     },
     {
       id: 'waterflood',
       title: '🌊 FORMATION WATER BREAKTHROUGH',
       desc: 'Massive water influx from an adjacent aquifer. Tubing is flooded — gas production has collapsed and cannot be recovered this session.',
-      action: 'ACCEPT DEFEAT: Formation water has killed the well. Close all valves to preserve equipment. Session is over.',
+      action: 'ACCEPT DEFEAT: Formation water has killed the well. Close all valves (LMV+UMV+RWV) to preserve equipment. ⭐ Close all 3 bore valves before the timer expires for a 10× SCORE BONUS.',
       duration: 8,
       pointers: ['choke'],
       catastrophic: true,
@@ -3017,8 +3260,14 @@
       resolve() {},
       expire() {
         hidePointers();
-        log('🌊 Well killed by water. Production ended.', '#00d2ff', 'waterflood');
-        gameOver('🌊 FORMATION WATER BREAKTHROUGH', 'Aquifer water flooded the tubing. Gas production irreversibly lost this session.');
+        if (GS._heroicShutIn) {
+          log('🌊 Well killed by water — but shut in heroically before equipment damage. Session ends.', '#ffd200');
+          gameHeroicEnd();
+          showSessionReport('heroic', '🌊 WATER BREAKTHROUGH — HEROIC SHUT-IN', 'The aquifer killed the well — but you closed all bore valves before the timer expired, protecting the Christmas tree and wellhead equipment. 10× score bonus awarded.');
+        } else {
+          log('🌊 Well killed by water. Production ended.', '#00d2ff', 'waterflood');
+          gameOver('🌊 FORMATION WATER BREAKTHROUGH', 'Aquifer water flooded the tubing. Gas production irreversibly lost this session.');
+        }
       }
     },
   ];
@@ -3067,11 +3316,40 @@
     if (!GS.activeEvent) return;
     SESSION.eventsFailed++;
     if (GS.activeEvent.debrief) _debriefData = GS.activeEvent.debrief;
-    chartAddEvent('✗ FAILED', '#ff3333');
-    SND.fail();
+    // For heroic catastrophic events the chart event is gold, not red
+    const isHeroic = GS.activeEvent.catastrophic && GS._heroicShutIn;
+    chartAddEvent(isHeroic ? '⭐ HEROIC' : '✗ FAILED', isHeroic ? '#ffd200' : '#ff3333');
+    if (!isHeroic) SND.fail();
     GS.activeEvent.expire();
     hideEventBanner();
     GS.activeEvent = null;
+  }
+
+  // ── Stop game cleanly for heroic sessions ──
+  function gameHeroicEnd() {
+    if (!GS.running) return;
+    clearInterval(GS._interval);
+    GS.running = false;
+    GS.paused  = false;
+    setParticleSpeed(0);
+    $('gAnnParticles').style.display = 'none';
+    $('gPauseOverlay').style.display = 'none';
+    $('gStartBtn').disabled = false;
+    $('gStartBtn').style.opacity = '1';
+    $('gStopBtn').disabled = true;
+    $('gStopBtn').style.opacity = '0.5';
+    $('gStopBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').disabled = true;
+    $('gPauseBtn').style.opacity = '0.5';
+    $('gPauseBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').style.color = 'var(--silver)';
+    $('gPauseBtn').style.borderColor = 'var(--border)';
+    $('gPauseBtn').textContent = '⏸ PAUSE';
+    $('gStatusBadge').textContent = 'HEROIC SHUT-IN';
+    $('gStatusBadge').style.color = '#ffd200';
+    $('gStatusBadge').style.borderColor = '#ffd200';
+    $('gStatusBadge').style.background = '#1a1400';
+    hideEventBanner();
   }
 
   function checkEventResolution() {
@@ -3087,6 +3365,31 @@
       $('gEventTimer').textContent = 'DONE';
       $('gEventTimer').style.color = '#00e676';
       setTimeout(hideEventBanner, 3000);
+    }
+  }
+
+  // ── Heroic shut-in detection: called every tick during catastrophic events ──
+  // Awards a 10× score bonus if player closes all 3 bore valves (LMV+UMV+RWV)
+  // before the catastrophic event timer expires, even though the session still ends.
+  function checkHeroicShutIn() {
+    if (!GS.activeEvent || !GS.activeEvent.catastrophic) return;
+    if (GS.eventResolved || GS._heroicShutIn) return;
+    if (!GS.valves.lmv && !GS.valves.umv && !GS.valves.rwv) {
+      GS._heroicShutIn = true;
+      // 10× bonus on current score
+      const bonus = Math.round(GS.score * 9);   // ×10 total = score + score×9
+      GS.score += bonus;
+      GS.multiplier *= 2.0;   // extra multiplier surge
+      chartAddEvent('⭐ HEROIC', '#ffd200');
+      SND.milestone();
+      setTimeout(SND.milestone, 200);
+      setTimeout(SND.milestone, 400);
+      log('⭐ HEROIC SHUT-IN! All bore valves closed during ' + GS.activeEvent.title + '! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', GS.activeEvent.id);
+      // Update the event banner to reflect the achievement
+      $('gEventBanner').style.borderColor = '#ffd200';
+      $('gEventTitle').style.color = '#ffd200';
+      const timerEl = $('gEventTimer');
+      if (timerEl) { timerEl.style.color = '#ffd200'; }
     }
   }
 
@@ -3433,13 +3736,43 @@
 
   /* ── Public: set choke ── */
   window.gameSetChoke = function(val) {
-    GS.choke = parseInt(val);
-    $('gChokeVal').textContent = GS.choke + '%';
-    // Update choke body color
+    GS.choke = Math.min(100, Math.max(0, Math.round(parseFloat(val) * 10) / 10));
+    $('gChokeVal').textContent = (GS.choke % 1 === 0 ? GS.choke : GS.choke.toFixed(1)) + '%';
     const body = $('gChokeBody');
     if (body) body.style.stroke = GS.choke > 70 ? '#00e676' : GS.choke > 30 ? '#ffd200' : '#ff5555';
+    // Rotate handwheel: 0%→0°, 100%→342°
+    const deg = (GS.choke / 100) * 342;
+    const spokes = $('gChokeWheelSpokes');
+    if (spokes) spokes.setAttribute('transform', 'rotate(' + deg + ')');
+    const col = GS.choke > 70 ? '#00e676' : GS.choke > 30 ? '#ffd200' : '#ff5555';
+    const handle = spokes ? spokes.querySelector('line[stroke="#00d2ff"]') : null;
+    const dot    = spokes ? spokes.querySelector('circle[fill="#00d2ff"]') : null;
+    if (handle) handle.setAttribute('stroke', col);
+    if (dot)    dot.setAttribute('fill', col);
+    // Scale thumb: 0% choke = bottom, 100% = top
+    const thumb = $('gChokeScaleThumb');
+    if (thumb) {
+      thumb.style.bottom = GS.choke + '%';
+      thumb.style.top = 'auto';
+      thumb.style.background = col;
+    }
     checkEventResolution();
   };
+
+  /* ── Handwheel interactions — scroll only ── */
+  (function() {
+    const wheel = $('gChokeWheel');
+    if (!wheel) return;
+
+    const SENSITIVITY = 0.02;   // % choke per deltaY unit
+
+    wheel.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      // scroll up → deltaY is negative on most platforms → negate it → positive → choke opens
+      window.gameSetChoke(GS.choke + (e.deltaY * SENSITIVITY));
+    }, { passive: false });
+  })();
 
   /* ── Session stats tracker ── */
   const SESSION = {
@@ -3485,6 +3818,8 @@
       valves: { lmv: true, umv: true, rwv: true, lwv: false, swab: false },
       activeEvent: null, eventResolved: false, eventTimer: 0, nextEventIn: 25,
       penaltyCount: 0, noiseOffset: 0, particleSpeed: 1.0,
+      totalGasDelivered: 0, spikePriceMultiplier: 1.0, _demandHeldSeconds: 0,
+      _heroicShutIn: false,
     });
     Object.assign(SESSION, {
       eventsTriggered: 0, eventsResolved: 0, eventsFailed: 0,
@@ -3496,11 +3831,10 @@
     if ($('gDebriefBtn')) $('gDebriefBtn').style.display = 'none';
     if ($('gExportBtn'))  $('gExportBtn').style.display  = 'none';
     $('gChartPanel').style.display = 'block';
-    $('gChokeSlider').value = 50;
-    $('gChokeVal').textContent = '50%';
+    window.gameSetChoke(0);
     refreshValveVisuals();
     clearLog();
-    log('▶ Well started. All valves open. Monitor pressure and respond to events.', '#00e676');
+    log('▶ Well started. All valves open — choke fully closed. Open the choke to begin production.', '#00e676');
     SND.startup();
     _lastMilestone = 1;
     _tick = 0;
@@ -3510,6 +3844,7 @@
     GS._interval = setInterval(() => {
       physicsTick();
       checkEventResolution();
+      checkHeroicShutIn();
       // Track session stats
       SESSION.peakFlow = Math.max(SESSION.peakFlow, GS.flowRate);
       SESSION.peakPressure = Math.max(SESSION.peakPressure, GS.wellheadP);
@@ -3595,16 +3930,24 @@
       onTarget * 0.3                              // on-target flow
     ));
 
-    // Performance rating
+    // Performance rating — override for heroic
     let rating, ratingColor;
-    if      (perf >= 85) { rating = '🏆 Master Operator';   ratingColor = '#ffd200'; }
+    if (type === 'heroic') {
+      rating = '⭐ Heroic Response';
+      ratingColor = '#ffd200';
+    } else if (perf >= 85) { rating = '🏆 Master Operator';   ratingColor = '#ffd200'; }
     else if (perf >= 65) { rating = '✅ Competent Engineer'; ratingColor = '#00e676'; }
     else if (perf >= 40) { rating = '⚠ Trainee';            ratingColor = '#ffd200'; }
     else                  { rating = '❌ Needs Retraining';   ratingColor = '#ff5555'; }
 
     // Icon + label based on type
     let icon, label, titleText, bodyText;
-    if (type === 'manual') {
+    if (type === 'heroic') {
+      icon = '⭐';
+      label = 'Heroic Shut-In — Session Ended';
+      titleText = failTitle || 'HEROIC SHUT-IN';
+      bodyText = failBody || 'You closed all bore valves during a catastrophic event. Equipment preserved. 10× score bonus awarded.';
+    } else if (type === 'manual') {
       icon = '■';
       label = 'Session Complete';
       titleText = 'Well Shut In';
@@ -3620,8 +3963,8 @@
     $('gGameOverLabel').textContent = label;
     $('gGameOverTitle').textContent = titleText;
     $('gGameOverBody').textContent  = bodyText;
-    $('gGameOverTitle').style.color = type === 'manual' ? 'var(--cyan)' : '#ff5555';
-    $('gGameOver').style.borderColor = type === 'manual' ? 'var(--cyan)' : 'var(--orange)';
+    $('gGameOverTitle').style.color = type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : '#ff5555';
+    $('gGameOver').style.borderColor = type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : 'var(--orange)';
 
     // Debrief button — only for failures
     const debriefBtn = $('gDebriefBtn');
@@ -3635,8 +3978,13 @@
     }
 
     // Stats grid
+    const totalEarnings = GS.totalGasDelivered * GAS_PRICE_EUR_PER_M3;
+    const earningsStr = totalEarnings >= 1000
+      ? '€' + (totalEarnings / 1000).toFixed(2) + 'k'
+      : '€' + totalEarnings.toFixed(2);
     const stats = [
       { label: 'Final Score',     value: score.toLocaleString() + ' pts', color: 'var(--orange)' },
+      { label: 'Earnings',        value: earningsStr,                      color: '#00e676' },
       { label: 'Time on Well',    value: formatTime(elapsed),              color: 'var(--cyan)'   },
       { label: 'Events Resolved', value: evR + ' / ' + evT,               color: evF === 0 ? '#00e676' : '#ffd200' },
       { label: 'On-Target Flow',  value: onTarget + '%',                   color: onTarget >= 60 ? '#00e676' : onTarget >= 30 ? '#ffd200' : '#ff5555' },
@@ -3646,7 +3994,7 @@
       { label: 'Safety Penalties',value: GS.penaltyCount,                  color: GS.penaltyCount === 0 ? '#00e676' : '#ff5555' },
     ];
     const statsGrid = $('gGameOverStats');
-    statsGrid.style.gridTemplateColumns = 'repeat(4,1fr)';
+    statsGrid.style.gridTemplateColumns = 'repeat(3,1fr)';
     statsGrid.innerHTML = stats.map(s =>
       `<div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;">
         <div style="font-family:var(--font-display);font-size:0.58rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">${s.label}</div>
@@ -3654,21 +4002,39 @@
       </div>`
     ).join('');
 
+    // Heroic bonus callout — shown only for heroic type
+    let heroicBanner = $('gHeroicBanner');
+    if (!heroicBanner) {
+      heroicBanner = document.createElement('div');
+      heroicBanner.id = 'gHeroicBanner';
+      statsGrid.parentNode.insertBefore(heroicBanner, statsGrid.nextSibling);
+    }
+    if (type === 'heroic') {
+      heroicBanner.style.cssText = 'margin:14px auto 0;max-width:560px;background:linear-gradient(135deg,#1a1400,#0a0a00);border:2px solid #ffd200;border-radius:8px;padding:14px 20px;text-align:center;';
+      heroicBanner.innerHTML =
+        '<div style="font-size:1.8rem;margin-bottom:4px;">⭐</div>' +
+        '<div style="font-family:var(--font-display);font-size:1.1rem;font-weight:800;color:#ffd200;letter-spacing:2px;margin-bottom:6px;">HEROIC SHUT-IN BONUS</div>' +
+        '<div style="font-size:0.85rem;color:#ccaa00;line-height:1.7;">You closed all bore valves (LMV + UMV + RWV) during a catastrophic event — protecting equipment and personnel even as the session ended. Score multiplied ×10.</div>' +
+        '<div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:#ffd200;margin-top:8px;">Final Score: ' + Math.round(GS.score).toLocaleString() + ' pts</div>';
+    } else {
+      heroicBanner.style.display = 'none';
+    }
+
     // Performance bar
     const perfDiv = $('gGameOverPerf');
     perfDiv.style.display = 'block';
     $('gPerfLabel').textContent = rating;
     $('gPerfLabel').style.color = ratingColor;
-    const barColor = perf >= 65 ? '#00e676' : perf >= 40 ? '#ffd200' : '#ff5555';
+    const barColor = type === 'heroic' ? '#ffd200' : perf >= 65 ? '#00e676' : perf >= 40 ? '#ffd200' : '#ff5555';
     $('gPerfBar').style.background = barColor;
-    setTimeout(() => { $('gPerfBar').style.width = perf + '%'; }, 100);
+    setTimeout(() => { $('gPerfBar').style.width = type === 'heroic' ? '100%' : perf + '%'; }, 100);
 
     $('gGameOver').style.display = 'block';
     // Smooth scroll to report
     setTimeout(() => $('gGameOver').scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
-    // Show log hint only for failures
+    // Show log hint for failures and heroic (player wants to read the achievement log)
     const logHint = $('gLogHint');
-    if (logHint) logHint.style.display = type === 'failure' ? 'inline' : 'none';
+    if (logHint) logHint.style.display = (type === 'failure' || type === 'heroic') ? 'inline' : 'none';
     // Always show export button
     const expBtn = $('gExportBtn');
     if (expBtn) expBtn.style.display = 'inline-block';
@@ -3676,6 +4042,7 @@
     _exportSnapshot = {
       type, titleText, bodyText, rating, ratingColor, perf, barColor,
       score, elapsed, evR, evT, evF, onTarget, stats,
+      earningsStr, gasPriceLabel: GAS_PRICE_LABEL,
     };
   }
 
@@ -3777,33 +4144,35 @@
 
     // Divider
     ctx.strokeStyle = BORDER; ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(PAD, 88); ctx.lineTo(LW - PAD, 88); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(PAD, 72); ctx.lineTo(LW - PAD, 72); ctx.stroke();
 
-    // ── STATS ROW ──
-    const sY = 96, sH = 58;
+    // ── STATS ROW ── (9 cards)
+    const sY = 80, sH = 56;
     const totalCardW = LW - PAD * 2;
-    const sW = (totalCardW - 7 * 6) / 8;  // 8 cards, 6px gap
+    const sN = snap.stats.length;
+    const sW = (totalCardW - (sN - 1) * 5) / sN;
     snap.stats.forEach((s, i) => {
-      const sx = PAD + i * (sW + 6);
+      const sx = PAD + i * (sW + 5);
       ctx.fillStyle = CARD;
       roundRect(ctx, sx, sY, sW, sH, 5);
       ctx.strokeStyle = BORDER; ctx.lineWidth = 0.6;
       roundRectStroke(ctx, sx, sY, sW, sH, 5);
       // label
-      ctx.font = '8px "Barlow Condensed", sans-serif';
+      ctx.font = '7.5px "Barlow Condensed", sans-serif';
       ctx.fillStyle = SILVER;
       ctx.textAlign = 'center';
-      const label = s.label.toUpperCase();
-      ctx.fillText(label, sx + sW/2, sY + 14);
-      // value
-      ctx.font = 'bold 15px "Barlow Condensed", sans-serif';
+      ctx.fillText(s.label.toUpperCase(), sx + sW/2, sY + 13);
+      // value — shrink font if value is long
+      const valStr = String(s.value);
+      const fontSize = valStr.length > 8 ? 12 : 14;
+      ctx.font = `bold ${fontSize}px "Barlow Condensed", sans-serif`;
       ctx.fillStyle = s.color;
-      ctx.fillText(s.value, sx + sW/2, sY + 38);
+      ctx.fillText(valStr, sx + sW/2, sY + 36);
       ctx.textAlign = 'left';
     });
 
     // ── CHART PANEL ──
-    const chX = PAD, chY = 166, chW = 660, chH = 230;
+    const chX = PAD, chY = 148, chW = 660, chH = 240;
     ctx.fillStyle = '#06061a';
     roundRect(ctx, chX, chY, chW, chH, 6);
     ctx.strokeStyle = BORDER; ctx.lineWidth = 0.8;
@@ -3998,6 +4367,9 @@
     $('gFlowRate').textContent = '-- m³/h';
     $('gAnnPress').textContent = '0 bar';
     $('gScore').textContent = '0';
+    if ($('gEarnings')) { $('gEarnings').textContent = '€0'; $('gEarnings').style.color = '#00e676'; }
+    const gasPriceLbl = $('gGasPriceLbl');
+    if (gasPriceLbl) { gasPriceLbl.textContent = GAS_PRICE_LABEL; gasPriceLbl.style.color = ''; }
     $('gTimer').textContent = '00:00';
     $('gGaugeTxt').textContent = '-- bar';
     $('gFlowBar').style.width = '0%';
@@ -4018,6 +4390,7 @@
      TUTORIAL SYSTEM
   ════════════════════════════════════ */
   const TUT_STEPS = [
+    // ── Step 1: Welcome + core objective ──────────────────────────────────────
     {
       title: '🎮 Welcome, Operator',
       html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
@@ -4028,147 +4401,307 @@
       </p>
       <p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
         Gas rises from <strong style="color:var(--cyan);">2,400 m underground</strong> at up to 28 bar reservoir pressure.
-        Your controls govern exactly how much flows — and in an emergency, whether the well is shut in before something goes wrong.
+        Your controls govern exactly how much flows — and in an emergency, whether the well is shut in before something explodes.
       </p>
-      <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:1rem;font-size:0.82rem;color:var(--silver);">
-        💡 <strong style="color:var(--yellow);">Scoring:</strong> You earn points every second your flow rate is within <strong>±10%</strong> of pipeline demand.
-        Respond fast to events for bonus multipliers. Safety violations cost points and can end your session.
-      </div>`
-    },
-    {
-      title: '🔧 The Valve Stack',
-      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
-        The SVG schematic on the left shows a real Christmas tree cross-section.
-        <strong style="color:var(--cyan);">Click any valve</strong> to open or close it.
-      </p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.82rem;">
-        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
-          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">LMV — Lower Master Valve</div>
-          <div style="color:var(--silver);">Main bore shutoff at the base of the tree. Closing isolates the entire production tubing from above.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.82rem;margin-bottom:0.8rem;">
+        <div style="background:#08082a;border-left:3px solid var(--cyan);border-radius:0 6px 6px 0;padding:10px 12px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Your Controls</div>
+          <div style="color:var(--silver);">5 clickable valves on the schematic + a choke slider. That's it.</div>
         </div>
-        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
-          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">UMV — Upper Master Valve</div>
-          <div style="color:var(--silver);">Redundant emergency shutoff. The first valve you close in an ESI signal — a quarter-turn seals the bore.</div>
+        <div style="background:#08082a;border-left:3px solid var(--orange);border-radius:0 6px 6px 0;padding:10px 12px;">
+          <div style="color:var(--orange);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Your Goal</div>
+          <div style="color:var(--silver);">Keep flow within ±10% of pipeline demand and respond to faults before the timer hits zero.</div>
         </div>
-        <div style="background:#08082a;border:1px solid #00d2ff44;border-radius:6px;padding:10px;">
-          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">RWV — Right Wing Valve</div>
-          <div style="color:var(--silver);">Production outlet. Gas flows right → to the GCS flowline. Closing this stops all production flow.</div>
+        <div style="background:#08082a;border-left:3px solid #00e676;border-radius:0 6px 6px 0;padding:10px 12px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Scoring</div>
+          <div style="color:var(--silver);">Points every second you're on-target. The closer to exactly 100% demand, the faster your multiplier compounds.</div>
         </div>
-        <div style="background:#08082a;border:1px solid #ffd20044;border-radius:6px;padding:10px;">
-          <div style="color:var(--yellow);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">LWV — Left Wing Valve</div>
-          <div style="color:var(--silver);">Annulus vent arm — normally closed. Open it to bleed casing annulus pressure during buildup events.</div>
-        </div>
-        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px;grid-column:1/-1;">
-          <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">SWAB Valve</div>
-          <div style="color:var(--silver);">Between the two masters — for wireline tool access during maintenance. Normally kept closed during production.</div>
-        </div>
-      </div>`
-    },
-    {
-      title: '🎚 The Choke Slider',
-      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
-        The <strong style="color:var(--cyan);">choke</strong> is a variable restriction in the production line.
-        It's your primary flow control tool — think of it as a tap for the entire well.
-      </p>
-      <div style="display:grid;gap:10px;font-size:0.85rem;">
-        <div style="background:#08082a;border-left:3px solid #ff5555;border-radius:0 6px 6px 0;padding:10px 14px;">
-          <strong style="color:#ff5555;">Choke &lt;30% (red)</strong> — highly restricted. Low flow rate, pressure builds up behind it. Use this to control overpressure surges.
-        </div>
-        <div style="background:#08082a;border-left:3px solid var(--yellow);border-radius:0 6px 6px 0;padding:10px 14px;">
-          <strong style="color:var(--yellow);">Choke 30–70% (yellow)</strong> — normal operating range. Tune this to match pipeline demand most of the time.
-        </div>
-        <div style="background:#08082a;border-left:3px solid #00e676;border-radius:0 6px 6px 0;padding:10px 14px;">
-          <strong style="color:#00e676;">Choke &gt;70% (green)</strong> — wide open. Maximum flow. Needed for demand spikes — and for blasting through sand plugs (open to 90%+).
+        <div style="background:#08082a;border-left:3px solid #ffd200;border-radius:0 6px 6px 0;padding:10px 12px;">
+          <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Earnings</div>
+          <div style="color:var(--silver);">Every m³ of gas you deliver earns real money at live TTF gas market prices. Demand spikes pay 2.5–4× spot rate.</div>
         </div>
       </div>
-      <p style="color:var(--silver);font-size:0.8rem;margin-top:1rem;">
-        ⚡ Flow rate = reservoir pressure × choke opening × valve configuration. All four factors multiply together.
-      </p>`
+      <div style="background:#08082a;border:1px solid #ff330044;border-radius:6px;padding:0.75rem 1rem;font-size:0.8rem;color:#ff9966;">
+        ⚠ <strong>Session ends</strong> if: wellhead pressure exceeds 32 bar, annulus pressure exceeds 20 bar, 5 safety violations, flow too far from demand for too long, or a catastrophic event is not handled.
+      </div>`
     },
+    // ── Step 2: Valve stack ───────────────────────────────────────────────────
     {
-      title: '📊 Reading the Instruments',
-      html: `<div style="display:grid;gap:10px;font-size:0.83rem;">
-        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
-          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Wellhead Pressure</div>
-          <div style="color:var(--silver);">Target: <strong style="color:#00e676;">15–25 bar</strong>. Goes red above 28 bar — overpressure territory.
-          Above 32 bar you get automatic penalties; above 35 bar = blowout and instant game over.</div>
+      title: '🔧 The Valve Stack',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.8rem;">
+        The schematic on the left is a real Christmas tree cross-section.
+        <strong style="color:var(--cyan);">Click any valve</strong> to toggle it open/closed.
+        Green = open, Red = closed.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.81rem;">
+        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">LMV — Lower Master Valve</div>
+          <div style="color:var(--silver);">Main bore shutoff at the base of the tree. Closing this fully isolates the production tubing — the strongest possible safety position.</div>
         </div>
-        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
-          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Flow Rate vs. Demand</div>
-          <div style="color:var(--silver);">The green marker on the bar shows pipeline demand. Keep your flow bar touching it.
-          <strong style="color:#00e676;">±10%</strong> = scoring zone. The % readout in the top right of the bar tells you where you are.</div>
+        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">UMV — Upper Master Valve</div>
+          <div style="color:var(--silver);">Redundant emergency shutoff above the swab valve. First valve to close in an ESI signal.</div>
         </div>
-        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
-          <div style="color:var(--yellow);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Annulus Pressure</div>
-          <div style="color:var(--silver);">Normally near zero. If it spikes during an annulus buildup event, open the LWV to vent it.
-          Ignore it and it can reach 16 bar — casing failure and game over.</div>
+        <div style="background:#08082a;border:1px solid #00d2ff44;border-radius:6px;padding:10px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">RWV — Right Wing Valve</div>
+          <div style="color:var(--silver);">Production outlet. Gas flows right → to the GCS flowline. Closing this stops all production immediately.</div>
         </div>
-        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
-          <div style="color:var(--orange);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Score &amp; Multiplier</div>
-          <div style="color:var(--silver);">Multiplier builds when you stay on-target, drops when you miss. Fast event resolution gives bonus multiplier bumps.
-          5 uncorrected safety violations ends the session.</div>
+        <div style="background:#08082a;border:1px solid #ffd20044;border-radius:6px;padding:10px;">
+          <div style="color:var(--yellow);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">LWV — Left Wing Valve ⚠</div>
+          <div style="color:var(--silver);">Annulus vent arm. <strong style="color:#ff9944;">Only open this during annulus or leak events.</strong> Leaving it open vents gas to atmosphere and loses you points fast.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px;grid-column:1/-1;">
+          <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">SWAB Valve</div>
+          <div style="color:var(--silver);">Between the two masters — for wireline tool access. Keep it closed during all normal production. Shown yellow-locked when closed.</div>
+        </div>
+      </div>
+      <div style="background:#0a0a20;border:1px solid #ffd20033;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:0.78rem;color:#ccaa00;">
+        💡 During events, <strong>animated pulsing circles</strong> appear on the schematic pointing to the exact valve you need to act on.
+      </div>`
+    },
+    // ── Step 3: Choke handwheel ──────────────────────────────────────────────
+    {
+      title: '🎚 The Choke Handwheel',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.8rem;">
+        The <strong style="color:var(--cyan);">choke</strong> is a variable restriction in the production line — your primary flow rate control.
+        It's controlled by a <strong style="color:var(--cyan);">rotary handwheel</strong>, just like the real thing.
+      </p>
+      <div style="background:#08082a;border:1px solid #00d2ff44;border-radius:6px;padding:10px 13px;font-size:0.82rem;margin-bottom:0.8rem;">
+        <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">How to operate the handwheel</div>
+        <div style="color:var(--silver);display:grid;gap:5px;">
+          <div>🖱 <strong style="color:#fff;">Scroll up</strong> while hovering the wheel — opens the choke (more flow). The wheel rotates clockwise.</div>
+          <div>🖱 <strong style="color:#fff;">Scroll down</strong> while hovering the wheel — closes the choke (less flow). Counter-clockwise.</div>
+          <div style="color:#555577;font-size:0.78rem;">Sensitivity is deliberately fine — a long scroll only moves a few percent, so you can dial in exactly the value you need without overshooting.</div>
+        </div>
+      </div>
+      <div style="display:grid;gap:8px;font-size:0.84rem;margin-bottom:0.8rem;">
+        <div style="background:#08082a;border-left:3px solid #ff5555;border-radius:0 6px 6px 0;padding:9px 13px;">
+          <strong style="color:#ff5555;">≤30% — Restricted (red)</strong><br>
+          <span style="color:var(--silver);">Low flow, pressure backs up. Use during overpressure surges to drop wellhead pressure fast.</span>
+        </div>
+        <div style="background:#08082a;border-left:3px solid #ffd200;border-radius:0 6px 6px 0;padding:9px 13px;">
+          <strong style="color:#ffd200;">30–70% — Normal range (yellow)</strong><br>
+          <span style="color:var(--silver);">Tune here to match pipeline demand during steady production. ~50% is a good starting point.</span>
+        </div>
+        <div style="background:#08082a;border-left:3px solid #00e676;border-radius:0 6px 6px 0;padding:9px 13px;">
+          <strong style="color:#00e676;">≥70% — Wide open (green)</strong><br>
+          <span style="color:var(--silver);">Maximum flow. Open to 80%+ for demand spikes. Open to 90%+ to blast sand plugs clear.</span>
+        </div>
+      </div>
+      <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;font-size:0.82rem;">
+        <div style="color:#ff9944;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">⏱ Reservoir pressure declines</div>
+        <div style="color:var(--silver);">As the session runs, reservoir pressure slowly drops. You'll need to rotate the choke progressively wider over time to maintain the same flow rate.</div>
+      </div>`
+    },
+    // ── Step 4: Instruments + live chart ─────────────────────────────────────
+    {
+      title: '📊 Instruments & Live Chart',
+      html: `<div style="display:grid;gap:8px;font-size:0.82rem;margin-bottom:0.8rem;">
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Wellhead Pressure</div>
+          <div style="color:var(--silver);">Target <strong style="color:#00e676;">15–25 bar</strong>. Yellow above 26 bar. Red above 28 bar. Game over above 32 bar. Watch the needle gauge on the schematic for a quick visual.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Flow Rate vs. Demand bar</div>
+          <div style="color:var(--silver);">The green marker = pipeline demand. Keep the flow bar touching it. <strong style="color:#00e676;">Green = ±10%</strong> (scoring). <strong style="color:#ffd200;">Yellow = ±25%</strong> (marginal). <strong style="color:#ff5555;">Red = &gt;25% off</strong> (losing points).</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;">
+          <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Annulus Pressure</div>
+          <div style="color:var(--silver);">Normal: near 0. Danger: above 10 bar. Game over: above 20 bar. If it's rising, open LWV immediately.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;">
+          <div style="color:var(--orange);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Score &amp; Multiplier</div>
+          <div style="color:var(--silver);">Multiplier compounds continuously while you're on-target. Completing events gives a <strong style="color:#ffd200;">multiplicative boost</strong> (×1.2–×1.5 depending on event). Demand spikes give the biggest boost (×1.5). Multiplier never resets — protect it.</div>
+        </div>
+      </div>
+      <div style="background:#06061a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;font-size:0.8rem;">
+        <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:6px;">📈 Live Telemetry Chart — what each line means:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span style="color:#00d2ff;">─ Wellhead P (bar)</span>
+          <span style="color:#00e676;">─ Flow ÷10 m³/h</span>
+          <span style="color:#ffd200;">─ ─ Demand ÷10 m³/h</span>
+          <span style="color:#ff5200;">─ Annulus P (bar)</span>
+          <span style="color:#cc66ff;">─ Choke %</span>
+          <span style="color:#ff3333;">▮ Event markers</span>
+        </div>
+        <div style="color:#444488;margin-top:5px;font-size:0.75rem;">Events are pinned to their exact timestamp on the chart — scroll back to see your whole session history after the game ends.</div>
+      </div>`
+    },
+    // ── Step 5: Normal events ─────────────────────────────────────────────────
+    {
+      title: '⚡ Normal Events',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.7rem;">
+        Every 20–40 seconds a random event fires. An <strong style="color:var(--orange);">orange banner</strong> appears with a countdown. Read the <strong style="color:var(--cyan);">ACTION line</strong> and act before the timer hits zero.
+      </p>
+      <p style="color:#ff9944;font-size:0.8rem;margin-bottom:0.8rem;background:#0a0500;border-left:3px solid #ff9944;padding:6px 10px;border-radius:0 4px 4px 0;">
+        ⚡ Some events (Leak, Annulus, ESI) show a notice: <em>"Act now — flow being green does NOT mean this is resolved."</em> These require a specific valve action regardless of your flow rate.
+      </p>
+      <div style="display:grid;gap:7px;font-size:0.8rem;">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">⬆</span>
+          <div><strong style="color:#ff5555;">Overpressure Surge</strong> — choke ≤30% OR close RWV. Hold until WHP drops below 26 bar. <em style="color:#555588;">(30s timer)</em></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">📈</span>
+          <div><strong style="color:#ffd200;">Demand Spike</strong> — open choke to 80%+ with all valves open, then <strong>hold for 15 seconds continuously</strong>. A progress bar shows your hold time. If flow drops below threshold the bar resets. Spot gas price 2.5–4× during the spike — big earnings window. <em style="color:#555588;">(40s timer)</em></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">💧</span>
+          <div><strong style="color:var(--cyan);">Wing Valve Leak</strong> — 3-step procedure: <strong>①</strong> close RWV, <strong>②</strong> open LWV, <strong>③</strong> close UMV. All three required. <em style="color:#555588;">(35s timer)</em></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🏗</span>
+          <div><strong style="color:#ffd200;">Annulus Buildup</strong> — open LWV and hold it open until annulus pressure drops below 5 bar. Closing it too early resets the check. <em style="color:#555588;">(50s timer)</em></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🚨</span>
+          <div><strong style="color:#ff5555;">Emergency Shut-In (ESI)</strong> — close UMV AND RWV within 20 seconds. Both must be closed. Fast reaction = multiplier ×1.4 bonus.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🪨</span>
+          <div><strong style="color:var(--silver);">Sand Plugging</strong> — open choke to 90%+ instantly to blast the plug clear. If you're too slow, max flow is permanently reduced. <em style="color:#555588;">(30s timer)</em></div>
         </div>
       </div>`
     },
+    // ── Step 6: Catastrophic events + heroic shut-in ──────────────────────────
     {
-      title: '⚡ Random Events',
-      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
-        Every 20–50 seconds a random event fires. An <strong style="color:var(--orange);">orange banner</strong> appears
-        with a countdown timer. React correctly before time runs out.
+      title: '☠ Catastrophic Events & Heroic Shut-In',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.5rem;">
+        After <strong style="color:#ff5555;">3 minutes</strong> on the well, the game can throw catastrophic events. The session always ends. But you can still fight for one thing:
       </p>
-      <div style="display:grid;gap:8px;font-size:0.8rem;">
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">⬆</span>
-          <div><strong style="color:#ff5555;">Overpressure Surge</strong> — restrict choke to ≤30%, or close RWV temporarily</div>
+      <div style="background:linear-gradient(135deg,#1a1400,#0a0a00);border:2px solid #ffd200;border-radius:8px;padding:12px 16px;margin-bottom:10px;text-align:center;">
+        <div style="font-size:1.4rem;margin-bottom:3px;">⭐</div>
+        <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:800;color:#ffd200;letter-spacing:1.5px;margin-bottom:5px;">HEROIC SHUT-IN — 10× SCORE BONUS</div>
+        <div style="font-size:0.82rem;color:#ccaa00;line-height:1.6;">Close all 3 bore valves — <strong>LMV + UMV + RWV</strong> — before the timer expires. You save equipment and personnel. Score ×10.</div>
+      </div>
+      <div style="display:grid;gap:7px;font-size:0.8rem;margin-bottom:8px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0000;border:1px solid #ff000055;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">💀</span>
+          <div><strong style="color:#ff5555;">Reservoir Blowthrough</strong> — subsurface fracture, pressure spikes uncontrollably. <em style="color:#888;">Cannot be resolved.</em> <strong style="color:#ffd200;">Close LMV+UMV+RWV before timer for heroic bonus.</strong> <em style="color:#555588;">(12s)</em></div>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">📈</span>
-          <div><strong style="color:var(--yellow);">Demand Spike</strong> — open choke wide (80%+) and make sure all valves are open</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0500;border:1px solid #ff884455;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🔥</span>
+          <div><strong style="color:#ff7744;">Wellhead Fire</strong> — ignition at the cellar, gas feeds the flame. <strong style="color:#00e676;">This CAN be fully resolved:</strong> close RWV → UMV → LMV before the timer to shut in and starve the fire. Doing so <strong style="color:#ffd200;">automatically triggers the ⭐ heroic bonus</strong> — shutting in under fire IS the heroic act. <em style="color:#555588;">(10s)</em></div>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">💧</span>
-          <div><strong style="color:var(--cyan);">Wing Valve Leak</strong> — close RWV immediately to isolate the leaking seal</div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#001020;border:1px solid #00d2ff55;border-radius:6px;padding:9px 11px;">
+          <span style="font-size:1.1rem;flex-shrink:0;">🌊</span>
+          <div><strong style="color:#00d2ff;">Formation Water Breakthrough</strong> — aquifer floods the tubing, production gone forever. <em style="color:#888;">Cannot be resolved.</em> <strong style="color:#ffd200;">Close LMV+UMV+RWV before timer for heroic bonus.</strong> <em style="color:#555588;">(8s)</em></div>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">🏗</span>
-          <div><strong style="color:var(--yellow);">Annulus Buildup</strong> — open LWV and wait for annulus pressure to drop below 3 bar</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">🚨</span>
-          <div><strong style="color:#ff5555;">Emergency Shut-In (ESI)</strong> — close both UMV and RWV within 20 seconds</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
-          <span style="font-size:1.2rem;flex-shrink:0;">🪨</span>
-          <div><strong style="color:var(--silver);">Sand Plugging</strong> — open choke to 90%+ to blast the plug clear</div>
-        </div>
+      </div>
+      <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:0.78rem;color:var(--silver);">
+        💡 The event banner ACTION line always reminds you of the heroic bonus. Report card shows a gold <strong style="color:#ffd200;">⭐ HEROIC SHUT-IN BONUS</strong> section with your ×10 final score.
       </div>`
     },
+    // ── Step 7: Earnings + gas pricing ───────────────────────────────────────
     {
-      title: '🚀 You\'re Ready',
-      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1.2rem;">
-        You know everything you need. A few final tips from the field:
+      title: '💰 Earnings & Gas Pricing',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.8rem;">
+        Every cubic metre of gas you deliver earns money. Earnings are tracked live in the top-right instrument panel and shown on your final report card.
       </p>
-      <div style="display:grid;gap:10px;font-size:0.85rem;margin-bottom:1.5rem;">
-        <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div style="display:grid;gap:8px;font-size:0.82rem;margin-bottom:0.8rem;">
+        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px 13px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">How the price is calculated</div>
+          <div style="color:var(--silver);">The game fetches the live Henry Hub front-month gas price from Yahoo Finance on page load, then converts it to €/MWh using USD→EUR exchange rate. Natural gas contains ~10 kWh/m³, so each m³ you deliver earns roughly €0.35 at €35/MWh. If the live price can't load, it falls back to a realistic TTF European estimate.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid #ffd20055;border-radius:6px;padding:10px 13px;">
+          <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">⚡ Demand Spike — spot price premium 2.5–4×</div>
+          <div style="color:var(--silver);">When a demand spike fires, the spot price jumps to 2.5–4.0× the base rate (mimicking real intraday TTF spikes). Every m³ delivered during the spike earns at this elevated price. The earnings display turns yellow and shows the current multiplier (e.g. "3.2× SPIKE ⚡"). This is your biggest earnings window — open the choke wide and hold it.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 13px;">
+          <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">Earnings ≠ Score</div>
+          <div style="color:var(--silver);">Score is affected by your multiplier. Earnings are purely volume × price — no multiplier applied. A long stable session earns more money than a wild spike-heavy one. Both are tracked separately on the report card.</div>
+        </div>
+      </div>
+      <div style="background:#08082a;border:1px solid #ffd20033;border-radius:6px;padding:8px 12px;font-size:0.78rem;color:#ccaa00;">
+        💡 <strong>LWV open = gas venting to atmosphere.</strong> You lose 3 points/sec and a portion of your multiplier if LWV is open outside an annulus or leak event — and you don't earn any money on that vented gas.
+      </div>`
+    },
+    // ── Step 8: Failure conditions ────────────────────────────────────────────
+    {
+      title: '💀 How the Game Ends',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.8rem;">
+        Know what kills a session so you can avoid it. There are six ways to fail:
+      </p>
+      <div style="display:grid;gap:7px;font-size:0.81rem;margin-bottom:0.8rem;">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0000;border-left:3px solid #ff3333;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#ff3333;font-weight:700;">①</span>
+          <div><strong style="color:#ff3333;">Overpressure blowout</strong> — wellhead pressure exceeds 32 bar. Instant death. Keep the choke restricted and react to overpressure events fast.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0800;border-left:3px solid #ff5555;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#ff5555;font-weight:700;">②</span>
+          <div><strong style="color:#ff5555;">Casing failure</strong> — annulus pressure exceeds 20 bar. Open LWV the moment an annulus event fires — don't wait.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a1000;border-left:3px solid #ff9944;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#ff9944;font-weight:700;">③</span>
+          <div><strong style="color:#ff9944;">5 safety violations</strong> — uncorrected fault events each count as a violation. The GCS shuts you in remotely after 5.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#001a00;border-left:3px solid #00e676;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#00e676;font-weight:700;">④</span>
+          <div><strong style="color:#00e676;">Under-supply for 20s</strong> — flow stays &gt;25% below demand for 20 continuous seconds. You'll see countdown warnings in the log. Open the choke wider or reopen any closed valves.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#001a00;border-left:3px solid #ffd200;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#ffd200;font-weight:700;">⑤</span>
+          <div><strong style="color:#ffd200;">Over-supply for 25s</strong> — flow stays &gt;25% above demand for 25 continuous seconds. The GCS receiving station overloads. Throttle the choke back down.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0000;border-left:3px solid #ff0000;border-radius:0 6px 6px 0;padding:9px 12px;">
+          <span style="flex-shrink:0;color:#ff0000;font-weight:700;">⑥</span>
+          <div><strong style="color:#ff0000;">Catastrophic event unhandled</strong> — blowthrough, fire, or waterflood expires without the heroic shut-in. Instant game over.</div>
+        </div>
+      </div>
+      <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:0.78rem;color:var(--silver);">
+        After any failure, click <strong style="color:#ff5555;">🔍 WHY DID I FAIL?</strong> on the report card for a detailed incident analysis — what went wrong, what you should have done, and which controls to use next time.
+      </div>`
+    },
+    // ── Step 9: Controls + tips ───────────────────────────────────────────────
+    {
+      title: '🚀 Controls & Final Tips',
+      html: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;margin-bottom:1rem;">
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:var(--orange);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">▶ START WELL</div>
+          <div style="color:var(--silver);">Begins the session. Reservoir starts at 28 bar, all valves open, choke at 50%.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:#ff5555;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">■ EMERGENCY SHUT-IN</div>
+          <div style="color:var(--silver);">Nuclear option — closes all valves instantly. Ends your session and shows the score report.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">⏸ PAUSE / ▶ RESUME</div>
+          <div style="color:var(--silver);">Freezes everything — the clock, events, physics, particles. Use it whenever you need a moment to think.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">↓ SAVE RESULT CARD</div>
+          <div style="color:var(--silver);">Downloads a high-res PNG with your full telemetry chart, stats, log, and score — shareable image.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:#ff5555;font-family:var(--font-display);font-weight:700;margin-bottom:3px;">🔍 WHY DID I FAIL?</div>
+          <div style="color:var(--silver);">Appears after failures. Click any highlighted log entry to read the incident report for that event.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:9px 11px;">
+          <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:3px;">🔊 / 🔇 SOUND</div>
+          <div style="color:var(--silver);">Toggle audio on/off. Catastrophic events trigger a loud siren. Normal events use double-beep. Countdown ticks at 5s.</div>
+        </div>
+      </div>
+      <div style="display:grid;gap:7px;font-size:0.82rem;margin-bottom:1rem;">
+        <div style="display:flex;gap:8px;align-items:flex-start;">
           <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">01</span>
-          <span style="color:var(--text);">Keep your <strong>choke between 40–60%</strong> during normal operation — it's the easiest way to stay on demand without touching valves.</span>
+          <span style="color:var(--text);">Keep choke <strong>40–60%</strong> normally. Only go extreme for specific events.</span>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="display:flex;gap:8px;align-items:flex-start;">
           <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">02</span>
-          <span style="color:var(--text);">When an event banner appears, <strong>read the action line</strong> (cyan italic text) — it tells you exactly what to do.</span>
+          <span style="color:var(--text);"><strong>Never leave LWV open</strong> unless you're actively bleeding an annulus or resolving a leak event.</span>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="display:flex;gap:8px;align-items:flex-start;">
           <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">03</span>
-          <span style="color:var(--text);">The <strong>ESI button</strong> at the bottom is your nuclear option — it closes everything instantly but ends your session and shows your score report.</span>
+          <span style="color:var(--text);">The multiplier is your most valuable asset — <strong>every event resolution compounds it</strong>. A demand spike resolved at 5× gives you 7.5×.</span>
         </div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
+        <div style="display:flex;gap:8px;align-items:flex-start;">
           <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">04</span>
-          <span style="color:var(--text);">Reservoir pressure slowly <strong>declines over ~10 minutes</strong>. Don't expect the same choke setting to work forever — you'll need to open it wider as the session goes on.</span>
+          <span style="color:var(--text);">When a catastrophic event hits — <strong>don't panic</strong>. Immediately click LMV, UMV, RWV to close all three. 10× your score is worth the fast hands.</span>
         </div>
       </div>
       <div style="background:linear-gradient(90deg,#001a00,#00100a);border:1px solid #00e67655;border-radius:6px;padding:1rem;text-align:center;">
         <div style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:#00e676;margin-bottom:4px;">Good luck, Operator.</div>
-        <div style="font-size:0.8rem;color:var(--silver);">Click <strong style="color:#fff;">Start Session</strong> below to begin — or close this and click <strong style="color:var(--orange);">▶ START WELL</strong>.</div>
+        <div style="font-size:0.8rem;color:var(--silver);">Click <strong style="color:#fff;">Start Session</strong> below, or close this and click <strong style="color:var(--orange);">▶ START WELL</strong>.</div>
       </div>`
     },
   ];
@@ -4240,6 +4773,7 @@
   // Force tutorial hidden immediately (inline style has display:none but belt-and-suspenders)
   $('gTutorial').style.display = 'none';
   refreshValveVisuals();
+  window.gameSetChoke(0);  // sync handwheel + scale thumb to initial state
   log('── System offline. Press START WELL to begin. ──', '#333366');
 
   // Show tutorial automatically only if never seen before
@@ -4265,5 +4799,3 @@
 
 </body>
 </html>
-<!-- NOTE: technical section will be injected via Python below -->
-<!-- NOTE: technical section will be injected via Python below -->
