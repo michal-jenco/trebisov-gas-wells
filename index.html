@@ -1688,17 +1688,17 @@
      CHRISTMAS TREE OPERATOR — Game Section
 ════════════════════════════════════════════════════════════════ -->
 <section id="game" style="background:var(--darker);border-top:2px solid var(--orange);padding-top:0;">
-  <div style="max-width:1100px;margin:0 auto;padding:3rem 2rem 4rem;">
+  <div style="max-width:100%;padding:2.5rem 2.5rem 4rem;">
 
-    <div style="margin-bottom:1.5rem;">
+    <div style="margin-bottom:1.8rem;">
       <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem;">
         <span style="display:block;width:28px;height:2px;background:var(--orange);"></span>
         Interactive Simulation
       </div>
-      <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:#fff;margin-bottom:0.6rem;">
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,3.5vw,3.2rem);font-weight:800;color:#fff;margin-bottom:0.6rem;">
         Christmas Tree <span style="color:var(--orange);">Operator</span>
       </h2>
-      <p style="color:var(--silver);max-width:640px;font-size:0.95rem;line-height:1.7;">
+      <p style="color:var(--silver);max-width:760px;font-size:1rem;line-height:1.7;">
         Operate a live wellhead Christmas tree. Manage valves, throttle the choke, and respond
         to random faults — overpressures, leaks, demand spikes, annulus buildup, and emergency
         shut-in signals. Keep flow within demand and the facility safe to score points.
@@ -1706,11 +1706,11 @@
     </div>
 
     <!-- ── Game layout ── -->
-    <div id="gGame" style="display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start;">
+    <div id="gGame" style="display:grid;grid-template-columns:360px 1fr;gap:24px;align-items:start;">
 
       <!-- LEFT: SVG tree + controls -->
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:16px;">
-        <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:2px;color:var(--silver);margin-bottom:8px;text-transform:uppercase;">Well TR-9 · Live Schematic</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;position:relative;">
+        <div style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:2px;color:var(--silver);margin-bottom:10px;text-transform:uppercase;">Well TR-9 · Live Schematic</div>
 
         <!-- SVG Christmas Tree (game interactive) -->
         <svg id="gameSvg" viewBox="0 60 240 460" xmlns="http://www.w3.org/2000/svg"
@@ -1876,25 +1876,76 @@
           <!-- Overpressure flash ring -->
           <circle id="gOverpressFlash" cx="90" cy="90" r="22" fill="none" stroke="#ff0000" stroke-width="3" opacity="0"/>
 
+          <!-- ── Control pointer arrows (shown during events) ── -->
+          <g id="gPointers" style="pointer-events:none;">
+            <!-- Arrow pointing at choke slider area (below prod cross) -->
+            <g id="gptr-choke" style="display:none;">
+              <circle cx="120" cy="186" r="11" fill="none" stroke="#ff3333" stroke-width="2.5" opacity="0.9">
+                <animate attributeName="r" values="11;15;11" dur="1s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.9;0.4;0.9" dur="1s" repeatCount="indefinite"/>
+              </circle>
+              <text x="120" y="208" text-anchor="middle" fill="#ff3333" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">▼ CHOKE</text>
+            </g>
+            <!-- Arrow pointing at RWV -->
+            <g id="gptr-rwv" style="display:none;">
+              <circle cx="219" cy="130" r="13" fill="none" stroke="#ff3333" stroke-width="2.5" opacity="0.9">
+                <animate attributeName="r" values="13;18;13" dur="0.9s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.9s" repeatCount="indefinite"/>
+              </circle>
+              <polygon points="219,109 215,100 223,100" fill="#ff3333" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.9s" repeatCount="indefinite"/>
+              </polygon>
+              <text x="219" y="96" text-anchor="middle" fill="#ff3333" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">▲ RWV</text>
+            </g>
+            <!-- Arrow pointing at LWV -->
+            <g id="gptr-lwv" style="display:none;">
+              <circle cx="13" cy="130" r="13" fill="none" stroke="#ffd200" stroke-width="2.5" opacity="0.9">
+                <animate attributeName="r" values="13;18;13" dur="0.9s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.9s" repeatCount="indefinite"/>
+              </circle>
+              <polygon points="13,109 9,100 17,100" fill="#ffd200" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.9s" repeatCount="indefinite"/>
+              </polygon>
+              <text x="13" y="96" text-anchor="middle" fill="#ffd200" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">▲ LWV</text>
+            </g>
+            <!-- Arrow pointing at UMV -->
+            <g id="gptr-umv" style="display:none;">
+              <circle cx="90" cy="206" r="13" fill="none" stroke="#ff3333" stroke-width="2.5" opacity="0.9">
+                <animate attributeName="r" values="13;18;13" dur="0.8s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.8s" repeatCount="indefinite"/>
+              </circle>
+              <polygon points="90,169 86,160 94,160" fill="#ff3333" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="0.8s" repeatCount="indefinite"/>
+              </polygon>
+              <text x="90" y="157" text-anchor="middle" fill="#ff3333" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">▲ UMV</text>
+            </g>
+          </g>
+
         </svg>
 
         <!-- Choke slider -->
-        <div style="margin-top:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <span style="font-family:var(--font-display);font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Choke Opening</span>
-            <span id="gChokeVal" style="font-family:var(--font-display);font-size:0.9rem;color:var(--cyan);font-weight:700;">50%</span>
+        <div style="margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Choke Opening</span>
+            <span id="gChokeVal" style="font-family:var(--font-display);font-size:1.15rem;color:var(--cyan);font-weight:700;">50%</span>
           </div>
           <input type="range" id="gChokeSlider" min="5" max="100" value="50"
-            style="width:100%;accent-color:var(--cyan);cursor:pointer;height:6px;"
+            style="width:100%;accent-color:var(--cyan);cursor:pointer;height:8px;"
             oninput="gameSetChoke(this.value)">
-          <div style="display:flex;justify-content:space-between;margin-top:2px;">
-            <span style="font-size:0.65rem;color:#444488;">Restrict</span>
-            <span style="font-size:0.65rem;color:#444488;">Wide Open</span>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-size:0.72rem;color:#444488;">Restrict</span>
+            <span style="font-size:0.72rem;color:#444488;">Wide Open</span>
           </div>
         </div>
 
         <!-- Valve legend -->
-        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:0.68rem;font-family:var(--font-display);">
+        <div id="gPauseOverlay" style="display:none;position:absolute;inset:0;background:rgba(3,3,16,0.85);border-radius:6px;z-index:10;align-items:center;justify-content:center;flex-direction:column;gap:8px;">
+          <div style="font-size:2.5rem;">⏸</div>
+          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:800;color:var(--cyan);letter-spacing:3px;">PAUSED</div>
+          <div style="font-size:0.75rem;color:var(--silver);">Press Resume to continue</div>
+        </div>
+        <!-- Valve legend -->
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;font-size:0.78rem;font-family:var(--font-display);">
           <div id="gleg-lmv" style="display:flex;align-items:center;gap:4px;color:#555588;">
             <span id="gind-lmv" style="width:8px;height:8px;border-radius:50%;background:#00e676;display:inline-block;"></span>LMV OPEN
           </div>
@@ -1917,87 +1968,119 @@
       <div style="display:flex;flex-direction:column;gap:16px;">
 
         <!-- Top: gauges row -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Wellhead Pressure</div>
-            <div id="gWHP" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--cyan);">-- bar</div>
-            <div style="font-size:0.7rem;color:#444488;margin-top:2px;">Target: 15–25 bar</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead Pressure</div>
+            <div id="gWHP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--cyan);">-- bar</div>
+            <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Target: 15–25 bar</div>
           </div>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Flow Rate</div>
-            <div id="gFlowRate" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--green);">-- m³/h</div>
-            <div id="gFlowDemandLbl" style="font-size:0.7rem;color:#444488;margin-top:2px;">Demand: --</div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Flow Rate</div>
+            <div id="gFlowRate" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--green);">-- m³/h</div>
+            <div id="gFlowDemandLbl" style="font-size:0.78rem;color:#444488;margin-top:4px;">Demand: --</div>
           </div>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Annulus Pressure</div>
-            <div id="gAnnPress" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--yellow);">0 bar</div>
-            <div style="font-size:0.7rem;color:#444488;margin-top:2px;">Normal: &lt;2 bar</div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Annulus Pressure</div>
+            <div id="gAnnPress" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--yellow);">0 bar</div>
+            <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Normal: &lt;2 bar</div>
           </div>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">Score</div>
-            <div id="gScore" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--orange);">0</div>
-            <div id="gMult" style="font-size:0.7rem;color:#444488;margin-top:2px;">×1.0 multiplier</div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Score</div>
+            <div id="gScore" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--orange);">0</div>
+            <div id="gMult" style="font-size:0.78rem;color:#444488;margin-top:4px;">×1.0 multiplier</div>
           </div>
         </div>
 
         <!-- Flow bar -->
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Production vs. Demand</span>
-            <span id="gFlowPct" style="font-family:var(--font-display);font-size:0.85rem;font-weight:700;color:var(--cyan);">--</span>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Production vs. Demand</span>
+            <span id="gFlowPct" style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cyan);">--</span>
           </div>
-          <div style="position:relative;height:20px;background:#0a0a20;border-radius:3px;overflow:hidden;border:1px solid var(--border);">
-            <!-- demand zone highlight (±10%) -->
+          <div style="position:relative;height:26px;background:#0a0a20;border-radius:4px;overflow:hidden;border:1px solid var(--border);">
             <div id="gDemandZone" style="position:absolute;top:0;bottom:0;background:rgba(0,230,118,0.08);border-left:1px solid rgba(0,230,118,0.3);border-right:1px solid rgba(0,230,118,0.3);"></div>
-            <!-- flow bar -->
-            <div id="gFlowBar" style="position:absolute;top:2px;bottom:2px;left:0;width:0%;background:var(--cyan);border-radius:2px;transition:width 0.3s;"></div>
-            <!-- demand marker -->
+            <div id="gFlowBar" style="position:absolute;top:3px;bottom:3px;left:0;width:0%;background:var(--cyan);border-radius:3px;transition:width 0.3s;"></div>
             <div id="gDemandMark" style="position:absolute;top:0;bottom:0;width:2px;background:var(--green);"></div>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:4px;">
-            <span style="font-size:0.65rem;color:#333366;">0 m³/h</span>
-            <span style="font-size:0.65rem;color:var(--green);">↑ demand</span>
-            <span style="font-size:0.65rem;color:#333366;" id="gMaxFlowLbl">-- m³/h (max)</span>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;">
+            <span style="font-size:0.72rem;color:#333366;">0 m³/h</span>
+            <span style="font-size:0.72rem;color:var(--green);">↑ demand</span>
+            <span style="font-size:0.72rem;color:#333366;" id="gMaxFlowLbl">-- m³/h (max)</span>
           </div>
         </div>
 
+        <!-- Live telemetry chart -->
+        <div id="gChartPanel" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+            <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Live Telemetry</span>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;">
+              <span style="font-size:0.75rem;color:#00d2ff;font-family:var(--font-display);">─ Wellhead P (bar)</span>
+              <span style="font-size:0.75rem;color:#00e676;font-family:var(--font-display);">─ Flow (÷10 m³/h)</span>
+              <span style="font-size:0.75rem;color:#ffd200;font-family:var(--font-display);">─ Demand (÷10 m³/h)</span>
+              <span style="font-size:0.75rem;color:#ff5200;font-family:var(--font-display);">─ Annulus P (bar)</span>
+              <span style="font-size:0.75rem;color:#cc66ff;font-family:var(--font-display);">─ Choke %</span>
+              <span style="font-size:0.75rem;color:#ff3333;font-family:var(--font-display);">▮ Events</span>
+            </div>
+          </div>
+          <canvas id="gChart" height="160" style="width:100%;display:block;border-radius:4px;background:#06061a;"></canvas>
+        </div>
+
         <!-- Active event banner -->
-        <div id="gEventBanner" style="background:#0a0820;border:1.5px solid var(--orange);border-radius:6px;padding:14px 16px;display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
-            <div>
-              <div id="gEventTitle" style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:var(--orange);margin-bottom:4px;">EVENT</div>
-              <div id="gEventDesc"  style="font-size:0.82rem;color:var(--text);line-height:1.5;"></div>
-              <div id="gEventAction" style="margin-top:6px;font-size:0.78rem;color:var(--cyan);font-style:italic;"></div>
+        <div id="gEventBanner" style="background:#0a0820;border:2px solid var(--orange);border-radius:8px;padding:18px 20px;display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;">
+            <div style="flex:1;">
+              <div id="gEventTitle" style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:var(--orange);margin-bottom:6px;">EVENT</div>
+              <div id="gEventDesc"  style="font-size:0.95rem;color:var(--text);line-height:1.6;margin-bottom:10px;"></div>
+              <div id="gEventIndependent" style="display:none;background:#1a0a00;border:1px solid #ff5200;border-radius:4px;padding:5px 10px;margin-bottom:8px;font-family:var(--font-display);font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:#ff9944;">
+                ⚡ Act now — flow being green does NOT mean this is resolved
+              </div>
+              <div id="gEventAction" style="background:#060c1a;border-left:3px solid var(--cyan);border-radius:0 4px 4px 0;padding:8px 12px;font-size:0.92rem;font-weight:700;color:#fff;letter-spacing:0.3px;"></div>
             </div>
             <div style="text-align:right;flex-shrink:0;">
-              <div style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1px;color:var(--silver);text-transform:uppercase;">Time Left</div>
-              <div id="gEventTimer" style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--orange);">--s</div>
+              <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1px;color:var(--silver);text-transform:uppercase;">Time Left</div>
+              <div id="gEventTimer" style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--orange);">--s</div>
             </div>
           </div>
         </div>
 
         <!-- Log -->
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:14px;flex:1;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Operations Log</span>
-            <span id="gTimer" style="font-family:var(--font-display);font-size:0.85rem;color:var(--cyan);">00:00</span>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Operations Log</span>
+              <span id="gLogHint" style="font-family:var(--font-display);font-size:0.62rem;letter-spacing:1px;color:#333366;display:none;">🔍 click highlighted entries to read incident report</span>
+            </div>
+            <span id="gTimer" style="font-family:var(--font-display);font-size:1rem;color:var(--cyan);">00:00</span>
           </div>
-          <div id="gLog" style="height:180px;overflow-y:auto;font-size:0.77rem;font-family:'Courier New',monospace;color:#6666aa;line-height:1.6;">
+          <div id="gLog" style="max-height:200px;overflow-y:auto;font-size:0.85rem;font-family:'Courier New',monospace;color:#6666aa;line-height:1.7;">
             <div style="color:#333366;">── Waiting for startup ──</div>
           </div>
         </div>
 
-        <!-- Start / Stop buttons -->
-        <div style="display:flex;gap:12px;align-items:center;">
+        <!-- Buttons -->
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
           <button id="gStartBtn" onclick="gameStart()"
-            style="padding:0.7rem 2rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+            style="padding:0.8rem 2.2rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.92rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
             ▶ START WELL
           </button>
           <button id="gStopBtn" onclick="gameStop()" disabled
-            style="padding:0.7rem 1.5rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:not-allowed;opacity:0.5;">
+            style="padding:0.8rem 1.6rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.92rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:not-allowed;opacity:0.5;">
             ■ EMERGENCY SHUT-IN
           </button>
-          <div id="gStatusBadge" style="font-family:var(--font-display);font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:3px;background:#050514;border:1px solid #1c1c48;color:#333366;">
+          <button id="gPauseBtn" onclick="gamePause()" disabled
+            style="padding:0.8rem 1.4rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.92rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:not-allowed;opacity:0.5;">
+            ⏸ PAUSE
+          </button>
+          <button onclick="gameTutorial()"
+            style="padding:0.8rem 1.4rem;background:transparent;color:var(--cyan);border:1px solid var(--cyan);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;opacity:0.8;">
+            ? HOW TO PLAY
+          </button>
+          <button id="gMuteBtn" onclick="toggleMute()"
+            style="padding:0.8rem 1rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;opacity:0.7;"
+            title="Toggle sound">
+            🔊
+          </button>
+          <div id="gStatusBadge" style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;padding:0.4rem 1rem;border-radius:3px;background:#050514;border:1px solid #1c1c48;color:#333366;">
             OFFLINE
           </div>
         </div>
@@ -2005,15 +2088,139 @@
       </div><!-- /right col -->
     </div><!-- /grid -->
 
-    <!-- Game over modal -->
-    <div id="gGameOver" style="display:none;margin-top:20px;background:#0a0010;border:2px solid var(--orange);border-radius:8px;padding:2rem;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:0.8rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:0.6rem;">Simulation Ended</div>
-      <div id="gGameOverTitle" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#fff;margin-bottom:0.5rem;"></div>
-      <div id="gGameOverBody"  style="color:var(--silver);margin-bottom:1.5rem;font-size:0.9rem;line-height:1.7;"></div>
-      <button onclick="gameReset()"
-        style="padding:0.7rem 2.5rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
-        ↺ TRY AGAIN
-      </button>
+    <!-- ── Game over / session end modal ── -->
+    <div id="gGameOver" style="display:none;margin-top:20px;background:linear-gradient(135deg,#0a0010 0%,#050520 100%);border:2px solid var(--orange);border-radius:10px;padding:2.5rem 2rem;text-align:center;position:relative;overflow:hidden;">
+      <!-- decorative corner lines -->
+      <div style="position:absolute;top:0;left:0;width:40px;height:40px;border-top:2px solid var(--orange);border-left:2px solid var(--orange);border-radius:10px 0 0 0;"></div>
+      <div style="position:absolute;top:0;right:0;width:40px;height:40px;border-top:2px solid var(--orange);border-right:2px solid var(--orange);border-radius:0 10px 0 0;"></div>
+      <div style="position:absolute;bottom:0;left:0;width:40px;height:40px;border-bottom:2px solid var(--orange);border-left:2px solid var(--orange);border-radius:0 0 0 10px;"></div>
+      <div style="position:absolute;bottom:0;right:0;width:40px;height:40px;border-bottom:2px solid var(--orange);border-right:2px solid var(--orange);border-radius:0 0 10px 0;"></div>
+
+      <div id="gGameOverIcon" style="font-size:2.8rem;margin-bottom:0.5rem;"></div>
+      <div style="font-family:var(--font-display);font-size:0.78rem;letter-spacing:3px;color:var(--silver);text-transform:uppercase;margin-bottom:0.5rem;" id="gGameOverLabel">Simulation Ended</div>
+      <div id="gGameOverTitle" style="font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:#fff;margin-bottom:0.4rem;"></div>
+      <div id="gGameOverBody" style="color:var(--silver);margin-bottom:1.8rem;font-size:0.88rem;line-height:1.75;max-width:520px;margin-left:auto;margin-right:auto;"></div>
+
+      <!-- Stats grid -->
+      <div id="gGameOverStats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:560px;margin:0 auto 1.8rem;"></div>
+
+      <!-- Performance bar -->
+      <div id="gGameOverPerf" style="max-width:400px;margin:0 auto 1.8rem;display:none;">
+        <div style="font-family:var(--font-display);font-size:0.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Overall Performance</div>
+        <div style="height:14px;background:#0a0a20;border-radius:7px;overflow:hidden;border:1px solid var(--border);">
+          <div id="gPerfBar" style="height:100%;width:0%;border-radius:7px;transition:width 1s ease;"></div>
+        </div>
+        <div id="gPerfLabel" style="font-family:var(--font-display);font-size:0.82rem;font-weight:700;margin-top:6px;"></div>
+      </div>
+
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button onclick="gameReset()"
+          style="padding:0.75rem 2.5rem;background:var(--orange);color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+          ↺ TRY AGAIN
+        </button>
+        <button id="gDebriefBtn" onclick="openDebrief()" style="display:none;padding:0.75rem 1.8rem;background:transparent;color:#ff5555;border:1px solid #ff5555;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+          🔍 WHY DID I FAIL?
+        </button>
+        <button id="gExportBtn" onclick="exportResultCard()" style="display:none;padding:0.75rem 1.8rem;background:transparent;color:#00e676;border:1px solid #00e676;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+          ↓ SAVE RESULT CARD
+        </button>
+        <button onclick="gameTutorial()"
+          style="padding:0.75rem 1.8rem;background:transparent;color:var(--cyan);border:1px solid var(--cyan);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+          ? REVIEW TUTORIAL
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Failure debrief overlay ── -->
+    <div id="gDebrief" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(3,3,16,0.95);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:1rem;">
+      <div style="background:linear-gradient(160deg,#12040a 0%,#07071e 100%);border:2px solid #ff3333;border-radius:12px;max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+
+        <!-- Red top bar -->
+        <div style="height:4px;background:linear-gradient(90deg,#ff3333,#ff5200,#ff3333);border-radius:12px 12px 0 0;"></div>
+
+        <!-- Header -->
+        <div style="padding:1.8rem 2rem 1.2rem;border-bottom:1px solid #3a1010;">
+          <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:3px;color:#ff5555;text-transform:uppercase;margin-bottom:6px;">Incident Analysis</div>
+          <div id="gDebriefTitle" style="font-family:var(--font-display);font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:4px;"></div>
+          <div id="gDebriefSubtitle" style="font-size:0.9rem;color:#aa6666;line-height:1.6;"></div>
+        </div>
+
+        <!-- What went wrong -->
+        <div style="padding:1.5rem 2rem;border-bottom:1px solid #1a0808;">
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#ff5555;margin-bottom:10px;">What Went Wrong</div>
+          <div id="gDebriefWrong" style="font-size:0.92rem;color:var(--text);line-height:1.75;"></div>
+        </div>
+
+        <!-- What you should have done -->
+        <div style="padding:1.5rem 2rem;border-bottom:1px solid #1a0808;">
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#00e676;margin-bottom:10px;">What To Do Next Time</div>
+          <div id="gDebriefShouldHave" style="font-size:0.92rem;color:var(--text);line-height:1.75;"></div>
+        </div>
+
+        <!-- Key controls diagram hint -->
+        <div id="gDebriefControls" style="padding:1.5rem 2rem;border-bottom:1px solid #1a0808;">
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;">Key Controls Involved</div>
+          <div id="gDebriefControlsList" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+        </div>
+
+        <!-- Real-world context -->
+        <div style="padding:1.5rem 2rem;border-bottom:1px solid #1a0808;background:rgba(0,0,0,0.2);">
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--silver);margin-bottom:10px;">Real-World Context</div>
+          <div id="gDebriefContext" style="font-size:0.85rem;color:#7a7aaa;line-height:1.8;font-style:italic;"></div>
+        </div>
+
+        <!-- Footer buttons -->
+        <div style="padding:1.5rem 2rem;display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
+          <button onclick="closeDebrief()"
+            style="padding:0.7rem 1.5rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+            ✕ CLOSE
+          </button>
+          <button onclick="closeDebrief();gameReset();"
+            style="padding:0.7rem 2rem;background:#ff3333;color:#fff;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+            ↺ TRY AGAIN
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Tutorial overlay ── -->
+    <div id="gTutorial" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,3,16,0.93);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem;">
+      <div style="background:linear-gradient(160deg,#0c0c28 0%,#07071e 100%);border:1.5px solid var(--border);border-radius:10px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+
+        <!-- Header -->
+        <div style="padding:1.6rem 1.8rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:4px;">Operator Briefing</div>
+            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Christmas Tree <span style="color:var(--cyan);">Tutorial</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--silver);">Step <span id="gTutStep">1</span> / <span id="gTutTotal">6</span></div>
+            <button onclick="skipTutorial()" style="padding:0.25rem 0.8rem;background:transparent;color:#555577;border:1px solid #2a2a50;border-radius:3px;font-family:var(--font-display);font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;" title="Skip and go straight to the game">✕ Skip</button>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div style="height:3px;background:#1c1c48;">
+          <div id="gTutProgress" style="height:100%;background:var(--cyan);transition:width 0.3s;width:16.7%;"></div>
+        </div>
+
+        <!-- Step content -->
+        <div id="gTutContent" style="padding:1.8rem;min-height:260px;"></div>
+
+        <!-- Footer nav -->
+        <div style="padding:1rem 1.8rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <button id="gTutPrev" onclick="tutStep(-1)"
+            style="padding:0.55rem 1.4rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;">
+            ← Back
+          </button>
+          <div style="display:flex;gap:6px;" id="gTutDots"></div>
+          <button id="gTutNext" onclick="tutStep(1)"
+            style="padding:0.55rem 1.4rem;background:var(--cyan);color:#000;border:none;border-radius:4px;font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;">
+            Next →
+          </button>
+        </div>
+      </div>
     </div>
 
   </div><!-- /container -->
@@ -2028,28 +2235,24 @@
   /* ── State ── */
   const GS = {
     running: false,
+    paused: false,
     score: 0,
     multiplier: 1.0,
-    elapsed: 0,        // seconds
-    // Physics
-    reservoirP: 28,    // bar — slowly declines
+    elapsed: 0,
+    reservoirP: 28,
     wellheadP:  0,
     flowRate:   0,
-    demand:     800,   // m³/h — varies
-    maxFlow:    1200,  // m³/h at full choke, all open
+    demand:     800,
+    maxFlow:    1200,
     annulusP:   0,
-    choke:      50,    // %
-    // Valves: true = open
+    choke:      50,
     valves: { lmv: true, umv: true, rwv: true, lwv: false, swab: false },
-    // Particles speed multiplier
     particleSpeed: 1.0,
-    // Event
     activeEvent: null,
     eventResolved: false,
     eventTimer: 0,
     nextEventIn: 25,
     penaltyCount: 0,
-    // Noise
     noiseOffset: 0,
   };
 
@@ -2112,14 +2315,36 @@
   }
 
   /* ── Log ── */
-  function log(msg, color) {
+  function log(msg, color, eventId) {
     const el = $('gLog');
     const ts = formatTime(GS.elapsed);
     const div = document.createElement('div');
     div.style.color = color || '#6666aa';
-    div.textContent = `[${ts}] ${msg}`;
+    div.style.lineHeight = '1.7';
+
+    if (eventId) {
+      div.style.cursor = 'pointer';
+      div.style.borderLeft = '2px solid ' + (color || '#6666aa');
+      div.style.paddingLeft = '6px';
+      div.style.marginLeft = '-8px';
+      div.style.borderRadius = '0 3px 3px 0';
+      div.title = 'Click to read the incident report for this event';
+      div.innerHTML = `<span style="opacity:0.7;">[${ts}]</span> ${msg} <span style="font-size:0.7em;opacity:0.55;font-family:var(--font-display);letter-spacing:1px;"> 🔍 REPORT</span>`;
+      div.addEventListener('mouseenter', () => { div.style.background = 'rgba(255,255,255,0.04)'; });
+      div.addEventListener('mouseleave', () => { div.style.background = ''; });
+      div.addEventListener('click', () => {
+        const ev = [...EVENTS, ...CATASTROPHIC_EVENTS].find(e => e.id === eventId);
+        if (ev && ev.debrief) {
+          _debriefData = ev.debrief;
+          populateDebrief(ev.title, ev.desc);
+          $('gDebrief').style.display = 'flex';
+        }
+      });
+    } else {
+      div.textContent = `[${ts}] ${msg}`;
+    }
+
     el.insertBefore(div, el.firstChild);
-    // Keep max 60 entries
     while (el.children.length > 60) el.removeChild(el.lastChild);
   }
 
@@ -2129,49 +2354,62 @@
 
   /* ── Physics step (called every 250ms) ── */
   let _tick = 0;
+  let _underSupplySeconds = 0;   // sustained below demand timer
+  let _overSupplySeconds  = 0;   // sustained above demand timer
   function physicsTick() {
-    if (!GS.running) return;
+    if (!GS.running || GS.paused) return;
     _tick++;
     GS.elapsed += 0.25;
-    GS.noiseOffset += 0.05;
+    GS.noiseOffset += 0.08;
 
-    // Slowly decline reservoir pressure over 10 min
-    GS.reservoirP = Math.max(10, 28 - (GS.elapsed / 600) * 10 + simplex(GS.noiseOffset * 0.3) * 0.4);
+    // Reservoir pressure declines over ~7 min
+    GS.reservoirP = Math.max(8, 28 - (GS.elapsed / 420) * 14 + simplex(GS.noiseOffset * 0.4) * 1.2);
 
     // Bore path open?
     const boreOpen = GS.valves.lmv && GS.valves.umv;
     const prodOpen = boreOpen && GS.valves.rwv;
 
-    // Calculate wellhead pressure
+    // Wellhead pressure
     if (boreOpen) {
-      const backpressure = prodOpen ? (100 - GS.choke) / 100 * 8 : 0;
-      GS.wellheadP = Math.max(0, GS.reservoirP - backpressure + simplex(GS.noiseOffset) * 0.5);
+      const backpressure = prodOpen ? (100 - GS.choke) / 100 * 14 : 0;
+      const annulusContrib = GS.valves.lwv ? 0 : GS.annulusP * 0.35;
+      const lwvBleed = GS.valves.lwv ? 5 : 0;
+      GS.wellheadP = Math.max(0, GS.reservoirP - backpressure - lwvBleed + annulusContrib + simplex(GS.noiseOffset) * 1.2);
     } else {
-      GS.wellheadP = Math.max(0, GS.wellheadP - 0.5);
+      GS.wellheadP = Math.max(0, GS.wellheadP - 1.5);
     }
 
     // Flow rate
     if (prodOpen) {
-      const chokeEffect = GS.choke / 100;
-      const pressDrive = Math.max(0, GS.wellheadP - 2) / 26;
-      GS.flowRate = GS.maxFlow * chokeEffect * pressDrive + simplex(GS.noiseOffset * 2) * 20;
+      const chokeEffect = Math.pow(GS.choke / 100, 1.5);
+      const pressDrive  = Math.max(0, GS.wellheadP - 3) / 20;
+      const rawFlow = GS.maxFlow * chokeEffect * pressDrive;
+      GS.flowRate += (rawFlow - GS.flowRate) * 0.5 + simplex(GS.noiseOffset * 2.5) * 3;
       GS.flowRate = Math.max(0, GS.flowRate);
     } else {
-      GS.flowRate = Math.max(0, GS.flowRate - 50);
+      GS.flowRate = Math.max(0, GS.flowRate - 150);
     }
 
     // Annulus pressure
     if (GS.activeEvent && GS.activeEvent.id === 'annulus') {
-      if (!GS.eventResolved) GS.annulusP = Math.min(18, GS.annulusP + 0.15);
+      if (!GS.eventResolved) GS.annulusP = Math.min(20, GS.annulusP + 0.06);
     } else if (GS.valves.lwv) {
-      GS.annulusP = Math.max(0, GS.annulusP - 0.5);
+      GS.annulusP = Math.max(0, GS.annulusP - 1.2);
     } else {
       GS.annulusP = Math.max(0, GS.annulusP - 0.02);
     }
 
-    // Demand variation (slow drift + event demand spikes)
+    // ── FIX 2: Cap demand to what's physically achievable at current reservoir pressure ──
+    // Max achievable flow = maxFlow × choke=100% × pressDrive at current reservoirP (no LWV bleed)
+    // Use 90% of theoretical max so there's always a small margin requiring good choke control
+    const maxAchievableFlow = GS.maxFlow * 1.0 * Math.max(0, GS.reservoirP - 3) / 20 * 0.90;
+
     if (!GS.activeEvent || GS.activeEvent.id !== 'demand') {
-      GS.demand = 800 + simplex(GS.noiseOffset * 0.1) * 120;
+      const sessionBoost = Math.min(150, GS.elapsed / 4);
+      let rawDemand = 750 + sessionBoost + simplex(GS.noiseOffset * 0.06) * 150;
+      rawDemand = Math.max(450, Math.min(1200, rawDemand));
+      // Never let demand exceed what's physically achievable with choke wide open
+      GS.demand = Math.min(rawDemand, maxAchievableFlow);
     }
 
     // Particle speed proportional to flow
@@ -2181,9 +2419,7 @@
     // Update event timer
     if (GS.activeEvent && !GS.eventResolved) {
       GS.eventTimer -= 0.25;
-      if (GS.eventTimer <= 0) {
-        expireEvent();
-      }
+      if (GS.eventTimer <= 0) expireEvent();
     }
 
     // Next event countdown
@@ -2192,51 +2428,119 @@
       if (GS.nextEventIn <= 0) triggerRandomEvent();
     }
 
-    // Score: +1/s when within ±10% of demand, doubled bonus for within ±5%
+    // ── Scoring ──
     if (GS.running && prodOpen) {
       const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
-      if (diff <= 0.05) {
-        GS.score += Math.round(0.25 * 3 * GS.multiplier * 10) / 10;
-        GS.multiplier = Math.min(4.0, GS.multiplier + 0.001);
-      } else if (diff <= 0.10) {
-        GS.score += Math.round(0.25 * 1 * GS.multiplier * 10) / 10;
+      if (diff <= 0.10) {
+        const precision = Math.pow(1 - diff / 0.10, 2) * 4 + 1;
+        GS.score += 0.25 * precision * GS.multiplier;
+        const multGrowth = 0.0003 + (1 - diff / 0.10) * 0.0012;
+        GS.multiplier *= (1 + multGrowth);
       } else if (diff <= 0.25) {
-        // no score penalty, just no gain
-        GS.multiplier = Math.max(1.0, GS.multiplier - 0.002);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.9992);
       } else {
-        GS.score = Math.max(0, GS.score - 0.25 * 0.5);
-        GS.multiplier = Math.max(1.0, GS.multiplier - 0.005);
+        GS.score = Math.max(0, GS.score - 1.0);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.995);
       }
     }
 
-    // Overpressure check
-    if (GS.wellheadP > 32) {
+    // ── FIX 1: LWV open outside annulus emergency = gas venting penalty ──
+    const annulusEmergency = GS.activeEvent && (GS.activeEvent.id === 'annulus' || GS.activeEvent.id === 'leak') && !GS.eventResolved;
+    if (GS.valves.lwv && !annulusEmergency && GS.running) {
+      GS.score = Math.max(0, GS.score - 3.0 * 0.25);   // -3 pts/sec
+      GS.multiplier = Math.max(1.0, GS.multiplier * 0.998);
+      if (_tick % 8 === 0) {
+        log('⚠ LWV open — venting gas to atmosphere! Close it unless bleeding annulus.', '#ff9944');
+        SND.pressureWarn();
+      }
+    }
+
+    // ── Under-supply: >25% below demand for 20s = game over ──
+    // ── Over-supply:  >25% above demand for 25s = game over ──
+    if (GS.running && prodOpen) {
+      const flowRatio = GS.flowRate / GS.demand;  // 1.0 = exact demand
+      const duringDemandEvent = GS.activeEvent && GS.activeEvent.id === 'demand';
+
+      // UNDER-SUPPLY (flow < 75% of demand)
+      if (flowRatio < 0.75 && !duringDemandEvent) {
+        _underSupplySeconds += 0.25;
+        _overSupplySeconds = 0;
+        if (_underSupplySeconds >= 20) {
+          gameOver('📉 UNDER-SUPPLY FAILURE', 'Flow rate was more than 25% below pipeline demand for 20 consecutive seconds. The GCS isolated your well — line pressure collapsed.');
+          return;
+        }
+        if ((_underSupplySeconds >= 10 && _underSupplySeconds < 10.25) ||
+            (_underSupplySeconds >= 15 && _underSupplySeconds < 15.25)) {
+          log('⚠ Under-supplying GCS for ' + Math.round(_underSupplySeconds) + 's — pipeline pressure dropping! ' + Math.round(20 - _underSupplySeconds) + 's left!', '#ff5555');
+          SND.alert();
+        }
+      // OVER-SUPPLY (flow > 125% of demand)
+      } else if (flowRatio > 1.25 && !duringDemandEvent) {
+        _overSupplySeconds += 0.25;
+        _underSupplySeconds = 0;
+        if (_overSupplySeconds >= 25) {
+          gameOver('📈 OVER-SUPPLY FAILURE', 'Flow rate was more than 25% above pipeline demand for 25 consecutive seconds. The receiving station at Milhostov GCS was overpowered — pipeline over-pressured and isolated.');
+          return;
+        }
+        if ((_overSupplySeconds >= 10 && _overSupplySeconds < 10.25) ||
+            (_overSupplySeconds >= 18 && _overSupplySeconds < 18.25)) {
+          log('⚠ Over-supplying GCS for ' + Math.round(_overSupplySeconds) + 's — receiving station at risk! Throttle back! ' + Math.round(25 - _overSupplySeconds) + 's left!', '#ff9944');
+          SND.pressureWarn();
+        }
+      } else {
+        // Back in acceptable range — reset both
+        _underSupplySeconds = 0;
+        _overSupplySeconds  = 0;
+      }
+    } else if (!prodOpen) {
+      _underSupplySeconds = 0;
+      _overSupplySeconds  = 0;
+    }
+
+    // Overpressure warning
+    if (GS.wellheadP > 28) {
       flashEl('gOverpressFlash', '#ff0000');
       if (_tick % 4 === 0) {
-        GS.score = Math.max(0, GS.score - 5);
-        log('⚠ Overpressure! Wellhead at ' + GS.wellheadP.toFixed(1) + ' bar', '#ff3333');
-        GS.multiplier = Math.max(1.0, GS.multiplier - 0.05);
+        GS.score = Math.max(0, GS.score - 8);
+        log('⚠ Overpressure! Wellhead at ' + GS.wellheadP.toFixed(1) + ' bar', '#ff3333', 'overpressure');
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.96);
+        SND.pressureWarn();
       }
     }
 
-    // Annulus high pressure
-    if (GS.annulusP > 12 && !GS.valves.lwv) {
-      if (_tick % 8 === 0) log('⚠ Annulus pressure HIGH: ' + GS.annulusP.toFixed(1) + ' bar — consider opening LWV', '#ffd200');
+    // Annulus high pressure warning
+    if (GS.annulusP > 10 && !GS.valves.lwv) {
+      if (_tick % 8 === 0) log('⚠ Annulus pressure HIGH: ' + GS.annulusP.toFixed(1) + ' bar — open LWV', '#ffd200', 'annulus');
+    }
+
+    // Event countdown ticks — audible last 5 seconds
+    if (GS.activeEvent && !GS.eventResolved && GS.eventTimer > 0 && GS.eventTimer <= 5) {
+      if (_tick % 4 === 0) SND.tick();
+    }
+
+    // Multiplier milestone sound
+    const mFloor = Math.floor(GS.multiplier);
+    if (mFloor > _lastMilestone && mFloor >= 2) {
+      _lastMilestone = mFloor;
+      SND.milestone();
     }
 
     // Update HUD
     updateHUD();
 
-    // Check game over conditions
-    if (GS.wellheadP > 35) { gameOver('💥 BLOWOUT', 'Wellhead pressure exceeded 35 MPa rated limit. The tree failed catastrophically.'); return; }
-    if (GS.annulusP > 16) { gameOver('💥 CASING FAILURE', 'Annulus pressure exceeded safe limits. Casing integrity compromised.'); return; }
+    // Sample chart every 4 ticks (≈1 s)
+    if (_tick % 4 === 0) chartSample();
+
+    // Game over thresholds — WHP limit lowered to 32 bar (was 35)
+    if (GS.wellheadP > 32) { gameOver('💥 BLOWOUT', 'Wellhead pressure exceeded 32 bar operating limit. The tree failed catastrophically.'); return; }
+    if (GS.annulusP > 20)  { gameOver('💥 CASING FAILURE', 'Annulus pressure exceeded safe limits. Casing integrity compromised.'); return; }
     if (GS.penaltyCount >= 5) { gameOver('🛑 OPERATIONS SUSPENDED', 'Too many safety violations. The GCS has shut in your well remotely.'); return; }
   }
 
   /* ── HUD update ── */
   function updateHUD() {
     $('gWHP').textContent = GS.wellheadP.toFixed(1) + ' bar';
-    $('gWHP').style.color = GS.wellheadP > 28 ? '#ff5555' : GS.wellheadP > 20 ? '#00d2ff' : '#ffd200';
+    $('gWHP').style.color = GS.wellheadP > 26 ? '#ff5555' : GS.wellheadP > 18 ? '#ffd200' : '#00d2ff';
 
     $('gFlowRate').textContent = Math.round(GS.flowRate) + ' m³/h';
     const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
@@ -2244,17 +2548,21 @@
 
     $('gFlowDemandLbl').textContent = 'Demand: ' + Math.round(GS.demand) + ' m³/h';
     $('gAnnPress').textContent = GS.annulusP.toFixed(1) + ' bar';
-    $('gAnnPress').style.color = GS.annulusP > 10 ? '#ff5555' : GS.annulusP > 4 ? '#ffd200' : '#ffd200';
+    $('gAnnPress').style.color = GS.annulusP > 14 ? '#ff5555' : GS.annulusP > 6 ? '#ffd200' : '#00e676';
 
     $('gScore').textContent = Math.round(GS.score).toLocaleString();
-    $('gMult').textContent = '×' + GS.multiplier.toFixed(1) + ' multiplier';
+    const multDisp = GS.multiplier >= 100 ? Math.round(GS.multiplier) + 'x' :
+                     GS.multiplier >= 10  ? GS.multiplier.toFixed(1) + 'x' :
+                                            GS.multiplier.toFixed(2) + 'x';
+    $('gMult').textContent = multDisp + ' multiplier';
+    $('gMult').style.color = GS.multiplier >= 10 ? '#ffd200' : GS.multiplier >= 3 ? '#00e676' : '#444488';
     $('gTimer').textContent = formatTime(GS.elapsed);
 
-    // Gauge needle — maps 0–35 bar to -135 to +135 deg
-    const angle = -135 + (GS.wellheadP / 35) * 270;
+    // Gauge needle — maps 0–32 bar to -135 to +135 deg
+    const angle = -135 + (GS.wellheadP / 32) * 270;
     $('gGaugeNeedle').setAttribute('transform', `rotate(${angle},90,90)`);
     $('gGaugeTxt').textContent = GS.wellheadP.toFixed(0) + ' bar';
-    $('gGaugeTxt').style.fill = GS.wellheadP > 28 ? '#ff5555' : '#00d2ff';
+    $('gGaugeTxt').style.fill = GS.wellheadP > 26 ? '#ff5555' : '#00d2ff';
 
     // Flow bar: 0–maxFlow mapped to 0–100%
     const flowPct = Math.min(100, GS.flowRate / GS.maxFlow * 100);
@@ -2278,6 +2586,179 @@
     }
   }
 
+  /* ════════════════════════════════════
+     LIVE TELEMETRY CHART
+  ════════════════════════════════════ */
+  // Each sample: { t, whp, flow, demand, ann, choke, event }
+  const CHART = {
+    data: [],
+    events: [],   // { idx, label, color }
+    MAX_SAMPLES: 300,   // 5 min at 1 s/sample
+  };
+
+  // Series definitions: key, scale factor (so all fit 0-100), color, label
+  const CHART_SERIES = [
+    { key: 'whp',    scale: 100/35,    color: '#00d2ff', label: 'WHP (bar)' },
+    { key: 'flow',   scale: 100/1600,  color: '#00e676', label: 'Flow ÷10' },
+    { key: 'demand', scale: 100/1600,  color: '#ffd200', label: 'Demand ÷10', dash: [4,3] },
+    { key: 'ann',    scale: 100/18,    color: '#ff5200', label: 'Ann P (bar)' },
+    { key: 'choke',  scale: 1,         color: '#cc66ff', label: 'Choke %' },
+  ];
+
+  function chartSample() {
+    const sample = {
+      t:      GS.elapsed,
+      whp:    GS.wellheadP,
+      flow:   GS.flowRate / 10,   // ÷10 so it fits same 0-160 axis as bar*4
+      demand: GS.demand / 10,
+      ann:    GS.annulusP,
+      choke:  GS.choke,
+    };
+    CHART.data.push(sample);
+    if (CHART.data.length > CHART.MAX_SAMPLES) CHART.data.shift();
+    chartDraw();
+  }
+
+  function chartAddEvent(label, color) {
+    // Store the elapsed time of the event, not the array index.
+    // This way markers stay anchored to the correct moment even as
+    // the rolling window shifts old data off the front of the array.
+    const t = GS.elapsed;
+    CHART.events.push({ t, label, color: color || '#ff5200' });
+  }
+
+  function chartDraw() {
+    const canvas = $('gChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth;
+    const H = canvas.height;
+    if (canvas.width !== W) canvas.width = W;
+
+    ctx.clearRect(0, 0, W, H);
+
+    const data = CHART.data;
+    if (data.length < 2) return;
+
+    const padL = 6, padR = 6, padT = 8, padB = 18;
+    const w = W - padL - padR;
+    const h = H - padT - padB;
+
+    const t0 = data[0].t;
+    const t1 = data[data.length - 1].t;
+    const tSpan = t1 - t0 || 1;
+
+    // Map a timestamp to an x pixel coordinate
+    function tToX(t) {
+      return padL + Math.max(0, Math.min(1, (t - t0) / tSpan)) * w;
+    }
+
+    // Background grid
+    ctx.strokeStyle = '#1c1c48';
+    ctx.lineWidth = 0.5;
+    for (let g = 0; g <= 4; g++) {
+      const y = padT + h * (1 - g / 4);
+      ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+      ctx.fillStyle = '#333366';
+      ctx.font = '9px Barlow Condensed, sans-serif';
+      ctx.fillText(g * 25, 0, y + 3);
+    }
+
+    // Time axis labels
+    ctx.fillStyle = '#333366';
+    ctx.font = '9px Barlow Condensed, sans-serif';
+    for (let i = 0; i <= 4; i++) {
+      const t = t0 + tSpan * i / 4;
+      ctx.fillText(formatTime(t), padL + w * i / 4 - 8, H - 4);
+    }
+
+    // Event markers — positioned by timestamp, always correct
+    CHART.events.forEach(ev => {
+      if (ev.t < t0 || ev.t > t1) return;   // scrolled off window, skip
+      const x = tToX(ev.t);
+      ctx.strokeStyle = ev.color + 'aa';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + h); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = ev.color;
+      ctx.font = 'bold 7px Barlow Condensed, sans-serif';
+      ctx.fillText(ev.label, x + 2, padT + 10);
+    });
+
+    // Series lines — also use timestamp for x so they match event markers
+    CHART_SERIES.forEach(s => {
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash(s.dash || []);
+      ctx.beginPath();
+      data.forEach((d, i) => {
+        const x = tToX(d.t);
+        const val = Math.min(100, Math.max(0, (d[s.key] || 0) * s.scale));
+        const y = padT + h * (1 - val / 100);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Endpoint dot
+      const last = data[data.length - 1];
+      const lastVal = Math.min(100, Math.max(0, (last[s.key] || 0) * s.scale));
+      const lx = tToX(last.t);
+      const ly = padT + h * (1 - lastVal / 100);
+      ctx.fillStyle = s.color;
+      ctx.beginPath(); ctx.arc(lx - 2, ly, 2.5, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  function chartReset() {
+    CHART.data = [];
+    CHART.events = [];
+    const canvas = $('gChart');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  /* ════════════════════════════════════
+     PAUSE
+  ════════════════════════════════════ */
+  window.gamePause = function() {
+    if (!GS.running) return;
+
+    if (!GS.paused) {
+      // Pause
+      GS.paused = true;
+      $('gPauseBtn').textContent = '▶ RESUME';
+      $('gPauseBtn').style.color = '#00e676';
+      $('gPauseBtn').style.borderColor = '#00e676';
+      $('gStatusBadge').textContent = 'PAUSED';
+      $('gStatusBadge').style.color = '#ffd200';
+      $('gStatusBadge').style.borderColor = '#ffd200';
+      $('gStatusBadge').style.background = '#1a1500';
+      const ov = $('gPauseOverlay');
+      ov.style.display = 'flex';
+      // Freeze particles
+      document.querySelectorAll('#gParticles circle').forEach(p => p.style.animationPlayState = 'paused');
+      log('⏸ Game paused.', '#ffd200');
+    } else {
+      // Resume
+      GS.paused = false;
+      $('gPauseBtn').textContent = '⏸ PAUSE';
+      $('gPauseBtn').style.color = '#ffd200';
+      $('gPauseBtn').style.borderColor = '#ffd200';
+      $('gStatusBadge').textContent = 'PRODUCING';
+      $('gStatusBadge').style.color = '#00e676';
+      $('gStatusBadge').style.borderColor = '#00e676';
+      $('gStatusBadge').style.background = '#001a00';
+      const ov = $('gPauseOverlay');
+      ov.style.display = 'none';
+      document.querySelectorAll('#gParticles circle').forEach(p => p.style.animationPlayState = 'running');
+      log('▶ Resumed.', '#00e676');
+    }
+  };
+
   /* ── Events ── */
   const EVENTS = [
     {
@@ -2286,12 +2767,20 @@
       desc: 'Reservoir pressure spike — wellhead pressure rising rapidly above safe operating range.',
       action: 'ACTION: Reduce choke opening below 30%, or close RWV temporarily to control pressure.',
       duration: 30,
-      trigger() { GS.maxFlow = 1600; log('⚠ Overpressure surge detected!', '#ff5555'); },
-      check() {
-        return (GS.choke <= 30 || !GS.valves.rwv) && GS.wellheadP < 26;
+      pointers: ['choke', 'rwv'],
+      debrief: {
+        wrong: 'Wellhead pressure exceeded safe limits. When a reservoir pressure surge occurs, the choke must be restricted quickly to reduce the flow rate and let pressure stabilise. Simply opening the LWV (annulus bleed) does not help here — that controls casing annulus pressure, not wellhead tubing pressure.',
+        shouldHave: '1. Immediately drag the Choke slider down to 20–30% to restrict flow and let wellhead pressure drop.\n2. If pressure keeps rising above 28 bar, close the RWV entirely — this stops all production flow and isolates the wellhead.\n3. Once wellhead pressure falls below 25 bar, slowly re-open the choke to resume production.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Drag to ≤30%' },
+          { id: 'rwv',   label: 'RWV',          color: '#ff3333', hint: 'Close if needed' },
+        ],
+        context: 'On real Christmas trees, overpressure surges are handled by the choke manifold downstream. A Surface Safety Valve (SSV) or a high-pressure pilot on the wing valve automatically closes at a set pressure — typically 110% of maximum operating pressure. At Trebišov, the 35 MPa rated equipment had roughly a 10% safety margin before physical failure.'
       },
-      resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled. Choke restricted flow successfully.', '#00e676'); },
-      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 100); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! (-100pts)', '#ff3333'); }
+      trigger() { GS.maxFlow = 1600; log('⚠ Overpressure surge detected!', '#ff5555', 'overpressure'); showPointers(['choke','rwv']); },
+      check() { return (GS.choke <= 30 || !GS.valves.rwv) && GS.wellheadP < 26; },
+      resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled.', '#00e676'); hidePointers(); },
+      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 100); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! (-100pts)', '#ff3333', 'overpressure'); hidePointers(); }
     },
     {
       id: 'demand',
@@ -2299,49 +2788,93 @@
       desc: 'Gas Collection Station reports surge in pipeline demand. Increase production to match.',
       action: 'ACTION: Open choke to 80%+ and ensure RWV and both masters are open.',
       duration: 35,
-      trigger() { GS.demand = 1100; log('📈 Demand spike from GCS — increase flow!', '#ffd200'); },
-      check() {
-        return GS.flowRate >= GS.demand * 0.85;
+      pointers: ['choke', 'rwv'],
+      debrief: {
+        wrong: 'Flow rate fell too far short of pipeline demand. The GCS requires a minimum delivery volume to maintain line pressure. Chronic under-delivery causes line pressure to fall, which can shut down downstream consumers or trigger automatic pipeline isolation.',
+        shouldHave: '1. Open the Choke slider wide — 80% or more.\n2. Make sure RWV, UMV, and LMV are all open (green).\n3. Watch the Flow Rate gauge — it needs to reach at least 85% of the stated demand figure to satisfy the GCS.\n4. If reservoir pressure has declined, you may need to go to 90–100% choke.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open to 80%+' },
+          { id: 'rwv',   label: 'RWV',          color: '#00e676', hint: 'Must be open' },
+          { id: 'lmv',   label: 'LMV',          color: '#00e676', hint: 'Must be open' },
+          { id: 'umv',   label: 'UMV',          color: '#00e676', hint: 'Must be open' },
+        ],
+        context: 'Gas pipeline contracts specify a "nominated daily quantity" (NDQ). Missing it by more than ~10% triggers financial penalties under the Slovak Gas Act and interconnection agreements. Operators at Milhostov GCS would call the wellhead operator directly when delivery fell short.'
       },
-      resolve() { GS.demand = 800; log('✓ Demand met — GCS confirms delivery target reached.', '#00e676'); GS.score += 80; GS.multiplier = Math.min(4, GS.multiplier + 0.3); },
-      expire() { GS.demand = 800; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 80); log('✗ Demand not met — delivery shortfall penalised. (-80pts)', '#ff3333'); }
+      trigger() { GS.demand = 1100; log('📈 Demand spike from GCS — increase flow!', '#ffd200', 'demand'); showPointers(['choke']); },
+      check() { return GS.choke >= 80 && GS.valves.rwv && GS.valves.lmv && GS.valves.umv && GS.flowRate >= GS.demand * 0.85; },
+      resolve() { GS.demand = 800; log('✓ Demand met.', '#00e676'); GS.score += 80; GS.multiplier = Math.min(4, GS.multiplier + 0.3); hidePointers(); },
+      expire() { GS.demand = 800; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 80); log('✗ Demand not met. (-80pts)', '#ff3333', 'demand'); hidePointers(); }
     },
     {
       id: 'leak',
       title: '💧 WING VALVE LEAK',
+      independent: true,
       desc: 'Gas detected venting from RWV packing seal. Isolate the right wing immediately.',
-      action: 'ACTION: Close RWV. Then open LWV to route annulus vent. Close UMV if leak persists.',
-      duration: 25,
+      action: 'ACTION: 1) Close RWV to isolate the leak. 2) Open LWV to vent annulus. 3) Close UMV for double-block isolation. All three required.',
+      duration: 35,
+      pointers: ['rwv'],
+      debrief: {
+        wrong: 'The right wing valve (RWV) packing seal failed and was not fully isolated in time. Full isolation requires three steps: close RWV (stops the leak source), open LWV (vents trapped annulus gas), and close UMV (creates double-block isolation upstream).',
+        shouldHave: '1. Click RWV to close it — this directly stops gas escaping through the failed seal.\n2. Click LWV to open it — this vents the annulus and confirms the leak path is isolated.\n3. Click UMV to close it — this creates the mandatory double-block isolation required by operating procedures.\nAll three must be done before the timer expires.',
+        controls: [
+          { id: 'rwv', label: 'RWV', color: '#ff3333', hint: 'Close — stops the leak' },
+          { id: 'lwv', label: 'LWV', color: '#ffd200', hint: 'Open — vent annulus' },
+          { id: 'umv', label: 'UMV', color: '#ff3333', hint: 'Close — double-block' },
+        ],
+        context: 'Valve packing leaks on Christmas trees are detected by gas detectors mounted at the wellhead cellar level. In the NAFTA Gbely operating procedures, any confirmed gas release required immediate isolation and a written incident report to the Slovak Mining Authority (OBÚ Spišská Nová Ves).'
+      },
       trigger() {
         flashEl('gLeakFlash', '#ff5200');
-        log('💧 Leak detected at RWV! Isolate immediately!', '#ff5555');
+        log('💧 Leak at RWV! Close RWV → Open LWV → Close UMV', '#ff5555', 'leak');
+        showPointers(['rwv', 'lwv', 'umv']);
         setInterval(function() { if (GS.activeEvent && GS.activeEvent.id==='leak' && !GS.eventResolved) flashEl('gLeakFlash','#ff5200'); }, 2000);
       },
-      check() { return !GS.valves.rwv; },
-      resolve() { log('✓ RWV isolated. Leak controlled. Well secured.', '#00e676'); GS.score += 120; GS.multiplier = Math.min(4, GS.multiplier + 0.4); $('gLeakFlash').style.opacity = '0'; },
-      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 120); log('✗ Leak not isolated in time — gas release penalty. (-120pts)', '#ff3333'); $('gLeakFlash').style.opacity = '0'; }
+      check() { return !GS.valves.rwv && GS.valves.lwv && !GS.valves.umv; },
+      resolve() { log('✓ RWV isolated. Leak controlled.', '#00e676'); GS.score += 120; GS.multiplier = Math.min(4, GS.multiplier + 0.4); $('gLeakFlash').style.opacity = '0'; hidePointers(); },
+      expire() { $('gLeakFlash').style.opacity = '0'; hidePointers(); gameOver('💧 UNCONTROLLED GAS LEAK', 'The RWV packing seal failed and was not isolated in time. An uncontrolled gas release to atmosphere — a catastrophic safety and environmental violation.'); }
     },
     {
       id: 'annulus',
       title: '🏗 ANNULUS PRESSURE BUILDUP',
+      independent: true,
       desc: 'Casing annulus pressure rising — gas migrating through cement. Bleed-off required.',
-      action: 'ACTION: Open LWV to vent annulus to collection system until pressure drops below 3 bar.',
-      duration: 40,
-      trigger() { log('🏗 Annulus pressure building — open LWV to bleed off', '#ffd200'); },
-      check() { return GS.annulusP < 3 && GS.valves.lwv; },
-      resolve() { log('✓ Annulus bled off successfully. Pressure normalised.', '#00e676'); GS.score += 90; GS.multiplier = Math.min(4, GS.multiplier + 0.3); },
-      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 90); log('✗ Annulus pressure uncontrolled — casing risk. (-90pts)', '#ff3333'); }
+      action: 'ACTION: Open LWV to vent annulus. Hold it open until pressure drops below 5 bar.',
+      duration: 50,
+      pointers: ['lwv'],
+      debrief: {
+        wrong: 'Casing annulus pressure built up to dangerous levels because the LWV (Left Wing Valve — annulus arm) was not opened in time. Annulus pressure builds when gas migrates from the reservoir through micro-fractures in the cement sheath around the production tubing. If left unchecked it can rupture the outer casing.',
+        shouldHave: '1. Click LWV to open the annulus bleed arm — you will see yellow particles flowing left.\n2. Watch the Annulus Pressure gauge — it must fall below 5 bar while LWV is open.\n3. The bleed is fast once LWV is open — pressure should drop visibly within a few seconds.\n4. Once resolved, you can close LWV again to stop unnecessary venting.\nNote: the choke slider controls wellbore flow — it does NOT affect annulus pressure.',
+        controls: [
+          { id: 'lwv', label: 'LWV (Annulus Arm)', color: '#ffd200', hint: 'Open and hold open' },
+        ],
+        context: 'Sustained casing pressure (SCP) was a known challenge in mature East Slovak Basin wells. Regulatory guidance from the Slovak Geological Survey required operators to monitor and record annulus pressures monthly. A buildup exceeding 50% of the casing burst pressure required mandatory notification to the Mining Authority.'
+      },
+      trigger() { log('🏗 Annulus pressure building — open LWV to bleed off', '#ffd200', 'annulus'); showPointers(['lwv']); },
+      check() { return GS.annulusP < 5 && GS.valves.lwv; },
+      resolve() { log('✓ Annulus bled off successfully.', '#00e676'); GS.score += 90; GS.multiplier = Math.min(4, GS.multiplier + 0.3); hidePointers(); },
+      expire() { hidePointers(); gameOver('💥 CASING FAILURE', 'Annulus pressure was not bled off in time. Casing integrity compromised — uncontrolled gas migration through the cement sheath.'); }
     },
     {
       id: 'esi',
       title: '🚨 EMERGENCY SHUT-IN SIGNAL',
+      independent: true,
       desc: 'GCS reports downstream pipeline rupture. Immediate full well shut-in required.',
       action: 'ACTION: Close UMV AND RWV within time limit. Both must be shut.',
       duration: 20,
-      trigger() { log('🚨 EMERGENCY SHUT-IN — close UMV and RWV NOW!', '#ff3333'); },
+      pointers: ['umv', 'rwv'],
+      debrief: {
+        wrong: 'An Emergency Shut-In (ESI) signal from the Gas Collection Station requires both the Upper Master Valve (UMV) and the Right Wing Valve (RWV) to be closed. This creates a double-block isolation of the wellbore — essential when a downstream pipeline rupture means any further gas delivery would feed an uncontrolled release.',
+        shouldHave: '1. Click UMV on the schematic to close it — this seals the main bore above both master valves.\n2. Click RWV to close the production wing — this isolates the flowline connection.\n3. Both must be closed before the timer expires.\n4. Alternatively, use the ■ EMERGENCY SHUT-IN button at the bottom — it closes all valves instantly (but ends your session).\nSpeed is critical: 20 seconds is realistic for a well-trained operator.',
+        controls: [
+          { id: 'umv', label: 'UMV', color: '#ff3333', hint: 'Close first' },
+          { id: 'rwv', label: 'RWV', color: '#ff3333', hint: 'Close second' },
+        ],
+        context: 'ESI procedures at NAFTA field installations were tested quarterly. The SCADA system at Milhostov GCS could send an automatic ESI signal via 4–20 mA current loop to the pneumatic actuators on ball valve trees like the yellow TR-9. The gate valve trees (blue) required a field operator on-site within 4 minutes under emergency operating procedures.'
+      },
+      trigger() { log('🚨 EMERGENCY SHUT-IN — close UMV and RWV NOW!', '#ff3333', 'esi'); showPointers(['umv','rwv']); },
       check() { return !GS.valves.umv && !GS.valves.rwv; },
-      resolve() { log('✓ Emergency shut-in complete. Well isolated.', '#00e676'); GS.score += 200; GS.multiplier = Math.min(4, GS.multiplier + 0.5); },
-      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 200); log('✗ ESI not executed — critical failure! (-200pts)', '#ff3333'); }
+      resolve() { log('✓ Emergency shut-in complete.', '#00e676'); GS.score += 200; GS.multiplier = Math.min(4, GS.multiplier + 0.5); hidePointers(); },
+      expire() { hidePointers(); gameOver('🚨 ESI FAILURE — PIPELINE INCIDENT', 'Emergency shut-in was not executed in time. The well continued feeding gas into a ruptured downstream pipeline. Catastrophic pipeline failure.'); }
     },
     {
       id: 'sand',
@@ -2349,23 +2882,167 @@
       desc: 'Sand influx detected — choke is partially blocked. Flow rate dropping.',
       action: 'ACTION: Fully open choke to 100% briefly (>90%) to clear plug, then reduce to normal.',
       duration: 30,
-      trigger() { GS.maxFlow = 600; log('🪨 Sand plug forming — open choke wide to clear!', '#ffd200'); },
+      pointers: ['choke'],
+      debrief: {
+        wrong: 'Sand from the reservoir formation accumulated in the choke body and began restricting flow. The correct response is a brief "slug" of high-velocity flow through the choke — achieved by opening it wide — which blasts the sand plug out. Leaving the choke at normal or restricted settings allows the plug to consolidate and fully block the choke.',
+        shouldHave: '1. Drag the Choke slider quickly to 90% or higher.\n2. Hold it there — the event resolves once choke ≥90% is detected.\n3. After resolution, bring the choke back down to your normal operating position (usually 40–60%) to stay on demand.\n4. If you are slow, the plug consolidates and maxFlow drops permanently for the session.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open to 90%+ fast' },
+        ],
+        context: 'Sand production was a significant operational challenge at Trebišov. The Neogene sandstone reservoir had weak cementation in places, allowing fine sand grains to flow with the gas. NAFTA\'s field procedure involved periodic "slug flow" through the choke, followed by collecting the sand in a downstream scrubber vessel at the Milhostov GCS before it reached the pipeline.'
+      },
+      trigger() { GS.maxFlow = 600; log('🪨 Sand plug forming — open choke wide to clear!', '#ffd200', 'sand'); showPointers(['choke']); },
       check() { return GS.choke >= 90; },
-      resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier = Math.min(4, GS.multiplier + 0.2); },
-      expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 70); log('✗ Choke plugged — production severely impaired. (-70pts)', '#ff3333'); }
+      resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier = Math.min(4, GS.multiplier + 0.2); hidePointers(); },
+      expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 70); log('✗ Choke plugged. (-70pts)', '#ff3333', 'sand'); hidePointers(); }
+    },
+  ];
+
+  // ── Catastrophic terminal events — only available after 3 min, ~15% chance per trigger roll ──
+  const CATASTROPHIC_EVENTS = [
+    {
+      id: 'blowthrough',
+      title: '💀 RESERVOIR BLOWTHROUGH',
+      desc: 'A natural fracture has connected a high-pressure zone directly to the wellbore. Pressure is spiking uncontrollably.',
+      action: 'EMERGENCY: Close UMV AND LMV immediately — you have seconds before the tree exceeds rated pressure.',
+      duration: 12,
+      pointers: ['umv', 'rwv'],
+      catastrophic: true,
+      debrief: {
+        wrong: 'A subsurface blowthrough event connects a high-pressure gas pocket to the wellbore, overwhelming all surface control. Reservoir pressure spikes faster than any choke adjustment can compensate — the wellhead reaches rated pressure limit within seconds.',
+        shouldHave: 'Blowthrough events are by design unwinnable in this simulation — they represent a genuine field emergency that cannot be resolved at the wellhead alone. In real operations: 1. Attempt immediate LMV + UMV closure. 2. Evacuate the wellsite. 3. Notify emergency services and the Mining Authority. At Trebišov, BOP (blowout preventer) stack would be the last line of defence.',
+        controls: [
+          { id: 'umv', label: 'UMV', color: '#ff3333', hint: 'Close immediately' },
+          { id: 'lmv', label: 'LMV', color: '#ff3333', hint: 'Close immediately' },
+        ],
+        context: 'Reservoir blowthroughs in mature Eastern Slovak Basin gas fields were extremely rare due to low remaining reservoir pressures by the 2010s. However in earlier production history (1960s–1980s), several well control incidents occurred during workover operations at Trebišov when high-pressure pockets in the Pannonian sandstone formations were unexpectedly penetrated.'
+      },
+      trigger() {
+        GS.maxFlow = 3000;
+        GS._blowthroughInterval = setInterval(() => {
+          if (!GS.running) { clearInterval(GS._blowthroughInterval); return; }
+          GS.reservoirP = Math.min(60, GS.reservoirP + 1.5);
+        }, 250);
+        log('💀 BLOWTHROUGH — reservoir fracture! Pressure spiking uncontrollably!', '#ff0000', 'blowthrough');
+        flashEl('gOverpressFlash', '#ff0000');
+        showPointers(['umv', 'rwv']);
+      },
+      check() { return !GS.valves.umv && !GS.valves.lmv; },
+      resolve() {
+        clearInterval(GS._blowthroughInterval);
+        GS.maxFlow = 1200;
+        GS.reservoirP = Math.min(28, GS.reservoirP);
+        log('✓ Well isolated. Blowthrough contained — session ended for safety inspection.', '#00e676');
+        hidePointers();
+        // Even a resolved blowthrough ends the game — it's a major incident
+        setTimeout(() => gameStop(), 2000);
+      },
+      expire() {
+        clearInterval(GS._blowthroughInterval);
+        GS.maxFlow = 1200;
+        hidePointers();
+        log('💀 Blowthrough uncontrolled.', '#ff0000', 'blowthrough');
+        gameOver('💀 RESERVOIR BLOWTHROUGH', 'Uncontrolled reservoir fracture. The Christmas tree exceeded rated pressure before isolation.');
+      }
+    },
+    {
+      id: 'wellfire',
+      title: '🔥 WELLHEAD FIRE',
+      desc: 'Ignition detected at the wellhead cellar. A gas release has caught fire. Immediate shut-in required — the well cannot continue operating.',
+      action: 'SHUT IN: Close ALL valves — RWV, UMV, LMV. You have 10 seconds. Even a clean shut-in ends this session.',
+      duration: 10,
+      pointers: ['rwv', 'umv'],
+      catastrophic: true,
+      debrief: {
+        wrong: 'Once a wellhead fire starts, continued gas flow feeds the flame. The only correct action is immediate total well shut-in. Even a successfully executed shut-in ends the production session — the well must be inspected and cleared by a fire safety team before restart.',
+        shouldHave: '1. Close RWV first to stop production flow feeding the fire.\n2. Close UMV to isolate the bore.\n3. Close LMV as the final backstop.\nNote: this event always ends the session regardless — a resolved wellfire is still a session-ending incident. Your score at this point is your final score.',
+        controls: [
+          { id: 'rwv', label: 'RWV', color: '#ff3333', hint: 'Close first — stop fuel' },
+          { id: 'umv', label: 'UMV', color: '#ff3333', hint: 'Close second' },
+          { id: 'lmv', label: 'LMV', color: '#ff3333', hint: 'Close third' },
+        ],
+        context: 'Wellhead fires are one of the most serious hazards in gas production. Slovak regulations (Vyhláška ČBÚ č. 22/1989) required every wellsite to have a CO₂ fire suppression system and a posted emergency procedure. At NAFTA field installations, automatic gas detectors were wired to a GCS alarm that would notify the Trebišov fire brigade simultaneously with the field operator.'
+      },
+      trigger() {
+        log('🔥 WELLHEAD FIRE — ignition at cellar! SHUT IN ALL VALVES NOW!', '#ff0000', 'wellfire');
+        // Rapidly build pressure from heat
+        GS._wellfireInterval = setInterval(() => {
+          if (!GS.running) { clearInterval(GS._wellfireInterval); return; }
+          GS.wellheadP = Math.min(38, GS.wellheadP + 0.3);
+        }, 250);
+        flashEl('gOverpressFlash', '#ff5200');
+        showPointers(['rwv', 'umv']);
+      },
+      check() { return !GS.valves.rwv && !GS.valves.umv && !GS.valves.lmv; },
+      resolve() {
+        clearInterval(GS._wellfireInterval);
+        log('✓ Fire isolated — well shut in. Session ends for safety inspection.', '#ffd200');
+        hidePointers();
+        // Wellfire always ends session even if resolved cleanly
+        setTimeout(() => showSessionReport('manual', 'Well Shut In — Fire Isolated', 'You shut in the well during a wellhead fire. Exceptional response. Session ends for mandatory site inspection.'), 2000);
+        GS.running = false;
+        clearInterval(GS._interval);
+        setParticleSpeed(0);
+      },
+      expire() {
+        clearInterval(GS._wellfireInterval);
+        hidePointers();
+        log('🔥 Wellfire uncontrolled.', '#ff0000', 'wellfire');
+        gameOver('🔥 WELLHEAD FIRE — UNCONTROLLED', 'Well was not shut in during a wellhead fire. Catastrophic equipment loss.');
+      }
+    },
+    {
+      id: 'waterflood',
+      title: '🌊 FORMATION WATER BREAKTHROUGH',
+      desc: 'Massive water influx from an adjacent aquifer. Tubing is flooded — gas production has collapsed and cannot be recovered this session.',
+      action: 'ACCEPT DEFEAT: Formation water has killed the well. Close all valves to preserve equipment. Session is over.',
+      duration: 8,
+      pointers: ['choke'],
+      catastrophic: true,
+      debrief: {
+        wrong: 'Formation water breakthrough occurs when the gas-water contact in the reservoir rises to the perforations. Once the tubing fills with water, hydrostatic pressure exceeds reservoir pressure and gas flow stops entirely. There is no surface control action that can reverse this — it is a reservoir-level event.',
+        shouldHave: 'There is nothing you could have done differently at the wellhead. Water breakthrough is a terminal reservoir event. In real operations: 1. Close all valves to preserve wellhead integrity. 2. Notify the reservoir engineering team. 3. Plan workover to re-perforate above the water contact or abandon the well. This event is a deliberate game-ender — surviving long enough to see it is itself an achievement.',
+        controls: [
+          { id: 'lmv', label: 'LMV', color: '#ffd200', hint: 'Close to preserve equipment' },
+        ],
+        context: 'Water breakthrough was the primary mechanism ending production at the Trebišov gas field wells. As reservoir pressure declined through the 1990s and 2000s, the gas-water contact rose progressively. Some wells (including TR-8) were killed by water influx within their last 2–3 years of production. NAFTA\'s reservoir team monitored the gas-water contact using quarterly pressure build-up tests.'
+      },
+      trigger() {
+        GS.maxFlow = 0;
+        GS.flowRate = 0;
+        log('🌊 FORMATION WATER BREAKTHROUGH — well killed by aquifer influx!', '#00d2ff', 'waterflood');
+        showPointers(['choke']);
+      },
+      check() { return false; }, // Never resolves — always expires
+      resolve() {},
+      expire() {
+        hidePointers();
+        log('🌊 Well killed by water. Production ended.', '#00d2ff', 'waterflood');
+        gameOver('🌊 FORMATION WATER BREAKTHROUGH', 'Aquifer water flooded the tubing. Gas production irreversibly lost this session.');
+      }
     },
   ];
 
   function triggerRandomEvent() {
-    // Don't double-trigger
     if (GS.activeEvent) return;
-    const ev = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+
+    // After 3 minutes, there's a 15% chance each trigger roll picks a catastrophic event
+    const useCatastrophic = GS.elapsed > 180 && Math.random() < 0.15;
+    const pool = useCatastrophic ? CATASTROPHIC_EVENTS : EVENTS;
+    const ev = pool[Math.floor(Math.random() * pool.length)];
+
     GS.activeEvent = ev;
     GS.eventTimer = ev.duration;
     GS.eventResolved = false;
+    SESSION.eventsTriggered++;
     ev.trigger();
+    chartAddEvent(ev.title.slice(0, 12), ev.catastrophic ? '#ff0000' : '#ff5200');
     showEventBanner(ev);
-    GS.nextEventIn = 20 + Math.random() * 30;
+
+    // Events arrive faster the longer the session runs (min 10s gap)
+    const sessionFactor = Math.max(0.4, 1 - GS.elapsed / 600);
+    const baseGap = useCatastrophic ? 15 : 20;
+    GS.nextEventIn = (baseGap + Math.random() * 15) * sessionFactor;
   }
 
   function showEventBanner(ev) {
@@ -2373,7 +3050,11 @@
     $('gEventTitle').textContent = ev.title;
     $('gEventDesc').textContent  = ev.desc;
     $('gEventAction').textContent = ev.action;
-    $('gEventBanner').style.borderColor = 'var(--orange)';
+    $('gEventBanner').style.borderColor = ev.catastrophic ? '#ff0000' : 'var(--orange)';
+    // Show the "act regardless of flow" notice for procedural events
+    $('gEventIndependent').style.display = ev.independent ? 'block' : 'none';
+    if (ev.catastrophic) SND.catastrophicAlert();
+    else SND.alert();
   }
 
   function hideEventBanner() {
@@ -2384,6 +3065,10 @@
 
   function expireEvent() {
     if (!GS.activeEvent) return;
+    SESSION.eventsFailed++;
+    if (GS.activeEvent.debrief) _debriefData = GS.activeEvent.debrief;
+    chartAddEvent('✗ FAILED', '#ff3333');
+    SND.fail();
     GS.activeEvent.expire();
     hideEventBanner();
     GS.activeEvent = null;
@@ -2393,7 +3078,10 @@
     if (!GS.activeEvent || GS.eventResolved) return;
     if (GS.activeEvent.check()) {
       GS.eventResolved = true;
+      SESSION.eventsResolved++;
+      chartAddEvent('✓ OK', '#00e676');
       GS.activeEvent.resolve();
+      SND.resolve();
       $('gEventBanner').style.borderColor = '#00e676';
       $('gEventTitle').textContent = '✓ ' + GS.activeEvent.title.replace(/^.{2}/, '');
       $('gEventTimer').textContent = 'DONE';
@@ -2407,6 +3095,181 @@
     return Math.sin(t * 2.1) * 0.5 + Math.sin(t * 3.7 + 1.2) * 0.3 + Math.sin(t * 0.9 + 2.4) * 0.2;
   }
 
+  /* ════════════════════════════════════
+     SOUND ENGINE  (Web Audio API — no files)
+  ════════════════════════════════════ */
+  let _audioCtx = null;
+  let _muted = false;
+
+  function getAudio() {
+    if (!_audioCtx) {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    // Resume if browser suspended it (autoplay policy)
+    if (_audioCtx.state === 'suspended') _audioCtx.resume();
+    return _audioCtx;
+  }
+
+  window.toggleMute = function() {
+    _muted = !_muted;
+    const btn = $('gMuteBtn');
+    if (btn) {
+      btn.textContent = _muted ? '🔇' : '🔊';
+      btn.style.opacity = _muted ? '0.4' : '0.7';
+    }
+  };
+
+  // ── low-level helpers ──────────────────────────────────────
+  function makeOsc(type, freq, startT, endT, gainPeak, ctx) {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, startT);
+    g.gain.setValueAtTime(0, startT);
+    g.gain.linearRampToValueAtTime(gainPeak, startT + 0.01);
+    g.gain.linearRampToValueAtTime(0, endT);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(startT); osc.stop(endT + 0.05);
+  }
+
+  function makeOscSweep(type, freqStart, freqEnd, startT, endT, gainPeak, ctx) {
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freqStart, startT);
+    osc.frequency.linearRampToValueAtTime(freqEnd, endT);
+    g.gain.setValueAtTime(0, startT);
+    g.gain.linearRampToValueAtTime(gainPeak, startT + 0.02);
+    g.gain.linearRampToValueAtTime(0, endT);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(startT); osc.stop(endT + 0.05);
+  }
+
+  function makeNoise(startT, dur, gainPeak, ctx, filterFreq) {
+    const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    const filt = ctx.createBiquadFilter();
+    filt.type = 'bandpass';
+    filt.frequency.value = filterFreq || 800;
+    filt.Q.value = 0.5;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, startT);
+    g.gain.linearRampToValueAtTime(gainPeak, startT + 0.03);
+    g.gain.linearRampToValueAtTime(0, startT + dur);
+    src.connect(filt); filt.connect(g); g.connect(ctx.destination);
+    src.start(startT); src.stop(startT + dur + 0.1);
+  }
+
+  // ── named sounds ──────────────────────────────────────────
+
+  const SND = {
+
+    // Valve click — short mechanical thump
+    valve() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeNoise(t,       0.04, 0.15, ctx, 300);
+      makeNoise(t + 0.01, 0.06, 0.08, ctx, 120);
+    },
+
+    // Well startup — rising pressure hiss
+    startup() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeNoise(t, 1.2, 0.06, ctx, 1200);
+      makeOscSweep('sine', 40, 90, t, t + 1.0, 0.06, ctx);
+      makeOscSweep('sine', 200, 420, t + 0.3, t + 0.9, 0.04, ctx);
+    },
+
+    // Normal fault alert — two descending beeps
+    alert() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeOsc('square', 880, t,        t + 0.12, 0.18, ctx);
+      makeOsc('square', 660, t + 0.16, t + 0.28, 0.18, ctx);
+      makeOsc('square', 880, t + 0.34, t + 0.46, 0.12, ctx);
+      makeOsc('square', 660, t + 0.50, t + 0.62, 0.12, ctx);
+    },
+
+    // Catastrophic event — loud pulsing siren-like alarm
+    catastrophicAlert() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      // Siren sweep × 3
+      for (let i = 0; i < 4; i++) {
+        const st = t + i * 0.38;
+        makeOscSweep('sawtooth', 440, 880, st,        st + 0.16, 0.28, ctx);
+        makeOscSweep('sawtooth', 880, 440, st + 0.18, st + 0.34, 0.28, ctx);
+      }
+      // Low rumble underneath
+      makeOscSweep('sine', 55, 40, t, t + 1.5, 0.18, ctx);
+      // Noise burst
+      makeNoise(t, 0.08, 0.3, ctx, 600);
+    },
+
+    // Event resolved — two-note rising chime
+    resolve() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeOsc('sine', 523, t,        t + 0.18, 0.18, ctx);  // C5
+      makeOsc('sine', 784, t + 0.14, t + 0.38, 0.22, ctx);  // G5
+      makeOsc('sine', 1046, t + 0.28, t + 0.55, 0.14, ctx); // C6
+    },
+
+    // Event expired / penalty — harsh buzzer
+    fail() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeOsc('sawtooth', 150, t,        t + 0.22, 0.22, ctx);
+      makeOsc('sawtooth', 120, t + 0.05, t + 0.30, 0.18, ctx);
+      makeNoise(t, 0.18, 0.12, ctx, 400);
+    },
+
+    // Countdown tick — quiet click when event timer < 5s
+    tick() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeOsc('sine', 1200, t, t + 0.03, 0.09, ctx);
+    },
+
+    // Overpressure warning ping — sharp repeated beep
+    pressureWarn() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      makeOsc('square', 1320, t,        t + 0.06, 0.14, ctx);
+      makeOsc('square', 1320, t + 0.10, t + 0.16, 0.10, ctx);
+    },
+
+    // Catastrophic game-over — deep descending explosion-like sound
+    gameOver() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      // Deep impact boom
+      makeOscSweep('sine',     80,  25,  t,        t + 1.2,  0.45, ctx);
+      makeOscSweep('sawtooth', 160, 30,  t,        t + 0.8,  0.25, ctx);
+      makeNoise(t, 0.25, 0.5,  ctx, 300);
+      makeNoise(t + 0.1, 0.6, 0.25, ctx, 100);
+      // Fading alarm whine
+      makeOscSweep('sine', 660, 220, t + 0.3, t + 2.0, 0.18, ctx);
+      makeOscSweep('sine', 440, 110, t + 0.8, t + 2.5, 0.12, ctx);
+    },
+
+    // Multiplier milestone — brief ascending arp
+    milestone() {
+      if (_muted) return;
+      const ctx = getAudio(), t = ctx.currentTime;
+      const notes = [523, 659, 784, 1047];
+      notes.forEach((f, i) => makeOsc('sine', f, t + i * 0.07, t + i * 0.07 + 0.14, 0.13, ctx));
+    },
+
+  };
+
+  // Track last milestone for multiplier sound
+  let _lastMilestone = 1;
+
   /* ── Flash helper ── */
   function flashEl(id, color) {
     const el = $(id);
@@ -2417,18 +3280,154 @@
     el._flashTimer = setTimeout(() => { el.style.opacity = '0'; }, 600);
   }
 
+  /* ════════════════════════════════════
+     CONTROL POINTER ARROWS
+  ════════════════════════════════════ */
+  function showPointers(ids) {
+    // Hide all first
+    ['choke','rwv','lwv','umv'].forEach(id => {
+      const el = $('gptr-' + id);
+      if (el) el.style.display = 'none';
+    });
+    // Show requested
+    ids.forEach(id => {
+      const el = $('gptr-' + id);
+      if (el) el.style.display = 'block';
+    });
+  }
+
+  function hidePointers() {
+    ['choke','rwv','lwv','umv'].forEach(id => {
+      const el = $('gptr-' + id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
+  /* ════════════════════════════════════
+     FAILURE DEBRIEF
+  ════════════════════════════════════ */
+  let _debriefData = null;
+
+  function populateDebrief(failTitle, failCause) {
+    // Find event debrief by matching cause keyword or use a generic blowout/casing debrief
+    const GENERIC_DEBRIEFS = {
+      blowout: {
+        title: '💥 BLOWOUT — Wellhead Pressure Exceeded 35 MPa',
+        subtitle: 'The wellhead pressure exceeded the rated equipment limit and the tree failed.',
+        wrong: 'Wellhead pressure climbed above 35 MPa — the rated pressure limit of the Christmas tree equipment. This happens when flow is unrestricted during a pressure surge, or when the choke is too wide open while reservoir pressure is high. The tree\'s physical limit was exceeded before any safety valve could intervene.',
+        shouldHave: '1. Always watch the Wellhead Pressure gauge — keep it in the 15–25 bar range.\n2. If pressure climbs above 28 bar, immediately restrict the choke (drag below 30%) or close the RWV.\n3. When an Overpressure Surge event fires, react within the first 10 seconds — pressure builds fast.\n4. Use the ⏸ PAUSE button if you need a moment to think during a complex situation.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Restrict to <30%' },
+          { id: 'rwv',   label: 'RWV',          color: '#ff3333', hint: 'Close to stop flow' },
+        ],
+        context: 'Real blowouts on depleted gas wells like Trebišov are extremely rare due to low remaining reservoir pressure. However during early production when reservoir pressure is high (the start of your session), an uncontrolled opening could theoretically exceed equipment ratings. At 35 MPa the API 6A-rated flanges and valve bodies would begin to leak at sealing faces before catastrophic failure.'
+      },
+      casing: {
+        title: '💥 CASING FAILURE — Annulus Pressure Out of Control',
+        subtitle: 'The casing annulus pressure built up to 16+ bar, compromising outer casing integrity.',
+        wrong: 'The casing annulus pressure reached a critical level. Gas had been migrating through the cement sheath (a common issue in older wells) and the annulus pressure was not bled off in time. At 16 bar the outer casing is at risk of permanent deformation or seal failure at the wellhead connections.',
+        shouldHave: '1. During an Annulus Buildup event, open LWV immediately — don\'t wait.\n2. The annulus pressure bleeds slowly — LWV must stay open until the gauge reads below 3 bar.\n3. Even outside of events, if Annulus Pressure climbs above 5 bar without a prompt, open LWV proactively.\n4. The LWV only controls annulus pressure. The choke slider does NOT affect annulus pressure.',
+        controls: [
+          { id: 'lwv', label: 'LWV (Annulus Arm)', color: '#ffd200', hint: 'Open and hold open' },
+        ],
+        context: 'The outer casings on the Trebišov wells were cemented in stages during original drilling in the 1990s. After 20 years of production and depletion, cement shrinkage and micro-annuli around perforations are typical. Slovak Mining Authority regulations required annulus pressure monitoring every shift during active production.'
+      },
+      suspended: {
+        title: '🛑 OPERATIONS SUSPENDED — Too Many Safety Violations',
+        subtitle: 'The GCS shut in your well after repeated uncorrected safety incidents.',
+        wrong: 'You accumulated 5 uncorrected safety violations — events that expired without the correct response. In a real field, each uncorrected fault would be logged, investigated, and could result in the well being shut in by the operator or regulator. The GCS automatically isolated your well from the pipeline after repeated failures.',
+        shouldHave: '1. Always respond to event banners within the first 10–15 seconds — read the ACTION line (in cyan italic) and follow it exactly.\n2. If multiple events feel overwhelming, use ⏸ PAUSE to stop the clock and plan your response.\n3. Study the tutorial (? HOW TO PLAY) to memorise which control fixes which fault.\n4. After each session, use "🔍 WHY DID I FAIL?" to review the last failure in detail.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'For pressure/demand/sand events' },
+          { id: 'rwv',   label: 'RWV',          color: '#ff3333', hint: 'For leak/ESI/overpressure events' },
+          { id: 'lwv',   label: 'LWV',          color: '#ffd200', hint: 'For annulus events' },
+          { id: 'umv',   label: 'UMV',          color: '#ff3333', hint: 'For ESI events' },
+        ],
+        context: 'Under Slovak Act No. 44/1988 Coll. (the Mining Act) and related regulations, well operators were required to maintain a daily operating journal. Any safety incident had to be reported to the district Mining Authority within 24 hours. Repeated violations could result in production suspension pending inspection.'
+      },
+      supply: {
+        title: '📉 UNDER-SUPPLY FAILURE — Pipeline Pressure Collapsed',
+        subtitle: 'Flow rate stayed more than 25% below pipeline demand for 20 consecutive seconds.',
+        wrong: 'The GCS requires continuous gas delivery within ±25% of the nominated demand. Staying too far below demand for 20 seconds collapses pipeline line pressure — the GCS automatically isolates your well to protect downstream consumers.',
+        shouldHave: '1. Keep the choke tuned so flow tracks demand — the green bar on the Production vs. Demand strip is your target.\n2. If reservoir pressure has dropped late in the session, open the choke wider (80–100%) to compensate.\n3. If you opened LWV unnecessarily, the 5-bar WHP bleed drops your flow significantly — close LWV unless resolving an annulus event.\n4. Watch the under-supply warnings in the log — you have 20 seconds from the first warning to correct the shortfall.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open wider to increase flow' },
+          { id: 'lwv',   label: 'LWV',          color: '#ffd200', hint: 'Close if open unnecessarily' },
+        ],
+        context: 'Under Slovak gas supply contracts, a well operator was required to deliver within ±10% of the nominated daily quantity. Sustained under-delivery triggered automatic notifications to eustream a.s. (the Slovak transmission operator) and could result in contract penalties or mandatory well inspection.'
+      },
+      oversupply: {
+        title: '📈 OVER-SUPPLY FAILURE — Receiving Station Overpowered',
+        subtitle: 'Flow rate stayed more than 25% above pipeline demand for 25 consecutive seconds.',
+        wrong: 'Delivering significantly more gas than the GCS receiving station has nominated causes pipeline over-pressurisation downstream. The receiving station at Milhostov has a maximum throughput capacity — sustained over-delivery trips its high-pressure shutdown and isolates your well automatically.',
+        shouldHave: '1. Watch the Production vs. Demand bar — the flow bar should stay close to the green demand marker, not far past it.\n2. Reduce choke opening to throttle back flow when you are significantly above demand.\n3. If you just resolved a demand spike event and choke is still wide open, reduce it back to 40–60% for normal operation.\n4. Over-supply warnings appear in the log — you have 25 seconds to throttle back before isolation.',
+        controls: [
+          { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Reduce to throttle back flow' },
+        ],
+        context: 'Gas receiving stations like the Milhostov GCS have a rated maximum throughput governed by compressor capacity and pipeline diameter. Slovak pipeline operating procedures required wellhead operators to stay within ±10% of their nominated delivery rate. Deliberate over-delivery was treated as a contract violation equivalent to under-delivery.'
+      }
+    };
+
+    let d;
+    const lc = failTitle.toLowerCase();
+    if (lc.includes('blowout'))          d = GENERIC_DEBRIEFS.blowout;
+    else if (lc.includes('casing'))      d = GENERIC_DEBRIEFS.casing;
+    else if (lc.includes('suspended'))   d = GENERIC_DEBRIEFS.suspended;
+    else if (lc.includes('over-supply')) d = GENERIC_DEBRIEFS.oversupply;
+    else if (lc.includes('under-supply') || lc.includes('supply')) d = GENERIC_DEBRIEFS.supply;
+    else {
+      // Try to find last active event's debrief
+      d = _debriefData;
+    }
+    if (!d) return false;
+
+    $('gDebriefTitle').textContent    = d.title    || failTitle;
+    $('gDebriefSubtitle').textContent = d.subtitle || failCause || '';
+    $('gDebriefWrong').textContent    = d.wrong    || '';
+
+    // shouldHave with newline handling
+    const sh = $('gDebriefShouldHave');
+    sh.innerHTML = (d.shouldHave || '').split('\n').map(line =>
+      `<div style="margin-bottom:6px;">${line}</div>`
+    ).join('');
+
+    // Controls pills
+    const cl = $('gDebriefControlsList');
+    cl.innerHTML = (d.controls || []).map(c =>
+      `<div style="background:#08082a;border:1.5px solid ${c.color};border-radius:6px;padding:10px 14px;min-width:130px;">
+        <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:${c.color};margin-bottom:3px;">${c.label}</div>
+        <div style="font-size:0.75rem;color:var(--silver);">${c.hint}</div>
+      </div>`
+    ).join('');
+
+    $('gDebriefContext').textContent = d.context || '';
+    return true;
+  }
+
+  window.openDebrief = function() {
+    if (!_debriefData && !$('gGameOverTitle').textContent) return;
+    $('gDebrief').style.display = 'flex';
+  };
+
+  window.closeDebrief = function() {
+    $('gDebrief').style.display = 'none';
+  };
+
+  // Close on backdrop click
+  $('gDebrief').addEventListener('click', function(e) {
+    if (e.target === this) closeDebrief();
+  });
+
   /* ── Public: toggle valve ── */
   window.gameToggleValve = function(id) {
     if (!GS.running) return;
-    // Swab: warn but allow
     GS.valves[id] = !GS.valves[id];
     const state = GS.valves[id] ? 'open' : 'closed';
     if (id === 'swab') setValveVisual(id, GS.valves[id] ? 'open' : 'locked');
     else setValveVisual(id, state);
     log((GS.valves[id] ? '↑ Opened' : '↓ Closed') + ' ' + id.toUpperCase(), GS.valves[id] ? '#00e676' : '#ff9966');
-    // After any valve change, check event resolution
+    SND.valve();
     checkEventResolution();
-    // Annulus particles
     $('gAnnParticles').style.display = (GS.valves.lwv && GS.running) ? 'block' : 'none';
   };
 
@@ -2442,10 +3441,22 @@
     checkEventResolution();
   };
 
+  /* ── Session stats tracker ── */
+  const SESSION = {
+    eventsTriggered: 0,
+    eventsResolved: 0,
+    eventsFailed: 0,
+    peakFlow: 0,
+    peakPressure: 0,
+    peakMultiplier: 1.0,
+    goodFlowSeconds: 0,   // within ±10% of demand
+  };
+
   /* ── Public: start game ── */
   window.gameStart = function() {
     if (GS.running) return;
     GS.running = true;
+    GS.paused  = false;
     $('gStartBtn').disabled = true;
     $('gStartBtn').style.opacity = '0.5';
     $('gStopBtn').disabled = false;
@@ -2453,6 +3464,13 @@
     $('gStopBtn').style.cursor = 'pointer';
     $('gStopBtn').style.color = '#ff5555';
     $('gStopBtn').style.borderColor = '#ff5555';
+    $('gPauseBtn').disabled = false;
+    $('gPauseBtn').style.opacity = '1';
+    $('gPauseBtn').style.cursor = 'pointer';
+    $('gPauseBtn').style.color = '#ffd200';
+    $('gPauseBtn').style.borderColor = '#ffd200';
+    $('gPauseBtn').textContent = '⏸ PAUSE';
+    $('gPauseOverlay').style.display = 'none';
     $('gStatusBadge').textContent = 'PRODUCING';
     $('gStatusBadge').style.color = '#00e676';
     $('gStatusBadge').style.borderColor = '#00e676';
@@ -2468,76 +3486,513 @@
       activeEvent: null, eventResolved: false, eventTimer: 0, nextEventIn: 25,
       penaltyCount: 0, noiseOffset: 0, particleSpeed: 1.0,
     });
+    Object.assign(SESSION, {
+      eventsTriggered: 0, eventsResolved: 0, eventsFailed: 0,
+      peakFlow: 0, peakPressure: 0, peakMultiplier: 1.0, goodFlowSeconds: 0,
+    });
+    chartReset();
+    _debriefData = null;
+    _exportSnapshot = null;
+    if ($('gDebriefBtn')) $('gDebriefBtn').style.display = 'none';
+    if ($('gExportBtn'))  $('gExportBtn').style.display  = 'none';
+    $('gChartPanel').style.display = 'block';
     $('gChokeSlider').value = 50;
     $('gChokeVal').textContent = '50%';
     refreshValveVisuals();
     clearLog();
     log('▶ Well started. All valves open. Monitor pressure and respond to events.', '#00e676');
+    SND.startup();
+    _lastMilestone = 1;
+    _tick = 0;
+    _underSupplySeconds = 0;
+    _overSupplySeconds  = 0;
 
     GS._interval = setInterval(() => {
       physicsTick();
       checkEventResolution();
+      // Track session stats
+      SESSION.peakFlow = Math.max(SESSION.peakFlow, GS.flowRate);
+      SESSION.peakPressure = Math.max(SESSION.peakPressure, GS.wellheadP);
+      SESSION.peakMultiplier = Math.max(SESSION.peakMultiplier, GS.multiplier);
+      const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
+      if (diff <= 0.10 && GS.valves.rwv && !GS.paused) SESSION.goodFlowSeconds += 0.25;
     }, 250);
   };
 
-  /* ── Public: stop (emergency shut-in) ── */
+  /* ── Public: stop (manual emergency shut-in) ── */
   window.gameStop = function() {
     if (!GS.running) return;
-    // Close all valves
     ['lmv','umv','rwv','lwv','swab'].forEach(id => {
       GS.valves[id] = false;
       setValveVisual(id, id === 'swab' ? 'locked' : 'closed');
     });
     GS.running = false;
+    GS.paused  = false;
     clearInterval(GS._interval);
     setParticleSpeed(0);
     $('gAnnParticles').style.display = 'none';
+    $('gPauseOverlay').style.display = 'none';
     $('gStartBtn').disabled = false;
     $('gStartBtn').style.opacity = '1';
     $('gStopBtn').disabled = true;
     $('gStopBtn').style.opacity = '0.5';
     $('gStopBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').disabled = true;
+    $('gPauseBtn').style.opacity = '0.5';
+    $('gPauseBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').style.color = 'var(--silver)';
+    $('gPauseBtn').style.borderColor = 'var(--border)';
+    $('gPauseBtn').textContent = '⏸ PAUSE';
     $('gStatusBadge').textContent = 'SHUT-IN';
     $('gStatusBadge').style.color = '#ffd200';
     $('gStatusBadge').style.borderColor = '#ffd200';
     $('gStatusBadge').style.background = '#1a1500';
     log('■ Emergency shut-in executed. All valves closed.', '#ffd200');
     hideEventBanner();
+    showSessionReport('manual');
   };
 
-  /* ── Game Over ── */
+  /* ── Game Over (catastrophic) ── */
   function gameOver(title, body) {
     clearInterval(GS._interval);
     GS.running = false;
+    GS.paused  = false;
     setParticleSpeed(0);
     $('gAnnParticles').style.display = 'none';
+    $('gPauseOverlay').style.display = 'none';
     $('gStartBtn').disabled = false;
     $('gStartBtn').style.opacity = '1';
     $('gStopBtn').disabled = true;
     $('gStopBtn').style.opacity = '0.5';
     $('gStopBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').disabled = true;
+    $('gPauseBtn').style.opacity = '0.5';
+    $('gPauseBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').style.color = 'var(--silver)';
+    $('gPauseBtn').style.borderColor = 'var(--border)';
+    $('gPauseBtn').textContent = '⏸ PAUSE';
     $('gStatusBadge').textContent = 'FAILED';
     $('gStatusBadge').style.color = '#ff3333';
     $('gStatusBadge').style.borderColor = '#ff3333';
     $('gStatusBadge').style.background = '#1a0000';
-    $('gGameOver').style.display = 'block';
-    $('gGameOverTitle').textContent = title;
-    $('gGameOverBody').innerHTML =
-      body + '<br><br>' +
-      'Final score: <strong style="color:var(--orange);">' + Math.round(GS.score).toLocaleString() + ' pts</strong> &nbsp;|&nbsp; ' +
-      'Time on well: <strong style="color:var(--cyan);">' + formatTime(GS.elapsed) + '</strong>';
     hideEventBanner();
+    SND.gameOver();
     log('💥 ' + title, '#ff3333');
+    showSessionReport('failure', title, body);
+  }
+
+  /* ── Session report ── */
+  function showSessionReport(type, failTitle, failBody) {
+    const score   = Math.round(GS.score);
+    const elapsed = GS.elapsed;
+    const evR     = SESSION.eventsResolved;
+    const evT     = SESSION.eventsTriggered;
+    const evF     = SESSION.eventsFailed;
+    const onTarget = elapsed > 0 ? Math.round(SESSION.goodFlowSeconds / elapsed * 100) : 0;
+    const perf     = Math.min(100, Math.round(
+      (score / Math.max(1, elapsed) * 2) +       // score rate
+      (evT > 0 ? evR / evT * 40 : 20) +          // event resolution rate
+      onTarget * 0.3                              // on-target flow
+    ));
+
+    // Performance rating
+    let rating, ratingColor;
+    if      (perf >= 85) { rating = '🏆 Master Operator';   ratingColor = '#ffd200'; }
+    else if (perf >= 65) { rating = '✅ Competent Engineer'; ratingColor = '#00e676'; }
+    else if (perf >= 40) { rating = '⚠ Trainee';            ratingColor = '#ffd200'; }
+    else                  { rating = '❌ Needs Retraining';   ratingColor = '#ff5555'; }
+
+    // Icon + label based on type
+    let icon, label, titleText, bodyText;
+    if (type === 'manual') {
+      icon = '■';
+      label = 'Session Complete';
+      titleText = 'Well Shut In';
+      bodyText = 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well.';
+    } else {
+      icon = '💥';
+      label = 'Simulation Failed';
+      titleText = failTitle;
+      bodyText = failBody;
+    }
+
+    $('gGameOverIcon').textContent = icon;
+    $('gGameOverLabel').textContent = label;
+    $('gGameOverTitle').textContent = titleText;
+    $('gGameOverBody').textContent  = bodyText;
+    $('gGameOverTitle').style.color = type === 'manual' ? 'var(--cyan)' : '#ff5555';
+    $('gGameOver').style.borderColor = type === 'manual' ? 'var(--cyan)' : 'var(--orange)';
+
+    // Debrief button — only for failures
+    const debriefBtn = $('gDebriefBtn');
+    if (debriefBtn) {
+      if (type === 'failure') {
+        const populated = populateDebrief(failTitle || '', bodyText || '');
+        debriefBtn.style.display = populated ? 'inline-block' : 'none';
+      } else {
+        debriefBtn.style.display = 'none';
+      }
+    }
+
+    // Stats grid
+    const stats = [
+      { label: 'Final Score',     value: score.toLocaleString() + ' pts', color: 'var(--orange)' },
+      { label: 'Time on Well',    value: formatTime(elapsed),              color: 'var(--cyan)'   },
+      { label: 'Events Resolved', value: evR + ' / ' + evT,               color: evF === 0 ? '#00e676' : '#ffd200' },
+      { label: 'On-Target Flow',  value: onTarget + '%',                   color: onTarget >= 60 ? '#00e676' : onTarget >= 30 ? '#ffd200' : '#ff5555' },
+      { label: 'Peak Flow',       value: Math.round(SESSION.peakFlow) + ' m³/h', color: 'var(--cyan)' },
+      { label: 'Peak Pressure',   value: SESSION.peakPressure.toFixed(1) + ' bar', color: SESSION.peakPressure > 28 ? '#ff5555' : 'var(--cyan)' },
+      { label: 'Peak Multiplier', value: (SESSION.peakMultiplier >= 100 ? Math.round(SESSION.peakMultiplier) : SESSION.peakMultiplier.toFixed(1)) + 'x', color: 'var(--yellow)' },
+      { label: 'Safety Penalties',value: GS.penaltyCount,                  color: GS.penaltyCount === 0 ? '#00e676' : '#ff5555' },
+    ];
+    const statsGrid = $('gGameOverStats');
+    statsGrid.style.gridTemplateColumns = 'repeat(4,1fr)';
+    statsGrid.innerHTML = stats.map(s =>
+      `<div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;">
+        <div style="font-family:var(--font-display);font-size:0.58rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">${s.label}</div>
+        <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:${s.color};">${s.value}</div>
+      </div>`
+    ).join('');
+
+    // Performance bar
+    const perfDiv = $('gGameOverPerf');
+    perfDiv.style.display = 'block';
+    $('gPerfLabel').textContent = rating;
+    $('gPerfLabel').style.color = ratingColor;
+    const barColor = perf >= 65 ? '#00e676' : perf >= 40 ? '#ffd200' : '#ff5555';
+    $('gPerfBar').style.background = barColor;
+    setTimeout(() => { $('gPerfBar').style.width = perf + '%'; }, 100);
+
+    $('gGameOver').style.display = 'block';
+    // Smooth scroll to report
+    setTimeout(() => $('gGameOver').scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+    // Show log hint only for failures
+    const logHint = $('gLogHint');
+    if (logHint) logHint.style.display = type === 'failure' ? 'inline' : 'none';
+    // Always show export button
+    const expBtn = $('gExportBtn');
+    if (expBtn) expBtn.style.display = 'inline-block';
+    // Store snapshot for export
+    _exportSnapshot = {
+      type, titleText, bodyText, rating, ratingColor, perf, barColor,
+      score, elapsed, evR, evT, evF, onTarget, stats,
+    };
+  }
+
+  /* ════════════════════════════════════
+     RESULT CARD EXPORT
+  ════════════════════════════════════ */
+  let _exportSnapshot = null;
+
+  window.exportResultCard = function() {
+    const snap = _exportSnapshot;
+    if (!snap) return;
+
+    // Logical dimensions (what everything is designed in)
+    const LW = 1080, LH = 620;
+    // Physical canvas = 2× for retina sharpness
+    const DPR = 2;
+    const cv = document.createElement('canvas');
+    cv.width  = LW * DPR;
+    cv.height = LH * DPR;
+    const ctx = cv.getContext('2d');
+    ctx.scale(DPR, DPR);   // all coordinates now in logical pixels
+
+    const CARD   = '#0c0c28';
+    const BORDER = '#1c1c48';
+    const ORANGE = '#ff5200';
+    const CYAN   = '#00d2ff';
+    const GREEN  = '#00e676';
+    const YELLOW = '#ffd200';
+    const SILVER = '#9aa0bc';
+    const RED    = '#ff3333';
+    const PURPLE = '#cc66ff';
+
+    const accentColor = snap.type === 'failure' ? ORANGE : CYAN;
+
+    // ── Background ──
+    const bg = ctx.createLinearGradient(0, 0, LW, LH);
+    bg.addColorStop(0, '#080820');
+    bg.addColorStop(1, '#030312');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, LW, LH);
+
+    // Subtle grid
+    ctx.strokeStyle = '#12122e';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < LW; x += 54) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,LH); ctx.stroke(); }
+    for (let y = 0; y < LH; y += 54) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(LW,y); ctx.stroke(); }
+
+    // Top accent bar
+    const ag = ctx.createLinearGradient(0,0,LW,0);
+    ag.addColorStop(0, accentColor);
+    ag.addColorStop(0.5, snap.type === 'failure' ? RED : GREEN);
+    ag.addColorStop(1, accentColor);
+    ctx.fillStyle = ag;
+    ctx.fillRect(0, 0, LW, 4);
+
+    // ── HEADER ──
+    const PAD = 28;
+
+    // Eyebrow
+    ctx.font = '600 10px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = accentColor;
+    ctx.fillText('TREBIŠOV GAS FIELD  ·  TR-9 CHRISTMAS TREE OPERATOR  ·  SIMULATION RESULT', PAD, 22);
+
+    // Title (large)
+    ctx.font = 'bold 28px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = snap.type === 'failure' ? RED : CYAN;
+    ctx.fillText(snap.titleText, PAD, 54);
+
+    // Body / reason — wrap at 580px
+    ctx.font = '13px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = SILVER;
+    let bodyLine = '', bodyY = 72;
+    for (const word of (snap.bodyText || '').split(' ')) {
+      const test = bodyLine + word + ' ';
+      if (ctx.measureText(test).width > 580 && bodyLine) {
+        ctx.fillText(bodyLine.trim(), PAD, bodyY);
+        bodyY += 16; bodyLine = word + ' ';
+      } else bodyLine = test;
+    }
+    if (bodyLine.trim()) ctx.fillText(bodyLine.trim(), PAD, bodyY);
+
+    // Rating (top-right)
+    ctx.textAlign = 'right';
+    ctx.font = 'bold 14px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = snap.ratingColor;
+    ctx.fillText(snap.rating, LW - PAD, 34);
+    ctx.font = '11px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = SILVER;
+    ctx.fillText('Performance  ' + snap.perf + '%', LW - PAD, 50);
+    ctx.textAlign = 'left';
+
+    // Perf bar (top-right below rating)
+    const pbX = LW - PAD - 200, pbY = 56, pbW = 200, pbH = 7;
+    ctx.fillStyle = '#0a0a20';
+    roundRect(ctx, pbX, pbY, pbW, pbH, 3);
+    const pbFill = Math.max(4, pbW * snap.perf / 100);
+    ctx.fillStyle = snap.barColor;
+    roundRect(ctx, pbX, pbY, pbFill, pbH, 3);
+
+    // Divider
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD, 88); ctx.lineTo(LW - PAD, 88); ctx.stroke();
+
+    // ── STATS ROW ──
+    const sY = 96, sH = 58;
+    const totalCardW = LW - PAD * 2;
+    const sW = (totalCardW - 7 * 6) / 8;  // 8 cards, 6px gap
+    snap.stats.forEach((s, i) => {
+      const sx = PAD + i * (sW + 6);
+      ctx.fillStyle = CARD;
+      roundRect(ctx, sx, sY, sW, sH, 5);
+      ctx.strokeStyle = BORDER; ctx.lineWidth = 0.6;
+      roundRectStroke(ctx, sx, sY, sW, sH, 5);
+      // label
+      ctx.font = '8px "Barlow Condensed", sans-serif';
+      ctx.fillStyle = SILVER;
+      ctx.textAlign = 'center';
+      const label = s.label.toUpperCase();
+      ctx.fillText(label, sx + sW/2, sY + 14);
+      // value
+      ctx.font = 'bold 15px "Barlow Condensed", sans-serif';
+      ctx.fillStyle = s.color;
+      ctx.fillText(s.value, sx + sW/2, sY + 38);
+      ctx.textAlign = 'left';
+    });
+
+    // ── CHART PANEL ──
+    const chX = PAD, chY = 166, chW = 660, chH = 230;
+    ctx.fillStyle = '#06061a';
+    roundRect(ctx, chX, chY, chW, chH, 6);
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 0.8;
+    roundRectStroke(ctx, chX, chY, chW, chH, 6);
+
+    ctx.font = 'bold 9px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = SILVER;
+    ctx.fillText('LIVE TELEMETRY', chX + 8, chY + 13);
+
+    const data = CHART.data;
+    if (data.length >= 2) {
+      const cpL = 28, cpR = 8, cpT = 20, cpB = 20;
+      const cw = chW - cpL - cpR;
+      const ch = chH - cpT - cpB;
+      const t0 = data[0].t, t1 = data[data.length-1].t, tSpan = t1 - t0 || 1;
+      const tToX = t => chX + cpL + Math.max(0, Math.min(1, (t - t0) / tSpan)) * cw;
+
+      // Grid lines + Y labels
+      ctx.strokeStyle = '#1c1c48'; ctx.lineWidth = 0.4;
+      for (let g = 0; g <= 4; g++) {
+        const gy = chY + cpT + ch * (1 - g/4);
+        ctx.beginPath(); ctx.moveTo(chX + cpL, gy); ctx.lineTo(chX + cpL + cw, gy); ctx.stroke();
+        ctx.font = '8px sans-serif'; ctx.fillStyle = '#2a2a60'; ctx.textAlign = 'right';
+        // Y-axis labels showing actual bar values
+        const barVal = Math.round(g * 8.75);  // 0–35 bar in 4 steps
+        ctx.fillText(g === 0 ? '0' : barVal + 'b', chX + cpL - 2, gy + 3);
+      }
+      ctx.textAlign = 'left';
+
+      // Event markers — time-based positioning (matches live chart fix)
+      CHART.events.forEach(ev => {
+        if (ev.t < t0 || ev.t > t1) return;
+        const x = tToX(ev.t);
+        ctx.strokeStyle = ev.color + '99'; ctx.lineWidth = 0.8;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(x, chY + cpT); ctx.lineTo(x, chY + cpT + ch); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = 'bold 7px sans-serif'; ctx.fillStyle = ev.color;
+        ctx.fillText(ev.label.slice(0, 11), x + 2, chY + cpT + 9);
+      });
+
+      // Series
+      const EXP_SERIES = [
+        { key: 'whp',    scale: 100/35,   color: CYAN,   dash: [] },
+        { key: 'flow',   scale: 100/1600, color: GREEN,  dash: [] },
+        { key: 'demand', scale: 100/1600, color: YELLOW, dash: [4,3] },
+        { key: 'ann',    scale: 100/18,   color: ORANGE, dash: [] },
+        { key: 'choke',  scale: 1,        color: PURPLE, dash: [] },
+      ];
+      EXP_SERIES.forEach(s => {
+        ctx.strokeStyle = s.color; ctx.lineWidth = 1.2;
+        ctx.setLineDash(s.dash);
+        ctx.beginPath();
+        data.forEach(d => {
+          const x = tToX(d.t);
+          const val = Math.min(100, Math.max(0, (d[s.key]||0) * s.scale));
+          const y = chY + cpT + ch * (1 - val/100);
+          x === tToX(data[0].t) ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        });
+        ctx.stroke(); ctx.setLineDash([]);
+      });
+
+      // Time axis
+      ctx.font = '8px sans-serif'; ctx.fillStyle = '#333366'; ctx.textAlign = 'center';
+      for (let i = 0; i <= 5; i++) {
+        const t = t0 + tSpan * i/5;
+        const x = chX + cpL + cw * i/5;
+        ctx.fillText(formatTime(t), x, chY + chH - 5);
+      }
+      ctx.textAlign = 'left';
+    }
+
+    // Chart legend strip below chart
+    const lgY = chY + chH + 6;
+    const legendItems = [
+      { label: 'Wellhead P (bar)', color: CYAN },
+      { label: 'Flow ÷10',         color: GREEN },
+      { label: 'Demand ÷10',       color: YELLOW },
+      { label: 'Annulus P',        color: ORANGE },
+      { label: 'Choke %',          color: PURPLE },
+      { label: '▮ Event',          color: RED },
+    ];
+    let lgX = chX;
+    ctx.font = '9px "Barlow Condensed", sans-serif';
+    legendItems.forEach(l => {
+      ctx.fillStyle = l.color;
+      ctx.fillRect(lgX, lgY, 14, 3);
+      ctx.fillStyle = SILVER;
+      ctx.fillText(l.label, lgX + 18, lgY + 9);
+      lgX += ctx.measureText(l.label).width + 34;
+    });
+
+    // ── LOG PANEL ──
+    const logX = chX + chW + 12, logY2 = chY, logW = LW - logX - PAD, logH = chH;
+    ctx.fillStyle = CARD;
+    roundRect(ctx, logX, logY2, logW, logH, 6);
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 0.8;
+    roundRectStroke(ctx, logX, logY2, logW, logH, 6);
+
+    ctx.font = 'bold 9px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = SILVER;
+    ctx.fillText('OPERATIONS LOG', logX + 8, logY2 + 13);
+
+    // Separator line under log header
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 0.5;
+    ctx.beginPath(); ctx.moveTo(logX + 8, logY2 + 17); ctx.lineTo(logX + logW - 8, logY2 + 17); ctx.stroke();
+
+    const logEl = $('gLog');
+    const logEntries = Array.from(logEl.children).slice(0, 14).reverse();
+    ctx.font = '8.5px "Courier New", monospace';
+    let ly2 = logY2 + 28;
+    const logLineH = (logH - 30) / 14;
+    logEntries.forEach(entry => {
+      if (ly2 > logY2 + logH - 6) return;
+      const raw = entry.textContent.replace('🔍 REPORT', '').trim();
+      const col = entry.style.color || SILVER;
+      ctx.fillStyle = col;
+      let txt = raw;
+      while (ctx.measureText(txt).width > logW - 16 && txt.length > 8) txt = txt.slice(0, -1);
+      if (txt !== raw) txt += '…';
+      ctx.fillText(txt, logX + 8, ly2);
+      ly2 += logLineH;
+    });
+
+    // ── FOOTER ──
+    const footY = LH - 28;
+    ctx.strokeStyle = BORDER; ctx.lineWidth = 0.6;
+    ctx.beginPath(); ctx.moveTo(PAD, footY - 8); ctx.lineTo(LW - PAD, footY - 8); ctx.stroke();
+
+    ctx.font = 'bold 10px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = ORANGE;
+    ctx.fillText('nafta-trebisov.eu', PAD, footY + 8);
+
+    ctx.font = '9px "Barlow Condensed", sans-serif';
+    ctx.fillStyle = '#2a2a50';
+    ctx.fillText('NAFTA a.s. · Trebišov Gas Field · TR-9 Wellhead Christmas Tree Operator · Simulation Result', PAD + 140, footY + 8);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#5a5a88';
+    const now = new Date();
+    ctx.fillText(now.toISOString().slice(0,10) + '  ·  Session: ' + formatTime(snap.elapsed), LW - PAD, footY + 8);
+    ctx.textAlign = 'left';
+
+    // ── Download ──
+    const link = document.createElement('a');
+    link.download = 'TR9-result-' + now.toISOString().slice(0,10) + '-' + Math.round(snap.score) + 'pts.png';
+    link.href = cv.toDataURL('image/png');
+    link.click();
+  };
+
+  // Helper: filled rounded rect
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y,     x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x,     y + h, r);
+    ctx.arcTo(x,     y + h, x,     y,     r);
+    ctx.arcTo(x,     y,     x + w, y,     r);
+    ctx.closePath();
+    ctx.fill();
+  }
+  // Helper: stroked rounded rect
+  function roundRectStroke(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y,     x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x,     y + h, r);
+    ctx.arcTo(x,     y + h, x,     y,     r);
+    ctx.arcTo(x,     y,     x + w, y,     r);
+    ctx.closePath();
+    ctx.stroke();
   }
 
   /* ── Reset ── */
   window.gameReset = function() {
     $('gGameOver').style.display = 'none';
     clearLog();
+    chartReset();
     $('gStatusBadge').textContent = 'OFFLINE';
     $('gStatusBadge').style.color = '#333366';
     $('gStatusBadge').style.borderColor = '#1c1c48';
     $('gStatusBadge').style.background = '#050514';
+    $('gPauseBtn').disabled = true;
+    $('gPauseBtn').style.opacity = '0.5';
+    $('gPauseBtn').style.cursor = 'not-allowed';
+    $('gPauseBtn').style.color = 'var(--silver)';
+    $('gPauseBtn').style.borderColor = 'var(--border)';
+    $('gPauseBtn').textContent = '⏸ PAUSE';
+    $('gPauseOverlay').style.display = 'none';
     refreshValveVisuals();
     $('gWHP').textContent = '-- bar';
     $('gFlowRate').textContent = '-- m³/h';
@@ -2548,7 +4003,10 @@
     $('gFlowBar').style.width = '0%';
     $('gStartBtn').disabled = false;
     $('gStartBtn').style.opacity = '1';
+    $('gChartPanel').style.display = 'none';
     log('── System reset. Ready to start. ──', '#333366');
+    const logHint = $('gLogHint');
+    if (logHint) logHint.style.display = 'none';
   };
 
   function clearLog() {
@@ -2556,18 +4014,247 @@
     el.innerHTML = '';
   }
 
+  /* ════════════════════════════════════
+     TUTORIAL SYSTEM
+  ════════════════════════════════════ */
+  const TUT_STEPS = [
+    {
+      title: '🎮 Welcome, Operator',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+        You are the wellhead operator for <strong style="color:var(--cyan);">Well TR-9</strong>
+        at the Trebišov gas field. Your job: keep gas flowing to the
+        <strong style="color:var(--yellow);">Gas Collection Station (GCS)</strong> at Milhostov
+        while keeping the wellhead safe.
+      </p>
+      <p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+        Gas rises from <strong style="color:var(--cyan);">2,400 m underground</strong> at up to 28 bar reservoir pressure.
+        Your controls govern exactly how much flows — and in an emergency, whether the well is shut in before something goes wrong.
+      </p>
+      <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:1rem;font-size:0.82rem;color:var(--silver);">
+        💡 <strong style="color:var(--yellow);">Scoring:</strong> You earn points every second your flow rate is within <strong>±10%</strong> of pipeline demand.
+        Respond fast to events for bonus multipliers. Safety violations cost points and can end your session.
+      </div>`
+    },
+    {
+      title: '🔧 The Valve Stack',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+        The SVG schematic on the left shows a real Christmas tree cross-section.
+        <strong style="color:var(--cyan);">Click any valve</strong> to open or close it.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.82rem;">
+        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">LMV — Lower Master Valve</div>
+          <div style="color:var(--silver);">Main bore shutoff at the base of the tree. Closing isolates the entire production tubing from above.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid #00e67644;border-radius:6px;padding:10px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">UMV — Upper Master Valve</div>
+          <div style="color:var(--silver);">Redundant emergency shutoff. The first valve you close in an ESI signal — a quarter-turn seals the bore.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid #00d2ff44;border-radius:6px;padding:10px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">RWV — Right Wing Valve</div>
+          <div style="color:var(--silver);">Production outlet. Gas flows right → to the GCS flowline. Closing this stops all production flow.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid #ffd20044;border-radius:6px;padding:10px;">
+          <div style="color:var(--yellow);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">LWV — Left Wing Valve</div>
+          <div style="color:var(--silver);">Annulus vent arm — normally closed. Open it to bleed casing annulus pressure during buildup events.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px;grid-column:1/-1;">
+          <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">SWAB Valve</div>
+          <div style="color:var(--silver);">Between the two masters — for wireline tool access during maintenance. Normally kept closed during production.</div>
+        </div>
+      </div>`
+    },
+    {
+      title: '🎚 The Choke Slider',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+        The <strong style="color:var(--cyan);">choke</strong> is a variable restriction in the production line.
+        It's your primary flow control tool — think of it as a tap for the entire well.
+      </p>
+      <div style="display:grid;gap:10px;font-size:0.85rem;">
+        <div style="background:#08082a;border-left:3px solid #ff5555;border-radius:0 6px 6px 0;padding:10px 14px;">
+          <strong style="color:#ff5555;">Choke &lt;30% (red)</strong> — highly restricted. Low flow rate, pressure builds up behind it. Use this to control overpressure surges.
+        </div>
+        <div style="background:#08082a;border-left:3px solid var(--yellow);border-radius:0 6px 6px 0;padding:10px 14px;">
+          <strong style="color:var(--yellow);">Choke 30–70% (yellow)</strong> — normal operating range. Tune this to match pipeline demand most of the time.
+        </div>
+        <div style="background:#08082a;border-left:3px solid #00e676;border-radius:0 6px 6px 0;padding:10px 14px;">
+          <strong style="color:#00e676;">Choke &gt;70% (green)</strong> — wide open. Maximum flow. Needed for demand spikes — and for blasting through sand plugs (open to 90%+).
+        </div>
+      </div>
+      <p style="color:var(--silver);font-size:0.8rem;margin-top:1rem;">
+        ⚡ Flow rate = reservoir pressure × choke opening × valve configuration. All four factors multiply together.
+      </p>`
+    },
+    {
+      title: '📊 Reading the Instruments',
+      html: `<div style="display:grid;gap:10px;font-size:0.83rem;">
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Wellhead Pressure</div>
+          <div style="color:var(--silver);">Target: <strong style="color:#00e676;">15–25 bar</strong>. Goes red above 28 bar — overpressure territory.
+          Above 32 bar you get automatic penalties; above 35 bar = blowout and instant game over.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
+          <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Flow Rate vs. Demand</div>
+          <div style="color:var(--silver);">The green marker on the bar shows pipeline demand. Keep your flow bar touching it.
+          <strong style="color:#00e676;">±10%</strong> = scoring zone. The % readout in the top right of the bar tells you where you are.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
+          <div style="color:var(--yellow);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Annulus Pressure</div>
+          <div style="color:var(--silver);">Normally near zero. If it spikes during an annulus buildup event, open the LWV to vent it.
+          Ignore it and it can reach 16 bar — casing failure and game over.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:12px;">
+          <div style="color:var(--orange);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">Score &amp; Multiplier</div>
+          <div style="color:var(--silver);">Multiplier builds when you stay on-target, drops when you miss. Fast event resolution gives bonus multiplier bumps.
+          5 uncorrected safety violations ends the session.</div>
+        </div>
+      </div>`
+    },
+    {
+      title: '⚡ Random Events',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1rem;">
+        Every 20–50 seconds a random event fires. An <strong style="color:var(--orange);">orange banner</strong> appears
+        with a countdown timer. React correctly before time runs out.
+      </p>
+      <div style="display:grid;gap:8px;font-size:0.8rem;">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">⬆</span>
+          <div><strong style="color:#ff5555;">Overpressure Surge</strong> — restrict choke to ≤30%, or close RWV temporarily</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">📈</span>
+          <div><strong style="color:var(--yellow);">Demand Spike</strong> — open choke wide (80%+) and make sure all valves are open</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">💧</span>
+          <div><strong style="color:var(--cyan);">Wing Valve Leak</strong> — close RWV immediately to isolate the leaking seal</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">🏗</span>
+          <div><strong style="color:var(--yellow);">Annulus Buildup</strong> — open LWV and wait for annulus pressure to drop below 3 bar</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">🚨</span>
+          <div><strong style="color:#ff5555;">Emergency Shut-In (ESI)</strong> — close both UMV and RWV within 20 seconds</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:10px;">
+          <span style="font-size:1.2rem;flex-shrink:0;">🪨</span>
+          <div><strong style="color:var(--silver);">Sand Plugging</strong> — open choke to 90%+ to blast the plug clear</div>
+        </div>
+      </div>`
+    },
+    {
+      title: '🚀 You\'re Ready',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:1.2rem;">
+        You know everything you need. A few final tips from the field:
+      </p>
+      <div style="display:grid;gap:10px;font-size:0.85rem;margin-bottom:1.5rem;">
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">01</span>
+          <span style="color:var(--text);">Keep your <strong>choke between 40–60%</strong> during normal operation — it's the easiest way to stay on demand without touching valves.</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">02</span>
+          <span style="color:var(--text);">When an event banner appears, <strong>read the action line</strong> (cyan italic text) — it tells you exactly what to do.</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">03</span>
+          <span style="color:var(--text);">The <strong>ESI button</strong> at the bottom is your nuclear option — it closes everything instantly but ends your session and shows your score report.</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;">
+          <span style="color:var(--cyan);flex-shrink:0;font-weight:700;">04</span>
+          <span style="color:var(--text);">Reservoir pressure slowly <strong>declines over ~10 minutes</strong>. Don't expect the same choke setting to work forever — you'll need to open it wider as the session goes on.</span>
+        </div>
+      </div>
+      <div style="background:linear-gradient(90deg,#001a00,#00100a);border:1px solid #00e67655;border-radius:6px;padding:1rem;text-align:center;">
+        <div style="font-family:var(--font-display);font-size:1rem;font-weight:800;color:#00e676;margin-bottom:4px;">Good luck, Operator.</div>
+        <div style="font-size:0.8rem;color:var(--silver);">Click <strong style="color:#fff;">Start Session</strong> below to begin — or close this and click <strong style="color:var(--orange);">▶ START WELL</strong>.</div>
+      </div>`
+    },
+  ];
+
+  let _tutStep = 0;
+
+  function tutRender() {
+    const step = TUT_STEPS[_tutStep];
+    const total = TUT_STEPS.length;
+    $('gTutStep').textContent  = _tutStep + 1;
+    $('gTutTotal').textContent = total;
+    $('gTutContent').innerHTML =
+      `<div style="font-family:var(--font-display);font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:1rem;">${step.title}</div>` +
+      step.html;
+    $('gTutProgress').style.width = ((_tutStep + 1) / total * 100) + '%';
+    $('gTutPrev').style.opacity = _tutStep === 0 ? '0.3' : '1';
+    $('gTutPrev').disabled = _tutStep === 0;
+
+    // Last step: change Next to "Start Session"
+    if (_tutStep === total - 1) {
+      $('gTutNext').textContent = '▶ Start Session';
+      $('gTutNext').style.background = 'var(--orange)';
+      $('gTutNext').style.color = '#fff';
+      $('gTutNext').onclick = function() { closeTutorial(); gameStart(); };
+    } else {
+      $('gTutNext').textContent = 'Next →';
+      $('gTutNext').style.background = 'var(--cyan)';
+      $('gTutNext').style.color = '#000';
+      $('gTutNext').onclick = function() { tutStep(1); };
+    }
+
+    // Dots
+    const dotsEl = $('gTutDots');
+    dotsEl.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.style.cssText = `width:8px;height:8px;border-radius:50%;cursor:pointer;transition:background 0.2s;background:${i === _tutStep ? 'var(--cyan)' : '#1c1c48'};`;
+      d.onclick = ((idx) => () => { _tutStep = idx; tutRender(); })(i);
+      dotsEl.appendChild(d);
+    }
+  }
+
+  window.tutStep = function(dir) {
+    _tutStep = Math.max(0, Math.min(TUT_STEPS.length - 1, _tutStep + dir));
+    tutRender();
+  };
+
+  function closeTutorial() {
+    $('gTutorial').style.display = 'none';
+    localStorage.setItem('gTutSeen', '1');  // mark seen on close, not on open
+  }
+
+  window.skipTutorial = function() {
+    closeTutorial();
+  };
+
+  window.gameTutorial = function() {
+    _tutStep = 0;
+    $('gTutorial').style.display = 'flex';  // show first, THEN render so DOM is live
+    tutRender();
+  };
+
+  // Close tutorial on backdrop click
+  $('gTutorial').addEventListener('click', function(e) {
+    if (e.target === this) closeTutorial();
+  });
+
   /* ── Init visuals ── */
+  // Force tutorial hidden immediately (inline style has display:none but belt-and-suspenders)
+  $('gTutorial').style.display = 'none';
   refreshValveVisuals();
   log('── System offline. Press START WELL to begin. ──', '#333366');
+
+  // Show tutorial automatically only if never seen before
+  if (!localStorage.getItem('gTutSeen')) {
+    setTimeout(() => { window.gameTutorial(); }, 600);
+  }
 
   /* ── Responsive: stack on narrow screens ── */
   function checkLayout() {
     const grid = $('gGame');
     if (!grid) return;
-    if (window.innerWidth < 760) {
+    if (window.innerWidth < 900) {
       grid.style.gridTemplateColumns = '1fr';
     } else {
-      grid.style.gridTemplateColumns = '280px 1fr';
+      grid.style.gridTemplateColumns = '360px 1fr';
     }
   }
   checkLayout();
