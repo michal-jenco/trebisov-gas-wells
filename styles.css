@@ -757,3 +757,8 @@
     .photo-item.wide { grid-column: span 1; }
     nav { padding: 0 0.8rem; }
   }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }

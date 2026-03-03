@@ -27,6 +27,10 @@
     noiseOffset: 0,
     totalGasDelivered: 0,   // m³ delivered to GCS this session
     spikePriceMultiplier: 1.0,  // >1.0 during demand spike events (spot price premium)
+    // ── Wellhead compressor ──
+    compressor: 'locked',    // 'locked' | 'available' | 'spinup' | 'running' | 'spent'
+    compressorSecondsLeft: 0,
+    compressorSpinup: 0,     // counts up to 8s during spin-up phase
   };
 
   /* ── DOM refs ── */
@@ -184,6 +188,9 @@
     // Reservoir pressure declines over ~7 min
     GS.reservoirP = Math.max(8, 28 - (GS.elapsed / 420) * 14 + simplex(GS.noiseOffset * 0.4) * 1.2);
 
+    // ── Wellhead compressor logic ──
+    compressorTick();
+
     // Bore path open?
     const boreOpen = GS.valves.lmv && GS.valves.umv;
     const prodOpen = boreOpen && GS.valves.rwv;
@@ -201,7 +208,12 @@
     // Flow rate
     if (prodOpen) {
       const chokeEffect = Math.pow(GS.choke / 100, 1.5);
-      const pressDrive  = Math.max(0, GS.wellheadP - 3) / 20;
+      // Compressor reduces effective back-pressure: lowers the 3-bar dead-band to ~0.5 bar
+      // and boosts the drive divisor from 20 → 13, extracting more flow at low reservoir P
+      const compActive = GS.compressor === 'running';
+      const deadBand  = compActive ? 0.5 : 3;
+      const driveDivisor = compActive ? 13 : 20;
+      const pressDrive  = Math.max(0, GS.wellheadP - deadBand) / driveDivisor;
       const rawFlow = GS.maxFlow * chokeEffect * pressDrive;
       GS.flowRate += (rawFlow - GS.flowRate) * 0.5 + simplex(GS.noiseOffset * 0.5) * 0.05;
       GS.flowRate = Math.max(0, GS.flowRate);
@@ -1120,10 +1132,25 @@
         clearInterval(GS._blowthroughInterval);
         GS.maxFlow = 1200;
         GS.reservoirP = Math.min(28, GS.reservoirP);
-        log('✓ Well isolated. Blowthrough contained — session ended for safety inspection.', '#00e676');
         hidePointers();
-        // Even a resolved blowthrough ends the game — it's a major incident
-        setTimeout(() => gameStop(), 2000);
+        // Resolving blowthrough = closing LMV+UMV before pressure kills the tree.
+        // Always a heroic shut-in — award 10× bonus if not already granted.
+        if (!GS._heroicShutIn) {
+          GS._heroicShutIn = true;
+          const bonus = Math.round(GS.score * 9);
+          GS.score += bonus;
+          GS.multiplier *= 2.0;
+          chartAddEvent('⭐ HEROIC', '#ffd200');
+          SND.milestone();
+          setTimeout(SND.milestone, 200);
+          setTimeout(SND.milestone, 400);
+          log('⭐ HEROIC SHUT-IN! All bore valves closed during 💀 RESERVOIR BLOWTHROUGH! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'blowthrough');
+        }
+        log('✓ Well isolated. Blowthrough contained — session ended for mandatory safety inspection.', '#00e676');
+        setTimeout(() => {
+          gameHeroicEnd();
+          showSessionReport('heroic', '💀 RESERVOIR BLOWTHROUGH — HEROIC SHUT-IN', 'Uncontrolled reservoir fracture — but you closed all bore valves before the tree failed. Equipment and personnel safe. 10× score bonus awarded.');
+        }, 2000);
       },
       expire() {
         clearInterval(GS._blowthroughInterval);
@@ -1361,6 +1388,202 @@
     }
   }
 
+  /* ════════════════════════════════════
+     WELLHEAD COMPRESSOR
+     Real technique: low-pressure wellhead compression. A small reciprocating
+     compressor is installed at the wellhead, drawing low-pressure gas from the
+     well and boosting it to pipeline pressure. NAFTA used this on Slovak basin
+     wells (Gbely, Láb) in their final production years, typically recovering an
+     extra 5–15% of reserves and extending well life by 1–3 years.
+
+     In-game: unlocks when reservoirP drops below 14 bar. One-use per session.
+     8-second spin-up, then 90 seconds of active boost. Extends playable
+     session life by ~30%. Costs a small ongoing score drain to run (fuel).
+  ════════════════════════════════════ */
+  const COMPRESSOR_DURATION = 90;   // seconds of active boost
+  const COMPRESSOR_SPINUP   = 8;    // seconds to spin up
+  const COMPRESSOR_UNLOCK_P = 18;   // bar — unlock threshold
+
+  function compressorTick() {
+    // Unlock when reservoir pressure drops low enough (one-way — stays unlocked)
+    if (GS.compressor === 'locked' && GS.reservoirP <= COMPRESSOR_UNLOCK_P) {
+      GS.compressor = 'available';
+      _unlockCompressorUI();
+      log('⚙ Wellhead compressor available — reservoir pressure below 18 bar. Deploy to extend well life.', '#cc88ff');
+      chartAddEvent('⚙ COMP', '#cc88ff');
+    }
+
+    // Spin-up phase
+    if (GS.compressor === 'spinup') {
+      GS.compressorSpinup += 0.25;
+      updateCompressorHUD();
+      if (GS.compressorSpinup >= COMPRESSOR_SPINUP) {
+        GS.compressor = 'running';
+        GS.compressorSecondsLeft = COMPRESSOR_DURATION;
+        GS.compressorSpinup = 0;
+        log('⚙ Compressor online — boosting flow. 90 seconds remaining.', '#cc88ff');
+        chartAddEvent('⚙ ON', '#cc88ff');
+        SND.resolve();
+      }
+    }
+
+    // Running phase — countdown and score drain
+    if (GS.compressor === 'running') {
+      GS.compressorSecondsLeft -= 0.25;
+      // Small fuel cost: -1 pt/s while running
+      GS.score = Math.max(0, GS.score - 0.25);
+      updateCompressorHUD();
+      if (GS.compressorSecondsLeft <= 0) {
+        GS.compressor = 'spent';
+        GS.compressorSecondsLeft = 0;
+        updateCompressorHUD();
+        log('⚙ Compressor shut down — fuel exhausted. Well approaching end of life.', '#888899');
+        chartAddEvent('⚙ OFF', '#888899');
+        SND.fail();
+      }
+      // Warning at 15s left
+      if (GS.compressorSecondsLeft > 14.75 && GS.compressorSecondsLeft <= 15) {
+        log('⚙ Compressor — 15 seconds remaining!', '#cc88ff');
+      }
+    }
+  }
+
+  function _unlockCompressorUI() {
+    const btn = $('gCompressorBtn');
+    const panel = $('gCompressorPanel');
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      btn.style.color = '#cc88ff';
+      btn.style.borderColor = '#cc88ff';
+    }
+    if (panel) panel.style.display = 'block';
+    // Light up SVG compressor body
+    _syncCompressorSVG('available');
+    // Show pointer arrow on schematic
+    const ptr = $('gptr-compressor');
+    if (ptr) ptr.style.display = 'block';
+    updateCompressorHUD();
+  }
+
+  // Sync SVG compressor visual to state
+  function _syncCompressorSVG(state) {
+    const body      = $('gCompBody');
+    const gearRing  = $('gCompGearRing');
+    const hub       = $('gCompGearHub');
+    const blades    = [$('gCompBlade1'), $('gCompBlade2'), $('gCompBlade3')];
+    const label     = $('gCompLabel');
+    const labelSub  = $('gCompLabelSub');
+    const pipeIn    = $('gCompPipeIn');
+    const pipeOut   = $('gCompPipeOut');
+    const arrowIn   = $('gCompArrowIn');
+    const arrowOut  = $('gCompArrowOut');
+    const gcsArrow  = $('gCompGCSArrow');
+    const gcsLabel  = $('gCompGCSLabel');
+    const spinRing  = $('gCompSpinRing');
+    const svgGroup  = $('gsvg-compressor');
+
+    const COLORS = {
+      locked:    { body: '#0e0e2a', stroke: '#2e2e66', gear: '#3a3a77', text: '#4a4a99', sub: '#333366', pipe: '#2a2a55', cursor: 'not-allowed' },
+      available: { body: '#150e28', stroke: '#772299', gear: '#aa55cc', text: '#cc88ff', sub: '#884499', pipe: '#552277', cursor: 'pointer'     },
+      spinup:    { body: '#1a1000', stroke: '#996600', gear: '#ddaa00', text: '#ffcc44', sub: '#cc8800', pipe: '#664400', cursor: 'not-allowed' },
+      running:   { body: '#071510', stroke: '#008844', gear: '#00dd77', text: '#00ff88', sub: '#00cc66', pipe: '#005533', cursor: 'not-allowed' },
+      spent:     { body: '#0e0e2a', stroke: '#1e1e44', gear: '#252550', text: '#333366', sub: '#1e1e44', pipe: '#1a1a38', cursor: 'not-allowed' },
+    };
+    const c = COLORS[state] || COLORS.locked;
+
+    if (body)     { body.style.fill = c.body; body.style.stroke = c.stroke; }
+    if (gearRing) { gearRing.style.stroke = c.gear; }
+    if (hub)      { hub.style.fill = c.gear; }
+    blades.forEach(b => { if (b) b.style.stroke = c.gear; });
+    if (label)    { label.style.fill = c.text; label.textContent = 'COMP'; }
+    if (labelSub) {
+      labelSub.style.fill = c.sub;
+      labelSub.textContent = state === 'locked' ? 'LOCKED' : state === 'available' ? 'READY' : state === 'spinup' ? 'STARTING' : state === 'running' ? 'ONLINE' : 'OFFLINE';
+    }
+    if (pipeIn)  pipeIn.style.stroke  = c.pipe;
+    if (pipeOut) pipeOut.style.stroke = c.pipe;
+    if (arrowIn)  arrowIn.style.fill  = c.pipe;
+    if (arrowOut) arrowOut.style.fill = c.pipe;
+    if (gcsArrow) gcsArrow.style.fill = c.pipe;
+    if (gcsLabel) gcsLabel.style.fill = c.pipe;
+    if (svgGroup) svgGroup.style.cursor = c.cursor;
+    if (spinRing) spinRing.style.display = state === 'running' ? 'block' : 'none';
+  }
+
+  function _setCompressorLegend(color, label) {
+    const dot = $('gind-compressor');
+    const leg = $('gleg-compressor');
+    if (dot) dot.style.background = color;
+    if (leg) { leg.style.color = color; leg.innerHTML = `<span id="gind-compressor" style="width:8px;height:8px;border-radius:3px;background:${color};display:inline-block;"></span>${label}`; }
+  }
+
+  function updateCompressorHUD() {
+    const btn    = $('gCompressorBtn');
+    const panel  = $('gCompressorPanel');
+    const icon   = $('gCompressorIcon');
+    const status = $('gCompressorStatus');
+    const bar    = $('gCompressorBar');
+    const barLbl = $('gCompressorBarLbl');
+    if (!panel) return;
+
+    if (GS.compressor === 'available') {
+      if (icon)   icon.style.animation = '';
+      if (icon)   icon.textContent = '⚙';
+      if (status) { status.textContent = 'AVAILABLE — click ⚙ COMPRESSOR to deploy'; status.style.color = '#cc88ff'; }
+      if (bar)    { bar.style.width = '100%'; bar.style.background = '#cc88ff'; }
+      if (barLbl) barLbl.textContent = 'ready';
+      panel.style.borderColor = '#552266';
+      _syncCompressorSVG('available');
+      _setCompressorLegend('#cc88ff', 'COMP AVAILABLE');
+    } else if (GS.compressor === 'spinup') {
+      const pct = GS.compressorSpinup / COMPRESSOR_SPINUP * 100;
+      if (icon)   icon.style.animation = 'spin 0.8s linear infinite';
+      if (status) { status.textContent = 'SPINNING UP…'; status.style.color = '#ffaa44'; }
+      if (bar)    { bar.style.width = pct + '%'; bar.style.background = '#ffaa44'; }
+      if (barLbl) barLbl.textContent = Math.ceil(COMPRESSOR_SPINUP - GS.compressorSpinup) + 's to online';
+      if (btn)    { btn.textContent = '⚙ SPINNING UP…'; btn.style.color = '#ffaa44'; btn.style.borderColor = '#ffaa44'; }
+      panel.style.borderColor = '#664422';
+      _syncCompressorSVG('spinup');
+      _setCompressorLegend('#ffaa44', 'COMP STARTING');
+    } else if (GS.compressor === 'running') {
+      const pct = GS.compressorSecondsLeft / COMPRESSOR_DURATION * 100;
+      if (icon)   icon.style.animation = 'spin 0.4s linear infinite';
+      if (status) { status.textContent = 'RUNNING — boosting flow pressure'; status.style.color = '#00e676'; }
+      if (bar)    { bar.style.width = pct + '%'; bar.style.background = GS.compressorSecondsLeft < 15 ? '#ff9944' : '#00e676'; }
+      if (barLbl) barLbl.textContent = Math.ceil(GS.compressorSecondsLeft) + 's remaining';
+      if (btn)    { btn.textContent = '⚙ COMPRESSOR ON'; btn.style.color = '#00e676'; btn.style.borderColor = '#00e676'; btn.disabled = true; btn.style.cursor = 'not-allowed'; }
+      panel.style.borderColor = '#005522';
+      _syncCompressorSVG('running');
+      _setCompressorLegend(GS.compressorSecondsLeft < 15 ? '#ff9944' : '#00e676', 'COMP ONLINE');
+      // Hide pointer once running
+      const ptr = $('gptr-compressor');
+      if (ptr) ptr.style.display = 'none';
+    } else if (GS.compressor === 'spent') {
+      if (icon)   { icon.style.animation = ''; icon.textContent = '⚙'; }
+      if (status) { status.textContent = 'SHUT DOWN — fuel exhausted'; status.style.color = '#555577'; }
+      if (bar)    { bar.style.width = '0%'; }
+      if (barLbl) barLbl.textContent = 'depleted';
+      if (btn)    { btn.textContent = '⚙ COMPRESSOR'; btn.style.color = '#555577'; btn.style.borderColor = '#333355'; btn.disabled = true; btn.style.cursor = 'not-allowed'; btn.style.opacity = '0.4'; }
+      panel.style.borderColor = '#1c1c48';
+      _syncCompressorSVG('spent');
+      _setCompressorLegend('#444466', 'COMP SPENT');
+    }
+  }
+
+  window.gameToggleCompressor = function() {
+    if (!GS.running || GS.compressor !== 'available') return;
+    GS.compressor = 'spinup';
+    GS.compressorSpinup = 0;
+    log('⚙ Compressor spin-up initiated — 8 seconds to online.', '#ffaa44');
+    SND.startup();
+    // Hide pointer now that player has clicked
+    const ptr = $('gptr-compressor');
+    if (ptr) ptr.style.display = 'none';
+    updateCompressorHUD();
+  };
+
   /* ── Simplex-like noise (simple smooth pseudorandom) ── */
   function simplex(t) {
     return Math.sin(t * 2.1) * 0.5 + Math.sin(t * 3.7 + 1.2) * 0.3 + Math.sin(t * 0.9 + 2.4) * 0.2;
@@ -1556,7 +1779,7 @@
   ════════════════════════════════════ */
   function showPointers(ids) {
     // Hide all first
-    ['choke','rwv','lwv','umv','lmv','swab'].forEach(id => {
+    ['choke','rwv','lwv','umv','lmv','swab','compressor'].forEach(id => {
       const el = $('gptr-' + id);
       if (el) el.style.display = 'none';
     });
@@ -1568,7 +1791,7 @@
   }
 
   function hidePointers() {
-    ['choke','rwv','lwv','umv','lmv','swab'].forEach(id => {
+    ['choke','rwv','lwv','umv','lmv','swab','compressor'].forEach(id => {
       const el = $('gptr-' + id);
       if (el) el.style.display = 'none';
     });
@@ -1793,6 +2016,7 @@
       totalGasDelivered: 0, spikePriceMultiplier: 1.0, _demandHeldSeconds: 0,
       _heroicShutIn: false,
       _swabToggleCount: 0, _hydrateHeldSeconds: 0, _buildupHeld: 0, _buildupDone: false,
+      compressor: 'locked', compressorSecondsLeft: 0, compressorSpinup: 0,
     });
     Object.assign(SESSION, {
       eventsTriggered: 0, eventsResolved: 0, eventsFailed: 0,
@@ -1807,6 +2031,15 @@
     window.gameSetChoke(0);
     refreshValveVisuals();
     clearLog();
+    // Reset compressor UI
+    const compBtn = $('gCompressorBtn');
+    if (compBtn) { compBtn.disabled = true; compBtn.style.opacity = '0.4'; compBtn.style.cursor = 'not-allowed'; compBtn.style.color = '#555577'; compBtn.style.borderColor = '#333355'; compBtn.textContent = '⚙ COMPRESSOR'; }
+    const compPanel = $('gCompressorPanel');
+    if (compPanel) compPanel.style.display = 'none';
+    _syncCompressorSVG('locked');
+    _setCompressorLegend('#222244', 'COMP LOCKED');
+    const ptr = $('gptr-compressor');
+    if (ptr) ptr.style.display = 'none';
     log('▶ Well started. All valves open — choke fully closed. Open the choke to begin production.', '#00e676');
     SND.startup();
     _lastMilestone = 1;
@@ -2370,6 +2603,15 @@
     log('── System reset. Ready to start. ──', '#333366');
     const logHint = $('gLogHint');
     if (logHint) logHint.style.display = 'none';
+    // Reset compressor UI
+    const compBtn2 = $('gCompressorBtn');
+    if (compBtn2) { compBtn2.disabled = true; compBtn2.style.opacity = '0.4'; compBtn2.style.cursor = 'not-allowed'; compBtn2.style.color = '#555577'; compBtn2.style.borderColor = '#333355'; compBtn2.textContent = '⚙ COMPRESSOR'; }
+    const compPanel2 = $('gCompressorPanel');
+    if (compPanel2) compPanel2.style.display = 'none';
+    _syncCompressorSVG('locked');
+    _setCompressorLegend('#222244', 'COMP LOCKED');
+    const ptr2 = $('gptr-compressor');
+    if (ptr2) ptr2.style.display = 'none';
   };
 
   function clearLog() {

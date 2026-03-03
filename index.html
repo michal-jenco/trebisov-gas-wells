@@ -1523,7 +1523,7 @@
         <div style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:2px;color:var(--silver);margin-bottom:10px;text-transform:uppercase;">Well TR-9 · Live Schematic</div>
 
         <!-- SVG Christmas Tree (game interactive) -->
-        <svg id="gameSvg" viewBox="0 60 240 460" xmlns="http://www.w3.org/2000/svg"
+        <svg id="gameSvg" viewBox="0 60 310 460" xmlns="http://www.w3.org/2000/svg"
              style="width:100%;cursor:default;user-select:none;">
           <defs>
             <filter id="gGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -1619,10 +1619,48 @@
             <text x="219" y="158" text-anchor="middle" fill="#333366" font-family="'Barlow Condensed',sans-serif" font-size="5.5">PROD</text>
           </g>
 
-          <!-- Flowline exit arrow -->
+          <!-- Flowline exit arrow (stub — continues into compressor below) -->
           <line id="gFlowlineEl" x1="230" y1="132" x2="242" y2="132" stroke="#1c1c48" stroke-width="2.5"/>
           <polygon id="gFlowlineArrow" points="235,128 243,132 235,136" fill="#1c1c48"/>
-          <text x="243" y="128" fill="#1c1c48" font-family="'Barlow Condensed',sans-serif" font-size="6.5">→ GCS</text>
+          <!-- GCS label moved to compressor outlet -->
+
+          <!-- ── Wellhead Compressor (downstream of RWV) ── -->
+          <!-- Pipe stub connecting RWV to compressor -->
+          <line id="gCompPipeIn" x1="230" y1="132" x2="240" y2="132" stroke="#2a2a55" stroke-width="3"/>
+          <!-- Compressor housing -->
+          <g id="gsvg-compressor" onclick="gameToggleCompressor()"
+             style="cursor:not-allowed;" title="Wellhead compressor — locked until reservoir pressure drops below 14 bar">
+            <!-- Body -->
+            <rect id="gCompBody" x="240" y="118" width="38" height="28" rx="3"
+                  fill="#0e0e2a" stroke="#2e2e66" stroke-width="1.5"/>
+            <!-- Intake arrow (left side) -->
+            <polygon id="gCompArrowIn" points="240,129 245,126 245,134" fill="#2e2e66"/>
+            <!-- Outlet arrow (right side) -->
+            <polygon id="gCompArrowOut" points="278,126 283,129 278,134" fill="#2e2e66"/>
+            <!-- Gear / impeller symbol -->
+            <g id="gCompGear" transform="translate(259,132)">
+              <circle r="7" fill="none" stroke="#3a3a77" stroke-width="1.5" id="gCompGearRing"/>
+              <circle r="2.5" fill="#3a3a77" id="gCompGearHub"/>
+              <line x1="0" y1="-3.5" x2="0" y2="-8"  stroke="#3a3a77" stroke-width="2.5" stroke-linecap="round" id="gCompBlade1"/>
+              <line x1="0" y1="-3.5" x2="0" y2="-8"  stroke="#3a3a77" stroke-width="2.5" stroke-linecap="round" transform="rotate(120)" id="gCompBlade2"/>
+              <line x1="0" y1="-3.5" x2="0" y2="-8"  stroke="#3a3a77" stroke-width="2.5" stroke-linecap="round" transform="rotate(240)" id="gCompBlade3"/>
+            </g>
+            <!-- Labels sit below the body -->
+            <text id="gCompLabel" x="259" y="152" text-anchor="middle"
+                  fill="#4a4a99" font-family="'Barlow Condensed',sans-serif" font-size="6.5" font-weight="700">COMP</text>
+            <text id="gCompLabelSub" x="259" y="160" text-anchor="middle"
+                  fill="#333366" font-family="'Barlow Condensed',sans-serif" font-size="5.5">LOCKED</text>
+            <!-- Outlet pipe to GCS -->
+            <line id="gCompPipeOut" x1="278" y1="132" x2="292" y2="132" stroke="#2a2a55" stroke-width="3"/>
+            <polygon id="gCompGCSArrow" points="287,128 295,132 287,136" fill="#2a2a55"/>
+            <text id="gCompGCSLabel" x="296" y="128" fill="#2a2a55" font-family="'Barlow Condensed',sans-serif" font-size="6.5">→ GCS</text>
+          </g>
+          <!-- Spin animation ring (visible when running) -->
+          <g id="gCompSpinRing" style="display:none;" transform="translate(259,132)">
+            <circle r="10" fill="none" stroke="#cc88ff" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.8">
+              <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="0.6s" repeatCount="indefinite"/>
+            </circle>
+          </g>
 
           <!-- Pressure gauge at top -->
           <g id="gPressureGauge">
@@ -1751,6 +1789,17 @@
               </polygon>
               <text x="150" y="258" text-anchor="middle" fill="#ffd200" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">◄ SWAB</text>
             </g>
+            <!-- Arrow pointing at compressor -->
+            <g id="gptr-compressor" style="display:none;">
+              <circle cx="258" cy="132" r="13" fill="none" stroke="#cc88ff" stroke-width="2.5" opacity="0.9">
+                <animate attributeName="r" values="13;18;13" dur="1s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1s" repeatCount="indefinite"/>
+              </circle>
+              <polygon points="258,109 254,100 262,100" fill="#cc88ff" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1s" repeatCount="indefinite"/>
+              </polygon>
+              <text x="258" y="96" text-anchor="middle" fill="#cc88ff" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700">▲ COMP</text>
+            </g>
           </g>
 
         </svg>
@@ -1876,6 +1925,9 @@
           <div id="gleg-swab" style="display:flex;align-items:center;gap:4px;color:#555588;">
             <span id="gind-swab" style="width:8px;height:8px;border-radius:50%;background:#ffd200;display:inline-block;"></span>SWAB CLOSED
           </div>
+          <div id="gleg-compressor" style="display:flex;align-items:center;gap:4px;color:#333366;">
+            <span id="gind-compressor" style="width:8px;height:8px;border-radius:3px;background:#222244;display:inline-block;"></span>COMP LOCKED
+          </div>
         </div>
       </div>
 
@@ -1908,6 +1960,25 @@
             <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Earnings</div>
             <div id="gEarnings" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#00e676;">€0</div>
             <div id="gGasPriceLbl" style="font-size:0.78rem;color:#444488;margin-top:4px;">fetching price…</div>
+          </div>
+        </div>
+
+        <!-- Compressor status strip — hidden until unlocked -->
+        <div id="gCompressorPanel" style="display:none;background:var(--card);border:1px solid #333355;border-radius:8px;padding:12px 16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span id="gCompressorIcon" style="font-size:1.4rem;">⚙</span>
+              <div>
+                <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Wellhead Compressor</div>
+                <div id="gCompressorStatus" style="font-family:var(--font-display);font-size:0.8rem;color:#555577;margin-top:1px;">AVAILABLE — reservoir pressure low</div>
+              </div>
+            </div>
+            <div style="flex:1;min-width:120px;">
+              <div style="height:8px;background:#0a0a20;border-radius:4px;overflow:hidden;border:1px solid #1c1c48;">
+                <div id="gCompressorBar" style="height:100%;width:0%;background:#555577;border-radius:4px;transition:width 0.5s;"></div>
+              </div>
+              <div id="gCompressorBarLbl" style="font-size:0.72rem;color:#444488;margin-top:3px;text-align:right;">--</div>
+            </div>
           </div>
         </div>
 
@@ -1990,6 +2061,11 @@
           <button id="gPauseBtn" onclick="gamePause()" disabled
             style="padding:0.8rem 1.4rem;background:transparent;color:var(--silver);border:1px solid var(--border);border-radius:4px;font-family:var(--font-display);font-size:0.92rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:not-allowed;opacity:0.5;">
             ⏸ PAUSE
+          </button>
+          <button id="gCompressorBtn" onclick="gameToggleCompressor()" disabled
+            title="Wellhead compression — available when reservoir pressure drops below 14 bar"
+            style="padding:0.8rem 1.6rem;background:transparent;color:#555577;border:1px solid #333355;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:not-allowed;opacity:0.4;transition:all 0.3s;">
+            ⚙ COMPRESSOR
           </button>
           <button onclick="gameTutorial()"
             style="padding:0.8rem 1.4rem;background:transparent;color:var(--cyan);border:1px solid var(--cyan);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;opacity:0.8;">
