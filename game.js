@@ -465,7 +465,7 @@
     $('gFlowRate').textContent = Math.round(GS.flowRate) + ' m³/h';
     const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
     const _absDevFlow = Math.abs(GS.flowRate - GS.demand);
-    $('gFlowRate').style.color = (_absDevFlow <= 10 && GS.flowRate > 0) ? '#ffd200' : diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+    $('gFlowRate').style.color = (_absDevFlow <= 10 && GS.flowRate > 0) ? '#ffd200' : diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ff8800' : '#ff5555';
 
     $('gFlowDemandLbl').textContent = 'Demand: ' + Math.round(GS.demand) + ' m³/h';
     $('gAnnPress').textContent = GS.annulusP.toFixed(1) + ' bar';
@@ -518,7 +518,7 @@
       $('gFlowBar').style.background = '#ffd200';
       $('gFlowBar').style.boxShadow  = '0 0 8px #ffd200aa';
     } else {
-      $('gFlowBar').style.background = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+      $('gFlowBar').style.background = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ff8800' : '#ff5555';
       $('gFlowBar').style.boxShadow  = 'none';
     }
     // Demand zone glow — golden background pulses when bar is inside the lines; borders always gold
@@ -2918,7 +2918,7 @@
         </div>
         <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:8px 13px;">
           <div style="color:#00e676;font-family:var(--font-display);font-weight:700;margin-bottom:2px;">Flow Rate vs. Demand bar</div>
-          <div style="color:var(--silver);">Green marker = pipeline demand. <strong style="color:#00e676;">Green = ±10%</strong> (scoring). <strong style="color:#ffd200;">Yellow = ±25%</strong> (marginal). <strong style="color:#ff5555;">Red = &gt;25% off</strong> (losing points).</div>
+          <div style="color:var(--silver);">Green marker = pipeline demand. <strong style="color:#00e676;">Green = ±10%</strong> (scoring). <strong style="color:#ff8800;">Orange = ±25%</strong> (marginal). <strong style="color:#ff5555;">Red = &gt;25% off</strong> (losing points).</div>
         </div>
         <div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:8px 13px;">
           <div style="color:#ffd200;font-family:var(--font-display);font-weight:700;margin-bottom:2px;">Annulus Pressure</div>
