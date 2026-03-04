@@ -229,13 +229,13 @@
     GS.elapsed += 0.25;
     GS.noiseOffset += 0.08;
 
-    // ── 10-minute legacy bonus (mid-2015 — beyond the real well's lifetime) ──
+    // ── 10-minute legend bonus (mid-2015 — beyond the real well's lifetime) ──
     if (!GS._legacyBonusAwarded && GS.elapsed >= 600) {
       GS._legacyBonusAwarded = true;
       const bonus = Math.round(GS.score * 99); // ×100 total (current score × 99 added)
       GS.score += bonus;
-      GS.multiplier *= 3.0;
-      chartAddEvent('🏆 LEGACY', '#ffd200');
+      GS.multiplier *= 100;
+      chartAddEvent('🏆 LEGEND', '#ffd200');
       // Dramatic sound — 5 ascending milestone chimes
       SND.milestone();
       setTimeout(SND.milestone, 150);
@@ -246,7 +246,8 @@
       log('🏆 ══════════════════════════════════════', '#ffd200');
       log('🏆  WELL LIFETIME EXTENDED BEYOND MID 2015!', '#ffd200');
       log('🏆  You have outlasted the real TR-9 operators.', '#ffd200');
-      log('🏆  LEGACY BONUS: ×100 score! +' + bonus.toLocaleString() + ' pts', '#ffd200');
+      log('🏆  LEGEND OPERATOR BONUS: ×100 score! +' + bonus.toLocaleString() + ' pts', '#ffd200');
+      log('🏆  MULTIPLIER: ×100 boost applied!', '#ffd200');
       log('🏆 ══════════════════════════════════════', '#ffd200');
       log('', '#ffd200'); // spacer
       // Flash the score card gold without touching opacity
@@ -255,7 +256,7 @@
         const origColor = scoreEl.style.color;
         scoreEl.style.color = '#ffd200';
         scoreEl.style.textShadow = '0 0 20px #ffd200, 0 0 40px #ffd200';
-        setTimeout(() => { scoreEl.style.color = origColor; scoreEl.style.textShadow = ''; }, 10000);;
+        setTimeout(() => { scoreEl.style.color = origColor; scoreEl.style.textShadow = ''; }, 10000);
       }
     }
 
@@ -2240,7 +2241,7 @@
     else if (perf >= 40) { rating = '⚠ Trainee';            ratingColor = '#ffd200'; }
     else                  { rating = '❌ Needs Retraining';   ratingColor = '#ff5555'; }
     if (type === 'heroic') { rating = '⭐ ' + rating; ratingColor = '#ffd200'; }
-    if (GS._legacyBonusAwarded) { rating = '🏆 LEGACY OPERATOR — ' + rating; ratingColor = '#ffd200'; }
+    if (GS._legacyBonusAwarded) { rating = '🏆 LEGEND OPERATOR — ' + rating; ratingColor = '#ffd200'; }
 
     // Icon + label based on type
     let icon, label, titleText, bodyText;
@@ -2252,16 +2253,16 @@
     } else if (type === 'manual') {
       icon = GS._legacyBonusAwarded ? '🏆' : '■';
       label = GS._legacyBonusAwarded ? 'Well Life Extended — Beyond 2015' : 'Session Complete';
-      titleText = GS._legacyBonusAwarded ? 'LEGACY OPERATOR' : 'Well Shut In';
+      titleText = GS._legacyBonusAwarded ? 'LEGEND OPERATOR' : 'Well Shut In';
       bodyText = GS._legacyBonusAwarded
-        ? 'You kept TR-9 producing past mid-2015 — beyond what the real NAFTA operators achieved. ×100 score bonus awarded.'
+        ? 'You kept TR-9 producing past mid-2015 — beyond what the real NAFTA operators achieved. ×100 score and ×100 multiplier bonus awarded.'
         : 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well (' + formatSimDateRange(0, elapsed) + ').';
     } else {
       icon = GS._legacyBonusAwarded ? '🏆' : '💥';
-      label = GS._legacyBonusAwarded ? 'Legacy Operator — Well Eventually Lost' : 'Simulation Failed';
+      label = GS._legacyBonusAwarded ? 'Legend Operator — Well Eventually Lost' : 'Simulation Failed';
       titleText = GS._legacyBonusAwarded ? ('🏆 ' + failTitle) : failTitle;
       bodyText = GS._legacyBonusAwarded
-        ? 'TR-9 ran past mid-2015 — beyond the real well\'s lifetime. ×100 legacy bonus applied. ' + failBody
+        ? 'TR-9 ran past mid-2015 — beyond the real well\'s lifetime. ×100 score and ×100 multiplier applied. ' + failBody
         : failBody;
     }
 
@@ -2302,8 +2303,8 @@
     statsGrid.style.gridTemplateColumns = 'repeat(3,1fr)';
     const legacyCard = GS._legacyBonusAwarded
       ? `<div style="grid-column:1/-1;background:linear-gradient(135deg,#1a1000,#0e0a00);border:2px solid #ffd200;border-radius:6px;padding:12px 16px;text-align:center;">
-          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#ffd200;margin-bottom:4px;">🏆 LEGACY OPERATOR BONUS</div>
-          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:#ffd200;">×100 SCORE MULTIPLIER</div>
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#ffd200;margin-bottom:4px;">🏆 LEGEND OPERATOR BONUS</div>
+          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:#ffd200;">×100 SCORE &nbsp;·&nbsp; ×100 MULTIPLIER</div>
           <div style="font-size:0.82rem;color:#aa8800;margin-top:3px;">TR-9 kept producing past mid-2015 — beyond the real well's operational lifetime</div>
         </div>`
       : '';
@@ -2877,11 +2878,30 @@
         <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:5px;">📈 Live Telemetry Chart:</div>
         <div style="display:flex;flex-wrap:wrap;gap:7px;">
           <span style="color:#00d2ff;">─ Wellhead P (bar)</span>
+          <span style="color:#9966cc;">─ ─ Reservoir P (bar)</span>
           <span style="color:#00e676;">─ Flow ÷3 m³/h</span>
           <span style="color:#ffd200;">─ ─ Demand ÷3 m³/h</span>
           <span style="color:#ff5200;">─ Annulus P (bar)</span>
           <span style="color:#cc66ff;">─ Choke %</span>
           <span style="color:#ff3333;">▮ Event markers</span>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#0e0820,#060618);border:1px solid #552266;border-radius:6px;padding:10px 13px;font-size:0.82rem;margin-top:6px;">
+        <div style="color:#cc88ff;font-family:var(--font-display);font-weight:700;margin-bottom:5px;">⚙ Wellhead Compressor — late-game tool</div>
+        <div style="color:var(--silver);margin-bottom:6px;">Once <strong style="color:#9966cc;">Reservoir P drops below 18 bar</strong>, a purple <strong style="color:#cc88ff;">⚙ COMPRESSOR</strong> button unlocks. The compressor unit also lights up on the schematic. This is a one-use tool that significantly extends well life:</div>
+        <div style="display:grid;gap:4px;font-size:0.78rem;">
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="color:#ffaa44;flex-shrink:0;">①</span>
+            <span style="color:var(--silver);"><strong style="color:#ffaa44;">8-second spin-up</strong> — compressor starts but isn't online yet. Don't panic if nothing changes immediately.</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="color:#00e676;flex-shrink:0;">②</span>
+            <span style="color:var(--silver);"><strong style="color:#00e676;">90 seconds active</strong> — boosts pressure drive significantly, letting you sustain demand even at very low reservoir pressure.</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-start;">
+            <span style="color:#ff9944;flex-shrink:0;">③</span>
+            <span style="color:var(--silver);"><strong style="color:#ff9944;">One-use only</strong> — once spent it's gone. Deploy it when you're struggling to meet demand, not before.</span>
+          </div>
         </div>
       </div>`
     },
@@ -3037,7 +3057,52 @@
         After any failure, click <strong style="color:#ff5555;">🔍 WHY DID I FAIL?</strong> on the report card for a detailed incident analysis.
       </div>`
     },
-    // ── Step 9: Controls + tips ───────────────────────────────────────────────
+    // ── Step 9: Timeline & Legend Bonus ──────────────────────────────────────
+    {
+      title: '⏳ Simulated Time & Legend Bonus',
+      html: `<p style="color:var(--text);line-height:1.8;margin-bottom:0.8rem;">
+        The simulation runs on a <strong style="color:var(--cyan);">compressed real-world timeline</strong>. Every second of gameplay represents almost 12 simulated days — so 10 minutes covers the entire production lifetime of well TR-9.
+      </p>
+      <div style="display:grid;gap:7px;font-size:0.82rem;margin-bottom:0.8rem;">
+        <div style="background:#08082a;border:1px solid #00d2ff44;border-radius:6px;padding:10px 13px;">
+          <div style="color:var(--cyan);font-family:var(--font-display);font-weight:700;margin-bottom:4px;">📅 The Real Timeline</div>
+          <div style="color:var(--silver);">Well TR-9 at Trebišov started production in <strong style="color:#fff;">April 1996</strong> and was decommissioned in <strong style="color:#fff;">mid-2015</strong> — 19 years of operation. The game timer shows you the simulated calendar date, not a stopwatch. Log entries carry real calendar timestamps like <em style="color:#00d2ff;">"14 Jun 2003"</em>.</div>
+        </div>
+        <div style="background:#08082a;border:1px solid #9966cc44;border-radius:6px;padding:10px 13px;">
+          <div style="color:#9966cc;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">📉 Reservoir Pressure Declines Over Time</div>
+          <div style="color:var(--silver);">The <strong style="color:#9966cc;">Reservoir P</strong> gauge shows the natural energy remaining in the formation. It starts at 28 bar and declines continuously — this is unavoidable. Wellhead P follows it down. As pressure falls below 18 bar, the compressor unlocks. Below ~12 bar it becomes very hard to meet demand without the compressor.</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1a1000,#0e0a00);border:2px solid #ffd200;border-radius:8px;padding:12px 16px;">
+          <div style="font-size:1.3rem;margin-bottom:4px;text-align:center;">🏆</div>
+          <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:800;color:#ffd200;letter-spacing:1.5px;margin-bottom:6px;text-align:center;">LEGEND OPERATOR BONUS — ×100 SCORE · ×100 MULTIPLIER</div>
+          <div style="color:#ccaa00;font-size:0.82rem;line-height:1.6;">If you keep the well running past <strong style="color:#ffd200;">10 minutes</strong> of real gameplay — the moment the real TR-9 operators shut down in 2015 — the game rewards you massively:</div>
+          <div style="display:grid;gap:4px;font-size:0.8rem;margin-top:8px;">
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="color:#ffd200;flex-shrink:0;">→</span>
+              <span style="color:#ccaa00;">Your current score is multiplied by <strong style="color:#ffd200;">100×</strong> instantly</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="color:#ffd200;flex-shrink:0;">→</span>
+              <span style="color:#ccaa00;">Your current multiplier is also multiplied by <strong style="color:#ffd200;">100×</strong> — every point you earn from this moment is worth 100× more</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="color:#ffd200;flex-shrink:0;">→</span>
+              <span style="color:#ccaa00;">A gold announcement fills the event log</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="color:#ffd200;flex-shrink:0;">→</span>
+              <span style="color:#ccaa00;">5 ascending chimes play</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-start;">
+              <span style="color:#ffd200;flex-shrink:0;">→</span>
+              <span style="color:#ccaa00;">Your result card shows a <strong style="color:#ffd200;">🏆 LEGEND OPERATOR</strong> banner even if the well eventually fails after this point</span>
+            </div>
+          </div>
+          <div style="color:#888;font-size:0.75rem;margin-top:8px;text-align:center;">Combine with the ⭐ Heroic Shut-In bonus for a legendary score.</div>
+        </div>
+      </div>`
+    },
+    // ── Step 10: Controls + tips ──────────────────────────────────────────────
     {
       title: '🚀 Controls & Final Tips',
       html: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;margin-bottom:1rem;">
