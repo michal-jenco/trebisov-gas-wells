@@ -330,12 +330,14 @@ function _exportResultPDF() {
   });
   y += 11;
 
-  drawFooter('Page 1 / 3');
+  drawFooter('Page 1');
 
   // ════════════════════════════════════════════════════
-  //  PAGE 2 — Operations Log
+  //  PAGE 2+ — Operations Log  (multi-page aware)
   // ════════════════════════════════════════════════════
   doc.addPage(); drawBg(); drawAccent();
+  const logPageStart = 2; // log always starts on page 2
+  let logPageCount = 1;
 
   y = 12;
   txt('TREBISOV GAS FIELD  ·  TR-9 OPERATOR  ·  SESSION REPORT',
@@ -354,6 +356,9 @@ function _exportResultPDF() {
   doc.setFont('helvetica', 'normal');
 
   const newLogPage = () => {
+    // stamp footer on the page we're leaving before moving on
+    drawFooter('Page ' + (logPageStart - 1 + logPageCount));
+    logPageCount++;
     doc.addPage(); drawBg(); drawAccent();
     y = 12;
     txt('OPERATIONS LOG (continued)', ML, y, { size: 9, bold: true, color: C.white });
@@ -367,24 +372,30 @@ function _exportResultPDF() {
     const entryRGB = parseRGB(entry.style.color||'') || C.dim;
     const lines    = wrap(raw, CW-5, 7);
 
-    // page break *before* drawing
-    if (y + lines.length*LLH > MAX_Y) newLogPage();
+    // break line-by-line so even very long entries never overflow
+    lines.forEach((l, li) => {
+      if (y + LLH > MAX_Y) newLogPage();
 
-    // left stripe for event entries
-    if (entry.style.borderLeft || entry.className) {
-      sf(entryRGB); frect(ML, y-3, 0.9, lines.length*LLH+1);
-    }
+      // left stripe only on the first line of the entry
+      if (li === 0 && (entry.style.borderLeft || entry.className)) {
+        sf(entryRGB); frect(ML, y - 3, 0.9, lines.length * LLH + 1);
+      }
 
-    stc(entryRGB);
-    doc.setFontSize(7); doc.setFont('helvetica','normal');
-    lines.forEach((l, li) => doc.text(l, ML+3.5, y + li*LLH));
-    y += lines.length * LLH + 0.8;
+      stc(entryRGB);
+      doc.setFontSize(7); doc.setFont('helvetica', 'normal');
+      doc.text(l, ML + 3.5, y);
+      y += LLH;
+    });
+
+    y += 0.8; // small gap between entries
   });
 
-  drawFooter('Page 2');
+  // footer on the last log page
+  drawFooter('Page ' + (logPageStart - 1 + logPageCount));
+  const summaryPageNum = logPageStart + logPageCount;
 
   // ════════════════════════════════════════════════════
-  //  PAGE 3 — Technical Summary
+  //  FINAL PAGE — Technical Summary
   // ════════════════════════════════════════════════════
   doc.addPage(); drawBg(); drawAccent();
 
@@ -487,7 +498,7 @@ function _exportResultPDF() {
     dls.forEach((l, li) => doc.text(l, cx+11, cy+4.5+li*3.5));
   });
 
-  drawFooter('Page 3 / 3  ·  Generated: ' +
+  drawFooter('Page ' + summaryPageNum + '  ·  Generated: ' +
     now.toISOString().slice(0,19).replace('T',' ') + ' UTC');
 
   // ── Save ─────────────────────────────────────────────
