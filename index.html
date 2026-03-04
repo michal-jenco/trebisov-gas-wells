@@ -1506,7 +1506,7 @@
         Interactive Simulation
       </div>
       <h2 style="font-family:var(--font-display);font-size:clamp(2rem,3.5vw,3.2rem);font-weight:800;color:#fff;margin-bottom:0.6rem;">
-        Gass Well <span style="color:var(--orange);">Operator</span>
+        Gas    Well <span style="color:var(--orange);">Operator</span>
       </h2>
       <p style="color:var(--silver);max-width:760px;font-size:1rem;line-height:1.7;">
         Operate a live wellhead Christmas tree. Manage valves, throttle the choke, and respond
@@ -1629,7 +1629,7 @@
           <line id="gCompPipeIn" x1="230" y1="132" x2="240" y2="132" stroke="#2a2a55" stroke-width="3"/>
           <!-- Compressor housing -->
           <g id="gsvg-compressor" onclick="gameToggleCompressor()"
-             style="cursor:not-allowed;" title="Wellhead compressor — locked until reservoir pressure drops below 14 bar">
+             style="cursor:not-allowed;" title="Wellhead compressor — locked until reservoir pressure drops below 18 bar">
             <!-- Body -->
             <rect id="gCompBody" x="240" y="118" width="38" height="28" rx="3"
                   fill="#0e0e2a" stroke="#2e2e66" stroke-width="1.5"/>
@@ -1937,12 +1937,12 @@
         <!-- Top: gauges row -->
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:14px;">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead P</div>
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Wellhead Pressure</div>
             <div id="gWHP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--cyan);">-- bar</div>
             <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Target: 15–25 bar</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
-            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Reservoir P</div>
+            <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Reservoir Pressure</div>
             <div id="gReservoirP" style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:#9966cc;">-- bar</div>
             <div style="font-size:0.78rem;color:#444488;margin-top:4px;">Depletes over time</div>
           </div>
@@ -1988,19 +1988,25 @@
         </div>
 
         <!-- Flow bar -->
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;">
+        <div id="gFlowBarPanel" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color 0.3s;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
             <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Production vs. Demand</span>
             <span id="gFlowPct" style="font-family:var(--font-display);font-size:1rem;font-weight:700;color:var(--cyan);">--</span>
           </div>
           <div style="position:relative;height:26px;background:#0a0a20;border-radius:4px;overflow:hidden;border:1px solid var(--border);">
-            <div id="gDemandZone" style="position:absolute;top:0;bottom:0;background:rgba(0,230,118,0.08);border-left:1px solid rgba(0,230,118,0.3);border-right:1px solid rgba(0,230,118,0.3);"></div>
+            <!-- Yellow zone bands (±25% of demand) -->
+            <div id="gYellowZoneL" style="position:absolute;top:0;bottom:0;width:1px;background:rgba(255,210,0,0.4);"></div>
+            <div id="gYellowZoneR" style="position:absolute;top:0;bottom:0;width:1px;background:rgba(255,210,0,0.4);"></div>
+            <!-- Green zone bands (±10% of demand) -->
+            <div id="gGreenZoneL" style="position:absolute;top:0;bottom:0;width:1px;background:rgba(0,230,118,0.5);"></div>
+            <div id="gGreenZoneR" style="position:absolute;top:0;bottom:0;width:1px;background:rgba(0,230,118,0.5);"></div>
+            <!-- Golden sweet-spot zone (±10 m³/h absolute) — borders always golden -->
+            <div id="gDemandZone" style="position:absolute;top:0;bottom:0;background:rgba(255,210,0,0.10);border-left:1px solid rgba(255,210,0,0.55);border-right:1px solid rgba(255,210,0,0.55);"></div>
             <div id="gFlowBar" style="position:absolute;top:3px;bottom:3px;left:0;width:0%;background:var(--cyan);border-radius:3px;transition:width 0.3s;"></div>
             <div id="gDemandMark" style="position:absolute;top:0;bottom:0;width:2px;background:var(--green);"></div>
           </div>
           <div style="display:flex;justify-content:space-between;margin-top:5px;">
             <span style="font-size:0.72rem;color:#333366;">0 m³/h</span>
-            <span style="font-size:0.72rem;color:var(--green);">↑ demand</span>
             <span style="font-size:0.72rem;color:#333366;" id="gMaxFlowLbl">-- m³/h (max)</span>
           </div>
         </div>
@@ -2010,8 +2016,8 @@
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
             <span style="font-family:var(--font-display);font-size:0.82rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--silver);">Live Telemetry</span>
             <div style="display:flex;gap:14px;flex-wrap:wrap;">
-              <span style="font-size:0.75rem;color:#00d2ff;font-family:var(--font-display);">─ Wellhead P (bar)</span>
-              <span style="font-size:0.75rem;color:#9966cc;font-family:var(--font-display);">─ Reservoir P (bar)</span>
+              <span style="font-size:0.75rem;color:#00d2ff;font-family:var(--font-display);">─ Wellhead Pressure (bar)</span>
+              <span style="font-size:0.75rem;color:#9966cc;font-family:var(--font-display);">─ Reservoir Pressure (bar)</span>
               <span style="font-size:0.75rem;color:#00e676;font-family:var(--font-display);">─ Flow (÷3 m³/h)</span>
               <span style="font-size:0.75rem;color:#ffd200;font-family:var(--font-display);">─ Demand (÷3 m³/h)</span>
               <span style="font-size:0.75rem;color:#ff5200;font-family:var(--font-display);">─ Annulus P (bar)</span>
@@ -2195,7 +2201,7 @@
         <div style="padding:1.6rem 1.8rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
           <div>
             <div style="font-family:var(--font-display);font-size:0.7rem;letter-spacing:3px;color:var(--orange);text-transform:uppercase;margin-bottom:4px;">Operator Briefing</div>
-            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Gass Well Operation <span style="color:var(--cyan);">Tutorial</span></div>
+            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;">Gas Well Operation <span style="color:var(--cyan);">Tutorial</span></div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
             <div style="font-family:var(--font-display);font-size:0.75rem;color:var(--silver);">Step <span id="gTutStep">1</span> / <span id="gTutTotal">9</span></div>

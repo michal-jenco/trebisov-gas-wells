@@ -464,7 +464,8 @@
 
     $('gFlowRate').textContent = Math.round(GS.flowRate) + ' m³/h';
     const diff = Math.abs(GS.flowRate - GS.demand) / GS.demand;
-    $('gFlowRate').style.color = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+    const _absDevFlow = Math.abs(GS.flowRate - GS.demand);
+    $('gFlowRate').style.color = (_absDevFlow <= 10 && GS.flowRate > 0) ? '#ffd200' : diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
 
     $('gFlowDemandLbl').textContent = 'Demand: ' + Math.round(GS.demand) + ' m³/h';
     $('gAnnPress').textContent = GS.annulusP.toFixed(1) + ' bar';
@@ -506,17 +507,53 @@
     // Flow bar: 0–maxFlow mapped to 0–100%
     const flowPct = Math.min(100, GS.flowRate / GS.maxFlow * 100);
     $('gFlowBar').style.width = flowPct + '%';
-    $('gFlowBar').style.background = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+    // Three tiers:
+    //   inZone  — inside the visual green lines (±10 m³/h) → GOLD
+    //   diff≤0.10 — within 10% of demand → green
+    //   diff≤0.25 — within 25% → yellow; beyond → red
+    const absDeviation = Math.abs(GS.flowRate - GS.demand);
+    const inZone = absDeviation <= 10 && GS.flowRate > 0;
+    const inSweetSpot = inZone; // alias used below for zone glow
+    if (inZone) {
+      $('gFlowBar').style.background = '#ffd200';
+      $('gFlowBar').style.boxShadow  = '0 0 8px #ffd200aa';
+    } else {
+      $('gFlowBar').style.background = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+      $('gFlowBar').style.boxShadow  = 'none';
+    }
+    // Demand zone glow — golden background pulses when bar is inside the lines; borders always gold
+    $('gDemandZone').style.background    = inSweetSpot ? 'rgba(255,210,0,0.18)' : 'rgba(255,210,0,0.07)';
+    // Bar panel border pulses gold when inside the lines
+    const flowBarPanel = $('gFlowBarPanel');
+    if (flowBarPanel) flowBarPanel.style.borderColor = inSweetSpot ? '#ffd200' : 'var(--border)';
 
     const demandPct = Math.min(100, GS.demand / GS.maxFlow * 100);
     $('gDemandMark').style.left = demandPct + '%';
-    const zonePct = 10 / GS.maxFlow * 100 * 1;
+
+    // Golden zone: ±10 m³/h absolute
+    const zonePct = 10 / GS.maxFlow * 100;
     $('gDemandZone').style.left  = Math.max(0, demandPct - zonePct) + '%';
     $('gDemandZone').style.width = (zonePct * 2) + '%';
+
+    // Green zone boundaries: ±10% of demand
+    const greenPct = GS.demand * 0.10 / GS.maxFlow * 100;
+    const greenL = $('gGreenZoneL'), greenR = $('gGreenZoneR');
+    if (greenL && greenR) {
+      greenL.style.left = Math.max(0, demandPct - greenPct) + '%';
+      greenR.style.left = Math.min(100, demandPct + greenPct) + '%';
+    }
+
+    // Yellow zone boundaries: ±25% of demand
+    const yellowPct = GS.demand * 0.25 / GS.maxFlow * 100;
+    const yellowL = $('gYellowZoneL'), yellowR = $('gYellowZoneR');
+    if (yellowL && yellowR) {
+      yellowL.style.left = Math.max(0, demandPct - yellowPct) + '%';
+      yellowR.style.left = Math.min(100, demandPct + yellowPct) + '%';
+    }
     $('gMaxFlowLbl').textContent = GS.maxFlow + ' m³/h (max)';
     const pctStr = (GS.flowRate / GS.demand * 100).toFixed(0) + '% of demand';
     $('gFlowPct').textContent = pctStr;
-    $('gFlowPct').style.color = diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
+    $('gFlowPct').style.color = (_absDevFlow <= 10 && GS.flowRate > 0) ? '#ffd200' : diff <= 0.10 ? '#00e676' : diff <= 0.25 ? '#ffd200' : '#ff5555';
 
     // Event timer display
     if (GS.activeEvent && !GS.eventResolved) {
@@ -537,11 +574,11 @@
 
   // Series definitions: key, scale factor (so all fit 0-100), color, label
   const CHART_SERIES = [
-    { key: 'whp',    scale: 100/35,   color: '#00d2ff', label: 'WHP (bar)' },
-    { key: 'res',    scale: 100/35,   color: '#9966cc', label: 'Reservoir P (bar)', dash: [5,3] },
+    { key: 'whp',    scale: 100/35,   color: '#00d2ff', label: 'Wellhead Pressure (bar)' },
+    { key: 'res',    scale: 100/35,   color: '#9966cc', label: 'Reservoir Pressure (bar)', dash: [5,3] },
     { key: 'flow',   scale: 100/480,  color: '#00e676', label: 'Flow ÷3' },
     { key: 'demand', scale: 100/480,  color: '#ffd200', label: 'Demand ÷3', dash: [4,3] },
-    { key: 'ann',    scale: 100/18,   color: '#ff5200', label: 'Ann P (bar)' },
+    { key: 'ann',    scale: 100/18,   color: '#ff5200', label: 'Annulus Pressure (bar)' },
     { key: 'choke',  scale: 1,        color: '#cc66ff', label: 'Choke %' },
   ];
 
@@ -721,7 +758,7 @@
       trigger() { GS.maxFlow = 1600; log('⚠ Overpressure surge detected!', '#ff5555', 'overpressure'); showPointers(['choke','rwv']); },
       check() { return (GS.choke <= 30 || !GS.valves.rwv) && GS.wellheadP < 26; },
       resolve() { GS.maxFlow = 1200; log('✓ Overpressure controlled.', '#00e676'); GS.score += 100; GS.multiplier *= 1.3; hidePointers(); },
-      expire() { GS.penaltyCount++; GS.score = Math.max(0, GS.score - 100); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! (-100pts)', '#ff3333', 'overpressure'); hidePointers(); }
+      expire() { GS.penaltyCount++; GS.score = Math.floor(GS.score * 0.5); GS.multiplier = Math.max(1.0, GS.multiplier * 0.5); GS.maxFlow = 1200; log('✗ Overpressure not controlled — safety violation! Score and multiplier halved!', '#ff3333', 'overpressure'); hidePointers(); }
     },
     {
       id: 'demand',
@@ -813,8 +850,9 @@
         const earningsEl = $('gEarnings');
         if (earningsEl) earningsEl.style.color = '#00e676';
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 100);
-        log('✗ Demand spike not sustained. Contract penalty. (-100pts)', '#ff3333', 'demand');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Demand spike not sustained. Contract penalty. Score and multiplier halved!', '#ff3333', 'demand');
         hidePointers();
       }
     },
@@ -907,7 +945,7 @@
       trigger() { GS.maxFlow = 600; log('🪨 Sand plug forming — open choke wide to clear!', '#ffd200', 'sand'); showPointers(['choke']); },
       check() { return GS.choke >= 90; },
       resolve() { GS.maxFlow = 1200; log('✓ Sand plug cleared. Flow restored.', '#00e676'); GS.score += 70; GS.multiplier *= 1.2; hidePointers(); },
-      expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.max(0, GS.score - 70); log('✗ Choke plugged. (-70pts)', '#ff3333', 'sand'); hidePointers(); }
+      expire() { GS.maxFlow = 400; GS.penaltyCount++; GS.score = Math.floor(GS.score * 0.5); GS.multiplier = Math.max(1.0, GS.multiplier * 0.5); log('✗ Choke plugged. Score and multiplier halved!', '#ff3333', 'sand'); hidePointers(); }
     },
     {
       id: 'wireline',
@@ -940,8 +978,9 @@
       },
       expire() {
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 80);
-        log('✗ Inspection sequence not completed — regulatory violation. (-80pts)', '#ff3333', 'wireline');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Inspection sequence not completed — regulatory violation. Score and multiplier halved!', '#ff3333', 'wireline');
         hidePointers();
       }
     },
@@ -1001,8 +1040,9 @@
         GS.maxFlow = 300;
         GS._hydrateHeldSeconds = 0;
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 90);
-        log('✗ Hydrate plug consolidated — choke severely restricted. (-90pts)', '#ff3333', 'hydrate');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Hydrate plug consolidated — choke severely restricted. Score and multiplier halved!', '#ff3333', 'hydrate');
         hidePointers();
       }
     },
@@ -1067,8 +1107,9 @@
         GS._buildupHeld = 0;
         GS._buildupDone = false;
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 60);
-        log('✗ PBU test incomplete — invalid reservoir data. (-60pts)', '#ff3333', 'builduptest');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ PBU test incomplete — invalid reservoir data. Score and multiplier halved!', '#ff3333', 'builduptest');
         hidePointers();
       }
     },
@@ -1105,8 +1146,9 @@
       expire() {
         GS.maxFlow = 1200;
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 95);
-        log('✗ Overproduction not controlled — equipment stress damage. (-95pts)', '#ff3333', 'chokeerosion');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Overproduction not controlled — equipment stress damage. Score and multiplier halved!', '#ff3333', 'chokeerosion');
         hidePointers();
       }
     },
@@ -1137,8 +1179,9 @@
       },
       expire() {
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 75);
-        log('✗ Vibration not dampened — flange bolts stressed. (-75pts)', '#ff3333', 'vibration');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Vibration not dampened — flange bolts stressed. Score and multiplier halved!', '#ff3333', 'vibration');
         hidePointers();
       }
     },
@@ -1175,8 +1218,9 @@
       },
       expire() {
         GS.penaltyCount++;
-        GS.score = Math.max(0, GS.score - 80);
-        log('✗ Restart sequence not completed — GCS supply gap. (-80pts)', '#ff3333', 'coldrestart');
+        GS.score = Math.floor(GS.score * 0.5);
+        GS.multiplier = Math.max(1.0, GS.multiplier * 0.5);
+        log('✗ Restart sequence not completed — GCS supply gap. Score and multiplier halved!', '#ff3333', 'coldrestart');
         ['lmv','umv','rwv'].forEach(id => { GS.valves[id] = true; setValveVisual(id, 'open'); });
         window.gameSetChoke(50);
         hidePointers();
@@ -1219,19 +1263,16 @@
         GS.maxFlow = 1200;
         GS.reservoirP = Math.min(28, GS.reservoirP);
         hidePointers();
-        // Resolving blowthrough = closing LMV+UMV before pressure kills the tree.
-        // Always a heroic shut-in — award 10× bonus if not already granted.
-        if (!GS._heroicShutIn) {
-          GS._heroicShutIn = true;
-          const bonus = Math.round(GS.score * 9);
-          GS.score += bonus;
-          GS.multiplier *= 2.0;
-          chartAddEvent('⭐ HEROIC', '#ffd200');
-          SND.milestone();
-          setTimeout(SND.milestone, 200);
-          setTimeout(SND.milestone, 400);
-          log('⭐ HEROIC SHUT-IN! All bore valves closed during 💀 RESERVOIR BLOWTHROUGH! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'blowthrough');
-        }
+        // Always award the heroic 10× bonus — blowthrough heroic is unconditional
+        GS._heroicShutIn = true;
+        const bonus = Math.round(GS.score * 9);
+        GS.score += bonus;
+        GS.multiplier *= 2.0;
+        chartAddEvent('⭐ HEROIC', '#ffd200');
+        SND.milestone();
+        setTimeout(SND.milestone, 200);
+        setTimeout(SND.milestone, 400);
+        log('⭐ HEROIC SHUT-IN! All bore valves closed during 💀 RESERVOIR BLOWTHROUGH! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'blowthrough');
         log('✓ Well isolated. Blowthrough contained — session ended for mandatory safety inspection.', '#00e676');
         setTimeout(() => {
           gameHeroicEnd();
@@ -1255,14 +1296,14 @@
     {
       id: 'wellfire',
       title: '🔥 WELLHEAD FIRE',
-      desc: 'Ignition detected at the wellhead cellar. A gas release has caught fire. Immediate shut-in required — the well cannot continue operating.',
-      action: 'SHUT IN: Close ALL valves — RWV, UMV, LMV. You have 10 seconds. Even a clean shut-in ends this session. ⭐ Close all 3 bore valves for a 10× SCORE BONUS — you save the equipment and personnel.',
+      desc: 'Ignition detected at the wellhead cellar. A gas release has caught fire. Shut in all valves to starve the flame — once isolated the fire will self-extinguish and production can resume.',
+      action: 'SHUT IN: Close RWV → UMV → LMV to starve the fire. All 3 bore valves closed = fire out. ⭐ Clean shut-in earns a 10× SCORE BONUS. Production resumes after the fire is out.',
       duration: 10,
       pointers: ['rwv', 'umv'],
       catastrophic: true,
       debrief: {
-        wrong: 'Once a wellhead fire starts, continued gas flow feeds the flame. The only correct action is immediate total well shut-in. Even a successfully executed shut-in ends the production session — the well must be inspected and cleared by a fire safety team before restart.',
-        shouldHave: '1. Close RWV first to stop production flow feeding the fire.\n2. Close UMV to isolate the bore.\n3. Close LMV as the final backstop.\nNote: this event always ends the session regardless — a resolved wellfire is still a session-ending incident. Your score at this point is your final score.',
+        wrong: 'Once a wellhead fire starts, continued gas flow feeds the flame. The only correct action is immediate total well shut-in — close RWV, then UMV, then LMV. This starves the fire of fuel and it self-extinguishes. Production can then safely resume.',
+        shouldHave: '1. Close RWV first — stop the production flow feeding the fire.\n2. Close UMV to isolate the bore.\n3. Close LMV as the final backstop.\nOnce all three are closed, the fire is starved and goes out. You earn the heroic bonus and the well restarts.',
         controls: [
           { id: 'rwv', label: 'RWV', color: '#ff3333', hint: 'Close first — stop fuel' },
           { id: 'umv', label: 'UMV', color: '#ff3333', hint: 'Close second' },
@@ -1284,23 +1325,20 @@
       resolve() {
         clearInterval(GS._wellfireInterval);
         hidePointers();
-        // Resolving a wellfire = closing all 3 bore valves under fire — that IS the heroic shut-in
-        if (!GS._heroicShutIn) {
-          GS._heroicShutIn = true;
-          const bonus = Math.round(GS.score * 9);
-          GS.score += bonus;
-          GS.multiplier *= 2.0;
-          chartAddEvent('⭐ HEROIC', '#ffd200');
-          SND.milestone();
-          setTimeout(SND.milestone, 200);
-          setTimeout(SND.milestone, 400);
-          log('⭐ HEROIC SHUT-IN! All bore valves closed during 🔥 WELLHEAD FIRE! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'wellfire');
-        }
-        log('🔥 Fire isolated — well shut in heroically. Session ends for mandatory site inspection.', '#ffd200');
-        setTimeout(() => {
-          gameHeroicEnd();
-          showSessionReport('heroic', '🔥 WELLHEAD FIRE — HEROIC SHUT-IN', 'You shut in the well during a live wellhead fire — closing all bore valves and starving the flame. Personnel safe, equipment preserved. 10× score bonus awarded.');
-        }, 2000);
+        // Always award heroic bonus — closing all 3 bore valves under fire is unconditional
+        GS._heroicShutIn = true;
+        const bonus = Math.round(GS.score * 9);
+        GS.score += bonus;
+        GS.multiplier *= 2.0;
+        chartAddEvent('⭐ HEROIC', '#ffd200');
+        SND.milestone();
+        setTimeout(SND.milestone, 200);
+        setTimeout(SND.milestone, 400);
+        log('⭐ HEROIC SHUT-IN! All bore valves closed during 🔥 WELLHEAD FIRE! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'wellfire');
+        // Fire is starved — well survives, production continues
+        GS.wellheadP = Math.min(GS.wellheadP, 25);
+        log('🔥 Fire extinguished — fuel supply cut. Well intact. Reopen valves to resume production.', '#00e676');
+        // Game continues — no gameHeroicEnd() here
       },
       expire() {
         clearInterval(GS._wellfireInterval);
@@ -1337,18 +1375,29 @@
         log('🌊 FORMATION WATER BREAKTHROUGH — well killed by aquifer influx!', '#00d2ff', 'waterflood');
         showPointers(['choke']);
       },
-      check() { return false; }, // Never resolves — always expires
-      resolve() {},
-      expire() {
+      check() { return !GS.valves.lmv && !GS.valves.umv && !GS.valves.rwv; },
+      resolve() {
         hidePointers();
-        if (GS._heroicShutIn) {
-          log('🌊 Well killed by water — but shut in heroically before equipment damage. Session ends.', '#ffd200');
+        // Always award heroic bonus when all bore valves closed during waterflood
+        GS._heroicShutIn = true;
+        const bonus = Math.round(GS.score * 9);
+        GS.score += bonus;
+        GS.multiplier *= 2.0;
+        chartAddEvent('⭐ HEROIC', '#ffd200');
+        SND.milestone();
+        setTimeout(SND.milestone, 200);
+        setTimeout(SND.milestone, 400);
+        log('⭐ HEROIC SHUT-IN! All bore valves closed during 🌊 WATER BREAKTHROUGH! +' + bonus.toLocaleString() + ' pts bonus (×10 score)!', '#ffd200', 'waterflood');
+        log('🌊 Well killed by water — but shut in heroically before equipment damage. Session ends.', '#ffd200');
+        setTimeout(() => {
           gameHeroicEnd();
           showSessionReport('heroic', '🌊 WATER BREAKTHROUGH — HEROIC SHUT-IN', 'The aquifer killed the well — but you closed all bore valves before the timer expired, protecting the Christmas tree and wellhead equipment. 10× score bonus awarded.');
-        } else {
-          log('🌊 Well killed by water. Production ended.', '#00d2ff', 'waterflood');
-          gameOver('🌊 FORMATION WATER BREAKTHROUGH', 'Aquifer water flooded the tubing. Gas production irreversibly lost this session.');
-        }
+        }, 2000);
+      },
+      expire() {
+        hidePointers();
+        log('🌊 Well killed by water. Production ended.', '#00d2ff', 'waterflood');
+        gameOver('🌊 FORMATION WATER BREAKTHROUGH', 'Aquifer water flooded the tubing. Gas production irreversibly lost this session.');
       }
     },
   ];
@@ -1935,7 +1984,7 @@
         title: '📉 UNDER-SUPPLY FAILURE — Pipeline Pressure Collapsed',
         subtitle: 'Flow rate stayed more than 25% below pipeline demand for 20 consecutive seconds.',
         wrong: 'The GCS requires continuous gas delivery within ±25% of the nominated demand. Staying too far below demand for 20 seconds collapses pipeline line pressure — the GCS automatically isolates your well to protect downstream consumers.',
-        shouldHave: '1. Keep the choke tuned so flow tracks demand — the green bar on the Production vs. Demand strip is your target.\n2. If reservoir pressure has dropped late in the session, open the choke wider (80–100%) to compensate.\n3. If you opened LWV unnecessarily, the 5-bar WHP bleed drops your flow significantly — close LWV unless resolving an annulus event.\n4. Watch the under-supply warnings in the log — you have 20 seconds from the first warning to correct the shortfall.',
+        shouldHave: '1. Keep the choke tuned so flow tracks demand — the green bar on the Production vs. Demand strip is your target.\n2. If reservoir pressure has dropped late in the session, open the choke wider (80–100%) to compensate.\n3. If you opened LWV unnecessarily, the 5-bar wellhead pressure bleed drops your flow significantly — close LWV unless resolving an annulus event.\n4. Watch the under-supply warnings in the log — you have 20 seconds from the first warning to correct the shortfall.',
         controls: [
           { id: 'choke', label: 'Choke Slider', color: '#cc66ff', hint: 'Open wider to increase flow' },
           { id: 'lwv',   label: 'LWV',          color: '#ffd200', hint: 'Close if open unnecessarily' },
@@ -2294,8 +2343,8 @@
       { label: 'Events Resolved', value: evR + ' / ' + evT,               color: evF === 0 ? '#00e676' : '#ffd200' },
       { label: 'On-Target Flow',  value: onTarget + '%',                   color: onTarget >= 60 ? '#00e676' : onTarget >= 30 ? '#ffd200' : '#ff5555' },
       { label: 'Peak Flow',       value: Math.round(SESSION.peakFlow) + ' m³/h', color: 'var(--cyan)' },
-      { label: 'Min Reservoir P', value: (SESSION.minReservoirP < 999 ? SESSION.minReservoirP.toFixed(1) : '--') + ' bar', color: SESSION.minReservoirP < 10 ? '#00e676' : SESSION.minReservoirP < 16 ? '#cc88ff' : '#9966cc' },
-      { label: 'Min Wellhead P',  value: (SESSION.minWHP < 999 ? SESSION.minWHP.toFixed(1) : '--') + ' bar',               color: SESSION.minWHP < 10 ? '#00e676' : SESSION.minWHP < 16 ? '#ffd200' : 'var(--cyan)' },
+      { label: 'Min Reservoir Pressure', value: (SESSION.minReservoirP < 999 ? SESSION.minReservoirP.toFixed(1) : '--') + ' bar', color: SESSION.minReservoirP < 10 ? '#00e676' : SESSION.minReservoirP < 16 ? '#cc88ff' : '#9966cc' },
+      { label: 'Min Wellhead Pressure',  value: (SESSION.minWHP < 999 ? SESSION.minWHP.toFixed(1) : '--') + ' bar',               color: SESSION.minWHP < 10 ? '#00e676' : SESSION.minWHP < 16 ? '#ffd200' : 'var(--cyan)' },
       { label: 'Peak Multiplier', value: (SESSION.peakMultiplier >= 100 ? Math.round(SESSION.peakMultiplier) : SESSION.peakMultiplier.toFixed(1)) + 'x', color: 'var(--yellow)' },
       { label: 'Safety Penalties',value: GS.penaltyCount,                  color: GS.penaltyCount === 0 ? '#00e676' : '#ff5555' },
     ];
@@ -2431,7 +2480,7 @@
     // Eyebrow
     ctx.font = '600 10px "Barlow Condensed", sans-serif';
     ctx.fillStyle = accentColor;
-    ctx.fillText('TREBIŠOV GAS FIELD  ·  TR-9 CHRISTMAS TREE OPERATOR  ·  SIMULATION RESULT', PAD, 22);
+    ctx.fillText('TREBIŠOV GAS FIELD  ·  TR-9 GAS WELL OPERATOR  ·  SIMULATION RESULT', PAD, 22);
 
     // Title (large)
     ctx.font = 'bold 28px "Barlow Condensed", sans-serif';
@@ -2578,7 +2627,7 @@
     // Chart legend strip below chart
     const lgY = chY + chH + 6;
     const legendItems = [
-      { label: 'Wellhead P (bar)', color: CYAN },
+      { label: 'Wellhead Pressure (bar)', color: CYAN },
       { label: 'Flow ÷3',         color: GREEN },
       { label: 'Demand ÷3',       color: YELLOW },
       { label: 'Annulus P',        color: ORANGE },
@@ -2638,7 +2687,7 @@
 
     ctx.font = '9px "Barlow Condensed", sans-serif';
     ctx.fillStyle = '#2a2a50';
-    ctx.fillText('NAFTA a.s. · Trebišov Gas Field · TR-9 Wellhead Christmas Tree Operator · Simulation Result', PAD + 140, footY + 8);
+    ctx.fillText('NAFTA a.s. · Trebišov Gas Field · TR-9 Gas Well Operator · Simulation Result', PAD + 140, footY + 8);
 
     ctx.textAlign = 'right';
     ctx.fillStyle = '#5a5a88';
@@ -2877,8 +2926,8 @@
       <div style="background:#06061a;border:1px solid var(--border);border-radius:6px;padding:8px 13px;font-size:0.79rem;">
         <div style="color:var(--silver);font-family:var(--font-display);font-weight:700;margin-bottom:5px;">📈 Live Telemetry Chart:</div>
         <div style="display:flex;flex-wrap:wrap;gap:7px;">
-          <span style="color:#00d2ff;">─ Wellhead P (bar)</span>
-          <span style="color:#9966cc;">─ ─ Reservoir P (bar)</span>
+          <span style="color:#00d2ff;">─ Wellhead Pressure (bar)</span>
+          <span style="color:#9966cc;">─ ─ Reservoir Pressure (bar)</span>
           <span style="color:#00e676;">─ Flow ÷3 m³/h</span>
           <span style="color:#ffd200;">─ ─ Demand ÷3 m³/h</span>
           <span style="color:#ff5200;">─ Annulus P (bar)</span>
@@ -2888,7 +2937,7 @@
       </div>
       <div style="background:linear-gradient(135deg,#0e0820,#060618);border:1px solid #552266;border-radius:6px;padding:10px 13px;font-size:0.82rem;margin-top:6px;">
         <div style="color:#cc88ff;font-family:var(--font-display);font-weight:700;margin-bottom:5px;">⚙ Wellhead Compressor — late-game tool</div>
-        <div style="color:var(--silver);margin-bottom:6px;">Once <strong style="color:#9966cc;">Reservoir P drops below 18 bar</strong>, a purple <strong style="color:#cc88ff;">⚙ COMPRESSOR</strong> button unlocks. The compressor unit also lights up on the schematic. This is a one-use tool that significantly extends well life:</div>
+        <div style="color:var(--silver);margin-bottom:6px;">Once <strong style="color:#9966cc;">Reservoir Pressure drops below 18 bar</strong>, a purple <strong style="color:#cc88ff;">⚙ COMPRESSOR</strong> button unlocks. The compressor unit also lights up on the schematic. This is a one-use tool that significantly extends well life:</div>
         <div style="display:grid;gap:4px;font-size:0.78rem;">
           <div style="display:flex;gap:8px;align-items:flex-start;">
             <span style="color:#ffaa44;flex-shrink:0;">①</span>
@@ -2917,7 +2966,7 @@
       <div style="display:grid;gap:7px;font-size:0.8rem;">
         <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
           <span style="font-size:1.1rem;flex-shrink:0;">⬆</span>
-          <div><strong style="color:#ff5555;">Overpressure Surge</strong> — choke ≤30% OR close RWV. Hold until WHP drops below 26 bar. <em style="color:#555588;">(30s timer)</em></div>
+          <div><strong style="color:#ff5555;">Overpressure Surge</strong> — choke ≤30% OR close RWV. Hold until wellhead pressure drops below 26 bar. <em style="color:#555588;">(30s timer)</em></div>
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;background:#08082a;border-radius:6px;padding:9px 11px;">
           <span style="font-size:1.1rem;flex-shrink:0;">📈</span>
@@ -2986,7 +3035,7 @@
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;background:#1a0500;border:1px solid #ff884455;border-radius:6px;padding:9px 11px;">
           <span style="font-size:1.1rem;flex-shrink:0;">🔥</span>
-          <div><strong style="color:#ff7744;">Wellhead Fire</strong> — ignition at the cellar, gas feeds the flame. <strong style="color:#00e676;">This CAN be fully resolved:</strong> close RWV → UMV → LMV before the timer to shut in and starve the fire. Doing so <strong style="color:#ffd200;">automatically triggers the ⭐ heroic bonus</strong> — shutting in under fire IS the heroic act. <em style="color:#555588;">(10s)</em></div>
+          <div><strong style="color:#ff7744;">Wellhead Fire</strong> — ignition at the cellar, gas feeds the flame. <strong style="color:#00e676;">This CAN be fully resolved AND the game continues:</strong> close RWV → UMV → LMV to starve the fire — it self-extinguishes and you reopen valves to resume production. Doing so earns the <strong style="color:#ffd200;">⭐ heroic 10× score bonus</strong>. Only an uncontrolled fire ends the session. <em style="color:#555588;">(10s)</em></div>
         </div>
         <div style="display:flex;gap:10px;align-items:flex-start;background:#001020;border:1px solid #00d2ff55;border-radius:6px;padding:9px 11px;">
           <span style="font-size:1.1rem;flex-shrink:0;">🌊</span>
@@ -3070,7 +3119,7 @@
         </div>
         <div style="background:#08082a;border:1px solid #9966cc44;border-radius:6px;padding:10px 13px;">
           <div style="color:#9966cc;font-family:var(--font-display);font-weight:700;margin-bottom:4px;">📉 Reservoir Pressure Declines Over Time</div>
-          <div style="color:var(--silver);">The <strong style="color:#9966cc;">Reservoir P</strong> gauge shows the natural energy remaining in the formation. It starts at 28 bar and declines continuously — this is unavoidable. Wellhead P follows it down. As pressure falls below 18 bar, the compressor unlocks. Below ~12 bar it becomes very hard to meet demand without the compressor.</div>
+          <div style="color:var(--silver);">The <strong style="color:#9966cc;">Reservoir Pressure</strong> gauge shows the natural energy remaining in the formation. It starts at 28 bar and declines continuously — this is unavoidable. Wellhead Pressure follows it down. As pressure falls below 18 bar, the compressor unlocks. Below ~12 bar it becomes very hard to meet demand without the compressor.</div>
         </div>
         <div style="background:linear-gradient(135deg,#1a1000,#0e0a00);border:2px solid #ffd200;border-radius:8px;padding:12px 16px;">
           <div style="font-size:1.3rem;margin-bottom:4px;text-align:center;">🏆</div>
