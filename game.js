@@ -2277,11 +2277,12 @@
     const evT     = SESSION.eventsTriggered;
     const evF     = SESSION.eventsFailed;
     const onTarget = elapsed > 0 ? Math.round(SESSION.goodFlowSeconds / elapsed * 100) : 0;
-    const perf     = Math.min(100, Math.round(
+    const onTargetRatio = onTarget / 100;  // 0.0 – 1.0
+    const rawPerf =
       (score / Math.max(1, elapsed) * 2) +       // score rate
-      (evT > 0 ? evR / evT * 40 : 20) +          // event resolution rate
-      onTarget * 0.3                              // on-target flow
-    ));
+      (evT > 0 ? evR / evT * 40 : 20);           // event resolution rate
+    // on-target flow is a mandatory multiplier — can't score 100% if you never met demand
+    const perf = Math.min(100, Math.round(rawPerf * onTargetRatio));
 
     // Performance rating — based on real perf, heroic just adds ⭐ prefix
     let rating, ratingColor;
@@ -3295,7 +3296,7 @@
     if (window.innerWidth < 900) {
       grid.style.gridTemplateColumns = '1fr';
     } else {
-      grid.style.gridTemplateColumns = '360px 1fr';
+      grid.style.gridTemplateColumns = '400px 1fr';
     }
   }
   checkLayout();
