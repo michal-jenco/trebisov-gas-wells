@@ -2345,7 +2345,6 @@
       { label: 'On-Target Flow',  value: onTarget + '%',                   color: onTarget >= 60 ? '#00e676' : onTarget >= 30 ? '#ffd200' : '#ff5555' },
       { label: 'Peak Flow',       value: Math.round(SESSION.peakFlow) + ' m³/h', color: 'var(--cyan)' },
       { label: 'Min Reservoir Pressure', value: (SESSION.minReservoirP < 999 ? SESSION.minReservoirP.toFixed(1) : '--') + ' bar', color: SESSION.minReservoirP < 10 ? '#00e676' : SESSION.minReservoirP < 16 ? '#cc88ff' : '#9966cc' },
-      { label: 'Min Wellhead Pressure',  value: (SESSION.minWHP < 999 ? SESSION.minWHP.toFixed(1) : '--') + ' bar',               color: SESSION.minWHP < 10 ? '#00e676' : SESSION.minWHP < 16 ? '#ffd200' : 'var(--cyan)' },
       { label: 'Peak Multiplier', value: (SESSION.peakMultiplier >= 100 ? Math.round(SESSION.peakMultiplier) : SESSION.peakMultiplier.toFixed(1)) + 'x', color: 'var(--yellow)' },
       { label: 'Safety Penalties',value: GS.penaltyCount,                  color: GS.penaltyCount === 0 ? '#00e676' : '#ff5555' },
     ];
