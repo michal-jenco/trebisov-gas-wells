@@ -229,6 +229,36 @@
     GS.elapsed += 0.25;
     GS.noiseOffset += 0.08;
 
+    // ── 10-minute legacy bonus (mid-2015 — beyond the real well's lifetime) ──
+    if (!GS._legacyBonusAwarded && GS.elapsed >= 600) {
+      GS._legacyBonusAwarded = true;
+      const bonus = Math.round(GS.score * 99); // ×100 total (current score × 99 added)
+      GS.score += bonus;
+      GS.multiplier *= 3.0;
+      chartAddEvent('🏆 LEGACY', '#ffd200');
+      // Dramatic sound — 5 ascending milestone chimes
+      SND.milestone();
+      setTimeout(SND.milestone, 150);
+      setTimeout(SND.milestone, 300);
+      setTimeout(SND.milestone, 450);
+      setTimeout(SND.milestone, 600);
+      log('', '#ffd200'); // spacer
+      log('🏆 ══════════════════════════════════════', '#ffd200');
+      log('🏆  WELL LIFETIME EXTENDED BEYOND MID 2015!', '#ffd200');
+      log('🏆  You have outlasted the real TR-9 operators.', '#ffd200');
+      log('🏆  LEGACY BONUS: ×100 score! +' + bonus.toLocaleString() + ' pts', '#ffd200');
+      log('🏆 ══════════════════════════════════════', '#ffd200');
+      log('', '#ffd200'); // spacer
+      // Flash the score card gold without touching opacity
+      const scoreEl = $('gScore');
+      if (scoreEl) {
+        const origColor = scoreEl.style.color;
+        scoreEl.style.color = '#ffd200';
+        scoreEl.style.textShadow = '0 0 20px #ffd200, 0 0 40px #ffd200';
+        setTimeout(() => { scoreEl.style.color = origColor; scoreEl.style.textShadow = ''; }, 10000);;
+      }
+    }
+
     // Reservoir pressure declines over ~7 min
     GS.reservoirP = Math.max(8, 28 - (GS.elapsed / 420) * 14 + simplex(GS.noiseOffset * 0.4) * 1.2);
 
@@ -2078,6 +2108,7 @@
       _heroicShutIn: false,
       _swabToggleCount: 0, _hydrateHeldSeconds: 0, _buildupHeld: 0, _buildupDone: false,
       compressor: 'locked', compressorSecondsLeft: 0, compressorSpinup: 0,
+      _legacyBonusAwarded: false,
     });
     Object.assign(SESSION, {
       eventsTriggered: 0, eventsResolved: 0, eventsFailed: 0,
@@ -2209,6 +2240,7 @@
     else if (perf >= 40) { rating = '⚠ Trainee';            ratingColor = '#ffd200'; }
     else                  { rating = '❌ Needs Retraining';   ratingColor = '#ff5555'; }
     if (type === 'heroic') { rating = '⭐ ' + rating; ratingColor = '#ffd200'; }
+    if (GS._legacyBonusAwarded) { rating = '🏆 LEGACY OPERATOR — ' + rating; ratingColor = '#ffd200'; }
 
     // Icon + label based on type
     let icon, label, titleText, bodyText;
@@ -2218,23 +2250,27 @@
       titleText = failTitle || 'HEROIC SHUT-IN';
       bodyText = failBody || 'You closed all bore valves during a catastrophic event. Equipment preserved. 10× score bonus awarded.';
     } else if (type === 'manual') {
-      icon = '■';
-      label = 'Session Complete';
-      titleText = 'Well Shut In';
-      bodyText = 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well (' + formatSimDateRange(0, elapsed) + ').';
+      icon = GS._legacyBonusAwarded ? '🏆' : '■';
+      label = GS._legacyBonusAwarded ? 'Well Life Extended — Beyond 2015' : 'Session Complete';
+      titleText = GS._legacyBonusAwarded ? 'LEGACY OPERATOR' : 'Well Shut In';
+      bodyText = GS._legacyBonusAwarded
+        ? 'You kept TR-9 producing past mid-2015 — beyond what the real NAFTA operators achieved. ×100 score bonus awarded.'
+        : 'You manually executed an emergency shut-in after ' + formatTime(elapsed) + ' on the well (' + formatSimDateRange(0, elapsed) + ').';
     } else {
-      icon = '💥';
-      label = 'Simulation Failed';
-      titleText = failTitle;
-      bodyText = failBody;
+      icon = GS._legacyBonusAwarded ? '🏆' : '💥';
+      label = GS._legacyBonusAwarded ? 'Legacy Operator — Well Eventually Lost' : 'Simulation Failed';
+      titleText = GS._legacyBonusAwarded ? ('🏆 ' + failTitle) : failTitle;
+      bodyText = GS._legacyBonusAwarded
+        ? 'TR-9 ran past mid-2015 — beyond the real well\'s lifetime. ×100 legacy bonus applied. ' + failBody
+        : failBody;
     }
 
     $('gGameOverIcon').textContent = icon;
     $('gGameOverLabel').textContent = label;
     $('gGameOverTitle').textContent = titleText;
     $('gGameOverBody').textContent  = bodyText;
-    $('gGameOverTitle').style.color = type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : '#ff5555';
-    $('gGameOver').style.borderColor = type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : 'var(--orange)';
+    $('gGameOverTitle').style.color = GS._legacyBonusAwarded ? '#ffd200' : type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : '#ff5555';
+    $('gGameOver').style.borderColor = GS._legacyBonusAwarded ? '#ffd200' : type === 'heroic' ? '#ffd200' : type === 'manual' ? 'var(--cyan)' : 'var(--orange)';
 
     // Debrief button — only for failures
     const debriefBtn = $('gDebriefBtn');
@@ -2264,7 +2300,14 @@
     ];
     const statsGrid = $('gGameOverStats');
     statsGrid.style.gridTemplateColumns = 'repeat(3,1fr)';
-    statsGrid.innerHTML = stats.map(s =>
+    const legacyCard = GS._legacyBonusAwarded
+      ? `<div style="grid-column:1/-1;background:linear-gradient(135deg,#1a1000,#0e0a00);border:2px solid #ffd200;border-radius:6px;padding:12px 16px;text-align:center;">
+          <div style="font-family:var(--font-display);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:#ffd200;margin-bottom:4px;">🏆 LEGACY OPERATOR BONUS</div>
+          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:#ffd200;">×100 SCORE MULTIPLIER</div>
+          <div style="font-size:0.82rem;color:#aa8800;margin-top:3px;">TR-9 kept producing past mid-2015 — beyond the real well's operational lifetime</div>
+        </div>`
+      : '';
+    statsGrid.innerHTML = legacyCard + stats.map(s =>
       `<div style="background:#08082a;border:1px solid var(--border);border-radius:6px;padding:10px 8px;text-align:center;">
         <div style="font-family:var(--font-display);font-size:0.58rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--silver);margin-bottom:4px;">${s.label}</div>
         <div style="font-family:var(--font-display);font-size:1.05rem;font-weight:800;color:${s.color};">${s.value}</div>
