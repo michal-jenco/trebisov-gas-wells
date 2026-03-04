@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -2133,6 +2135,9 @@
         <button id="gExportBtn" onclick="exportResultCard()" style="display:none;padding:0.75rem 1.8rem;background:transparent;color:#00e676;border:1px solid #00e676;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
           ↓ SAVE RESULT CARD
         </button>
+        <button id="gExportPdfBtn" onclick="exportResultPDF()" style="display:none;padding:0.75rem 1.8rem;background:transparent;color:#cc88ff;border:1px solid #cc88ff;border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
+          📄 EXPORT PDF
+        </button>
         <button onclick="gameTutorial()"
           style="padding:0.75rem 1.8rem;background:transparent;color:var(--cyan);border:1px solid var(--cyan);border-radius:4px;font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">
           ? REVIEW TUTORIAL
@@ -2237,6 +2242,7 @@
 
 <script src="gallery.js"></script>
 <script src="game.js"></script>
+<script src="export-pdf.js"></script>
 
 </body>
 </html>

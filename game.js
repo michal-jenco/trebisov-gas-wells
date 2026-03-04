@@ -2169,6 +2169,7 @@
     _exportSnapshot = null;
     if ($('gDebriefBtn')) $('gDebriefBtn').style.display = 'none';
     if ($('gExportBtn'))  $('gExportBtn').style.display  = 'none';
+    if ($('gExportPdfBtn')) $('gExportPdfBtn').style.display = 'none';
     $('gChartPanel').style.display = 'block';
     window.gameSetChoke(0);
     refreshValveVisuals();
@@ -2397,9 +2398,11 @@
     // Show log hint for failures and heroic (player wants to read the achievement log)
     const logHint = $('gLogHint');
     if (logHint) logHint.style.display = (type === 'failure' || type === 'heroic') ? 'inline' : 'none';
-    // Always show export button
+    // Always show export buttons
     const expBtn = $('gExportBtn');
     if (expBtn) expBtn.style.display = 'inline-block';
+    const expPdfBtn = $('gExportPdfBtn');
+    if (expPdfBtn) expPdfBtn.style.display = 'inline-block';
     // Store snapshot for export
     _exportSnapshot = {
       type, titleText, bodyText, rating, ratingColor, perf, barColor,
@@ -2700,6 +2703,28 @@
     link.download = 'TR9-result-' + now.toISOString().slice(0,10) + '-' + Math.round(snap.score) + 'pts.png';
     link.href = cv.toDataURL('image/png');
     link.click();
+  };
+
+  /* ════════════════════════════════════
+     PDF EXPORT  — delegates to export-pdf.js
+     Exposes the closure-private data that
+     export-pdf.js needs via _gameExportAPI.
+  ════════════════════════════════════ */
+  window._gameExportAPI = {
+    getSnapshot:         () => _exportSnapshot,
+    getChartData:        () => CHART,
+    getGasPriceLabel:    () => GAS_PRICE_LABEL,
+    getPenaltyCount:     () => GS.penaltyCount,
+    formatSimDateShort,
+    formatSimDateRange,
+  };
+
+  window.exportResultPDF = function() {
+    if (typeof _exportResultPDF === 'function') {
+      _exportResultPDF();
+    } else {
+      alert('PDF export module not loaded.');
+    }
   };
 
   // Helper: filled rounded rect
