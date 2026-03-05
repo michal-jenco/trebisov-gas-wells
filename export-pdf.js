@@ -303,8 +303,8 @@ function _exportResultPDF() {
   const P1_FOOTER_RESERVE = 24;
   const P1_MAX_Y = PH - P1_FOOTER_RESERVE;
   y += 1;
-  // Dynamically fit chart into remaining space (min 28 mm to be legible)
-  const chH = Math.max(28, P1_MAX_Y - y - 2);
+  // Dynamically fit chart into remaining space (min 28 mm, max 62 mm)
+  const chH = Math.min(62, Math.max(28, P1_MAX_Y - y - 2));
   if (y + chH <= P1_MAX_Y) {
     sf(C.bgDark); frrect(ML, y, CW, chH, 2);
     sd(C.border); srrect(ML, y, CW, chH, 2, 0.2);
