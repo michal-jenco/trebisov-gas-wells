@@ -138,6 +138,9 @@
   }
 
   /* ── Log ── */
+  // Full unbounded log for PDF export (the DOM is capped at 60 visible entries)
+  const _fullLog = [];  // { text, color, hasEvent }
+
   function log(msg, color, eventId) {
     const el = $('gLog');
     const ts = formatSimDateLog(GS.elapsed);
@@ -166,6 +169,9 @@
     } else {
       div.textContent = `[${ts}] ${msg}`;
     }
+
+    // Keep full history for PDF (never trimmed)
+    _fullLog.unshift({ text: `[${ts}] ${msg}`, color: color || '#6666aa', hasEvent: !!eventId });
 
     el.insertBefore(div, el.firstChild);
     while (el.children.length > 60) el.removeChild(el.lastChild);
@@ -2715,6 +2721,7 @@
     getChartData:        () => CHART,
     getGasPriceLabel:    () => GAS_PRICE_LABEL,
     getPenaltyCount:     () => GS.penaltyCount,
+    getFullLog:          () => _fullLog,
     formatSimDateShort,
     formatSimDateRange,
   };
@@ -2799,6 +2806,7 @@
   function clearLog() {
     const el = $('gLog');
     el.innerHTML = '';
+    _fullLog.length = 0;
   }
 
   /* ════════════════════════════════════

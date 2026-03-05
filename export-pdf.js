@@ -299,20 +299,26 @@ function _exportResultPDF() {
   }
 
   // ── Telemetry chart ──────────────────────────────────
+  // Reserve space: 11 mm footer + 11 mm legend strip + 2 mm padding
+  const P1_FOOTER_RESERVE = 24;
+  const P1_MAX_Y = PH - P1_FOOTER_RESERVE;
   y += 1;
-  const chH = 62;
-  sf(C.bgDark); frrect(ML, y, CW, chH, 2);
-  sd(C.border); srrect(ML, y, CW, chH, 2, 0.2);
-  txt('LIVE TELEMETRY', ML+3, y+4, { size: 5.5, bold: true, color: C.silver });
+  // Dynamically fit chart into remaining space (min 28 mm to be legible)
+  const chH = Math.max(28, P1_MAX_Y - y - 2);
+  if (y + chH <= P1_MAX_Y) {
+    sf(C.bgDark); frrect(ML, y, CW, chH, 2);
+    sd(C.border); srrect(ML, y, CW, chH, 2, 0.2);
+    txt('LIVE TELEMETRY', ML+3, y+4, { size: 5.5, bold: true, color: C.silver });
 
-  const cc = makeChartCanvas();
-  if (cc) {
-    try { doc.addImage(cc.toDataURL('image/png'), 'PNG', ML+1, y+5, CW-2, chH-7); }
-    catch(_) {}
+    const cc = makeChartCanvas();
+    if (cc) {
+      try { doc.addImage(cc.toDataURL('image/png'), 'PNG', ML+1, y+5, CW-2, chH-7); }
+      catch(_) {}
+    }
+    y += chH + 2;
   }
-  y += chH + 3;
 
-  // Legend strip — two rows of 3
+  // Legend strip — two rows of 3 (only if it fits)
   const lgCols = [
     { label: 'WHP (bar)',        color: C.cyan   },
     { label: 'Reservoir P',      color: [148,96,200] },
@@ -321,14 +327,16 @@ function _exportResultPDF() {
     { label: 'Annulus P',        color: C.orange },
     { label: 'Choke %',          color: C.purple },
   ];
-  lgCols.forEach((item, i) => {
-    const col=i%3, row=Math.floor(i/3);
-    const lx=ML + col*(CW/3);
-    const ly=y + row*4.5;
-    sf(item.color); frect(lx, ly-0.5, 7, 1.5);
-    txt(item.label, lx+9, ly+1, { size: 5.5, color: C.silver });
-  });
-  y += 11;
+  if (y + 11 <= P1_MAX_Y + 13) {  // legend is 11 mm tall
+    lgCols.forEach((item, i) => {
+      const col=i%3, row=Math.floor(i/3);
+      const lx=ML + col*(CW/3);
+      const ly=y + row*4.5;
+      sf(item.color); frect(lx, ly-0.5, 7, 1.5);
+      txt(item.label, lx+9, ly+1, { size: 5.5, color: C.silver });
+    });
+    y += 11;
+  }
 
   drawFooter('Page 1');
 
@@ -348,8 +356,8 @@ function _exportResultPDF() {
     PW-MR, y, { size: 7, color: C.silver, align: 'right' });
   y += 3.5; hline(y, C.border, 0.25); y += 4;
 
-  const logEl     = document.getElementById('gLog');
-  const entries   = Array.from(logEl.children).reverse();
+  // Use the full unbounded log (DOM is capped at 60 entries, _fullLog is not)
+  const fullLog   = api.getFullLog();  // [{ text, color, hasEvent }, ...] newest-first
   const LLH       = 4.2;   // line-height mm
   const MAX_Y     = PH - 16;
 
@@ -365,19 +373,19 @@ function _exportResultPDF() {
     y += 7; hline(y, C.border, 0.25); y += 4;
   };
 
-  entries.forEach(entry => {
-    const raw = entry.textContent.replace('REPORT','').replace(/[\u{1F000}-\u{1FFFF}]/gu,'').trim();
+  fullLog.forEach(entry => {
+    const raw = (entry.text || '').replace('REPORT','').replace(/[\u{1F000}-\u{1FFFF}]/gu,'').trim();
     if (!raw) { y += 1.5; return; }
 
-    const entryRGB = parseRGB(entry.style.color||'') || C.dim;
+    const entryRGB = parseRGB(entry.color || '') || C.dim;
     const lines    = wrap(raw, CW-5, 7);
 
     // break line-by-line so even very long entries never overflow
     lines.forEach((l, li) => {
       if (y + LLH > MAX_Y) newLogPage();
 
-      // left stripe only on the first line of the entry
-      if (li === 0 && (entry.style.borderLeft || entry.className)) {
+      // left stripe on the first line of event entries
+      if (li === 0 && entry.hasEvent) {
         sf(entryRGB); frect(ML, y - 3, 0.9, lines.length * LLH + 1);
       }
 
@@ -398,6 +406,18 @@ function _exportResultPDF() {
   //  FINAL PAGE — Technical Summary
   // ════════════════════════════════════════════════════
   doc.addPage(); drawBg(); drawAccent();
+  let summaryPageCount = 1;
+
+  const SUM_MAX_Y = PH - 16; // bottom margin (footer zone)
+
+  const newSummaryPage = () => {
+    drawFooter('Page ' + (summaryPageNum - 1 + summaryPageCount));
+    summaryPageCount++;
+    doc.addPage(); drawBg(); drawAccent();
+    y = 12;
+    txt('TECHNICAL SUMMARY (continued)', ML, y, { size: 9, bold: true, color: C.white });
+    y += 7; hline(y, C.border, 0.25); y += 5;
+  };
 
   y = 12;
   txt('TREBISOV GAS FIELD  ·  TR-9 OPERATOR  ·  SESSION REPORT',
@@ -418,9 +438,9 @@ function _exportResultPDF() {
     ['Events',        snap.evR+' resolved / '+snap.evT+' triggered / '+snap.evF+' failed'],
     ['Penalties',     String(penaltyCount)],
   ];
-  // measure height needed
   const sRowH = 7, sRows = Math.ceil(summaryRows.length/2);
   const sBoxH = sRows * sRowH + 10;
+  if (y + sBoxH > SUM_MAX_Y) newSummaryPage();
   sf(C.bgCard); frrect(ML, y, CW, sBoxH, 2);
   sd(accentRGB); srrect(ML, y, CW, sBoxH, 2, 0.35);
   txt('SESSION OUTCOME', ML+4, y+5, { size: 6.5, bold: true, color: accentRGB });
@@ -454,6 +474,7 @@ function _exportResultPDF() {
   ];
   const wfRowH=5.8, wfRows=Math.ceil(wellFacts.length/2);
   const wfBoxH=wfRows*wfRowH+10;
+  if (y + wfBoxH > SUM_MAX_Y) newSummaryPage();
   sf(C.bgCard); frrect(ML, y, CW, wfBoxH, 2);
   sd(C.border); srrect(ML, y, CW, wfBoxH, 2, 0.2);
   txt('WELL TR-9 — FIELD FACTS', ML+4, y+5, { size: 6.5, bold: true, color: C.cyan });
@@ -479,6 +500,7 @@ function _exportResultPDF() {
   const ctrlColW2 = CW/3 - 3;
   const ctrlRowH  = 18;
   const ctrlBoxH  = Math.ceil(ctrlData.length/3)*ctrlRowH + 10;
+  if (y + ctrlBoxH > SUM_MAX_Y) newSummaryPage();
   sf(C.bgCard); frrect(ML, y, CW, ctrlBoxH, 2);
   sd(C.border); srrect(ML, y, CW, ctrlBoxH, 2, 0.2);
   txt('CHRISTMAS TREE CONTROLS', ML+4, y+5, { size: 6.5, bold: true, color: C.cyan });
@@ -498,7 +520,7 @@ function _exportResultPDF() {
     dls.forEach((l, li) => doc.text(l, cx+11, cy+4.5+li*3.5));
   });
 
-  drawFooter('Page ' + summaryPageNum + '  ·  Generated: ' +
+  drawFooter('Page ' + (summaryPageNum - 1 + summaryPageCount) + '  ·  Generated: ' +
     now.toISOString().slice(0,19).replace('T',' ') + ' UTC');
 
   // ── Save ─────────────────────────────────────────────
